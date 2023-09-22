@@ -4,4 +4,5 @@ public class Lecturer {
     private int age;
 
     private String name;
+    private String address;
 }
