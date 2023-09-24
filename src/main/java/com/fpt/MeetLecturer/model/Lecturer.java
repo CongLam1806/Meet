@@ -22,6 +22,4 @@ public class Lecturer {
     private String phone;
     @Column
     private String note;
-
-
 }
