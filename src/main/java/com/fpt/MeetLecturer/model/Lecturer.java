@@ -1,13 +1,8 @@
 package com.fpt.MeetLecturer.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter
@@ -17,9 +12,18 @@ import lombok.Setter;
 @Entity
 public class Lecturer {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column
+
     private String phone;
-    @Column
+
     private String note;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private User user;
+
 }

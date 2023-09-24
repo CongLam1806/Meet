@@ -1,10 +1,10 @@
 package com.fpt.MeetLecturer.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -23,5 +23,11 @@ public class User {
     private String email;
     @Column
     private int role;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Lecturer> lecturerList;
 
 }
