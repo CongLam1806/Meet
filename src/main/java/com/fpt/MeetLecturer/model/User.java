@@ -1,6 +1,6 @@
 package com.fpt.MeetLecturer.model;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
-    @Column
+@Table(name = "Users")
+@Entity
+public class User {
+    @Id
     private int id;
     @Column
     private String name;
@@ -21,7 +23,5 @@ public class Users {
     private String email;
     @Column
     private int role;
-
-
 
 }
