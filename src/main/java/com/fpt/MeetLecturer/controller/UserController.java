@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
+import com.fpt.MeetLecturer.BusinessModel.UserDTO;
 import com.fpt.MeetLecturer.EntityModel.User;
 import com.fpt.MeetLecturer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,11 @@ public class UserController {
     }
 
     @PostMapping("/user/post")
-    public User createNew(@RequestBody User model){
-        return
+    public UserDTO updateUser(@RequestBody User model, @PathVariable int id){
+        return userService.updateUser(model,id);
+    }
+    @DeleteMapping("/user/delete/{id}")
+    public boolean deleteUser(@RequestBody User user, @PathVariable int id){
+        return userService.deleteUser(user, id);
     }
 }
