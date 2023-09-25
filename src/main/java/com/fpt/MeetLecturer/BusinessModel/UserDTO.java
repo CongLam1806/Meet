@@ -1,6 +1,5 @@
-package com.fpt.MeetLecturer.model;
+package com.fpt.MeetLecturer.BusinessModel;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,18 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
-    @Column
+
+public class UserDTO {
     private int id;
-    @Column
     private String name;
-    @Column
     private String password;
-    @Column
     private String email;
-    @Column
     private int role;
-
-
-
 }
