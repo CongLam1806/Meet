@@ -26,7 +26,7 @@ public class LecturerController {
     }
 
     @PutMapping("/{id}")
-    public LecturerDTO updateLecturer(@RequestBody Lecturer newLecturer, @PathVariable int id ){
+    public LecturerDTO updateLecturer(@RequestBody LecturerDTO newLecturer, @PathVariable int id ){
         return lecturerService.updateLecturer(newLecturer, id);
     }
 
