@@ -18,8 +18,8 @@ public class UserController {
         return userService.get();
     }
 
-    @PostMapping("/user/post")
-    public User createNew(@RequestBody User model){
-        return
-    }
+//    @PostMapping("/user/post")
+//    public User createNew(@RequestBody User model){
+//        return
+//    }
 }
