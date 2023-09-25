@@ -1,6 +1,6 @@
 package com.fpt.MeetLecturer.service;
 
-import com.fpt.MeetLecturer.model.Lecturer;
+import com.fpt.MeetLecturer.EntityModel.Lecturer;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,4 +39,6 @@ public class LecturerService {
         }
         return updatedLecturer;
     }
+
+    public Lect
 }
