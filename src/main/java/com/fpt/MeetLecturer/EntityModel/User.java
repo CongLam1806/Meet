@@ -23,11 +23,13 @@ public class User {
     private String email;
     @Column
     private int role;
+    @Column
+    private boolean status;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Lecturer> lecturerList;
+//    @JsonManagedReference
+//    @OneToMany(mappedBy = "user")
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<Lecturer> lecturerList;
 
 }
