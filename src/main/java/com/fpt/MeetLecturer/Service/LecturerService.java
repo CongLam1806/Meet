@@ -1,9 +1,10 @@
-package com.fpt.MeetLecturer.Service;
+package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.BusinessModel.LecturerDTO;
 import com.fpt.MeetLecturer.EntityModel.Lecturer;
 import com.fpt.MeetLecturer.Mapper.MapLecturer;
-import com.fpt.MeetLecturer.Repository.LecturerRepository;
+import com.fpt.MeetLecturer.repository.LecturerRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,17 +24,17 @@ public class LecturerService {
 
 
     //get all lecturer
-    public List<LecturerDTO> getAllLecturer(){
+    public List<LecturerDTO> getAllLecturer() {
 //        return lecturerRepository.findAll();
         return mapLecturer.convertListToLecturerDto(lecturerRepository.findAll());
     }
 
     //get lecturer by email
-    public Lecturer getLecturerByEmail(String email) {
-        return lecturerRepository.findByUserEmail(email);
+    public LecturerDTO getLecturerByEmail(String email) {
+        return mapLecturer.convertLecturertoLecturerDTO(lecturerRepository.findByUserEmail(email));
     }
 
-    public LecturerDTO updateLecturer(@RequestBody Lecturer newLecturer, @PathVariable int id) {
+    public LecturerDTO updateLecturer(LecturerDTO newLecturer, int id) {
         Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
         if (optionalLecturer.isPresent()) {
             Lecturer existingLecturer = optionalLecturer.get();
@@ -43,8 +44,10 @@ public class LecturerService {
             return mapLecturer.convertLecturertoLecturerDTO(existingLecturer);
         } else {
             newLecturer.setId(id);
-            return mapLecturer.convertLecturertoLecturerDTO(newLecturer);
+            Lecturer lecturer = mapLecturer.convertLecturerDTOtoLecturer(newLecturer);
+            return mapLecturer.convertLecturertoLecturerDTO(lecturer);
         }
-
     }
+
 }
+
