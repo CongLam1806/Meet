@@ -1,4 +1,4 @@
-package com.fpt.MeetLecturer.Repository;
+package com.fpt.MeetLecturer.repository;
 
 import com.fpt.MeetLecturer.EntityModel.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
-
+//    User find(int id);
 }
