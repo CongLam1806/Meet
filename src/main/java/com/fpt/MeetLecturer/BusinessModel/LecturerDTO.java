@@ -12,6 +12,4 @@ public class LecturerDTO {
     private String phone;
 
     private String note;
-
-    private User user;
 }

@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
+import com.fpt.MeetLecturer.BusinessModel.LecturerDTO;
 import com.fpt.MeetLecturer.EntityModel.Lecturer;
 import com.fpt.MeetLecturer.service.LecturerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +16,17 @@ public class LecturerController {
     private LecturerService lecturerService;
 
     @GetMapping("{email}")
-    public List<Lecturer> getLecturerByEmail(@PathVariable String email){
+    public List<LecturerDTO> getLecturerByEmail(@PathVariable String email){
         return lecturerService.getAllLecturer();
     }
 
     @GetMapping("")
-    public List<Lecturer> getAllLecturer(){
+    public List<LecturerDTO> getAllLecturer(){
         return lecturerService.getAllLecturer();
     }
 
     @PutMapping("/{id}")
-    public Lecturer updateLecturer(@RequestBody Lecturer newLecturer, @PathVariable int id ){
+    public LecturerDTO updateLecturer(@RequestBody LecturerDTO newLecturer, @PathVariable int id ){
         return lecturerService.updateLecturer(newLecturer, id);
     }
 
