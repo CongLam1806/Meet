@@ -1,8 +1,8 @@
-package com.fpt.MeetLecturer.service;
+package com.fpt.MeetLecturer.Service;
 
-import com.fpt.MeetLecturer.dto.UserDTO;
-import com.fpt.MeetLecturer.model.User;
-import com.fpt.MeetLecturer.repository.UserRepository;
+import com.fpt.MeetLecturer.BusinessModel.UserDTO;
+import com.fpt.MeetLecturer.EntityModel.User;
+import com.fpt.MeetLecturer.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
