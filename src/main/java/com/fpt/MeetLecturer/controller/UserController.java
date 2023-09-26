@@ -19,10 +19,6 @@ public class UserController {
         return userService.get();
     }
 
-    @PostMapping("/user/post")
-    public UserDTO createNew(@RequestBody UserDTO model, @PathVariable int id) {
-        return userService.updateUser(model, id);
-    }
 
     @DeleteMapping("/delete-user")
     public boolean deleteUser(@RequestParam(value = "id") int id){
