@@ -1,4 +1,4 @@
-package com.fpt.MeetLecturer.EntityModel;
+package com.fpt.MeetLecturer.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

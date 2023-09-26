@@ -1,8 +1,8 @@
-package com.fpt.MeetLecturer.Controller;
+package com.fpt.MeetLecturer.controller;
 
-import com.fpt.MeetLecturer.BusinessModel.UserDTO;
-import com.fpt.MeetLecturer.EntityModel.User;
-import com.fpt.MeetLecturer.Service.UserService;
+import com.fpt.MeetLecturer.business.UserDTO;
+import com.fpt.MeetLecturer.entity.User;
+import com.fpt.MeetLecturer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

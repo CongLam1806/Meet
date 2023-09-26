@@ -1,6 +1,5 @@
-package com.fpt.MeetLecturer.BusinessModel;
+package com.fpt.MeetLecturer.business;
 
-import com.fpt.MeetLecturer.EntityModel.User;
 import lombok.*;
 
 @Data
