@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.mapper;
 
+
 import com.fpt.MeetLecturer.business.UserDTO;
 import com.fpt.MeetLecturer.entity.User;
 import org.modelmapper.ModelMapper;
@@ -30,4 +31,5 @@ public class MapUser {
         users.forEach(user -> list.add(convertUserToUserDTO(user)));
         return list;
     }
+
 }

@@ -19,9 +19,15 @@ public class UserController {
         return userService.get();
     }
 
+    
     @PutMapping("/user/{id}")
     public UserDTO createNew(@RequestBody UserDTO model, @PathVariable("id") int id){
         model.setId(id);
         return userService.updateUser(model);
+
     }
+  @DeleteMapping("/delete-user")
+    public boolean deleteUser(@RequestParam(value = "id") int id){
+        return userService.deleteUser(id);
+
 }
