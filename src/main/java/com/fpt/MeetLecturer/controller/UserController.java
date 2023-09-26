@@ -27,7 +27,7 @@ public class UserController {
 
     }
   @DeleteMapping("/delete-user")
-    public boolean deleteUser(@RequestParam(value = "id") int id){
-        return userService.deleteUser(id);
-
+    public boolean deleteUser(@RequestParam(value = "id") int id) {
+      return userService.deleteUser(id);
+  }
 }
