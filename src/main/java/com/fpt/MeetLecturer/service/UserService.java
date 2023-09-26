@@ -14,14 +14,15 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
+    @Autowired(required = false)
     private mapUser mapUser;
-
+    //get all user
     public List<User> get(){
         return userRepository.findAll();
     }
 
-    public UserDTO updateUser(User user, int id){
+    //update user
+    public UserDTO updateUser(UserDTO user, int id){
         Optional<User> OpUser = userRepository.findById(id);
         if(OpUser.isPresent()){
             User ExUser = OpUser.get();
@@ -32,17 +33,27 @@ public class UserService {
             return mapUser.mapUserToUserDTO(ExUser);
         } else {
             user.setId(id);
-            return mapUser.mapUserToUserDTO(user);
+            User ExUser = mapUser.mapUserDTOToUser(user);
+            return mapUser.mapUserToUserDTO(ExUser);
         }
     }
-    public boolean deleteUser(User user, int id){
+
+    //delete user
+    public boolean deleteUser(int id){
         Optional<User> user1 = userRepository.findById(id);
-        if(user1.isPresent()){
-            User delUser = user1.get();
-            userRepository.delete(user1.get());
-            mapUser.mapUserToUserDTO(delUser);
+        if(user1.isEmpty()){
+            return false;
+        }else{
+            //User delUser = user1.get();
+            //userRepository.delete(user1.get());
+            if(!user1.get().isStatus()){
+                return false;
+            }
+            user1.get().setStatus(false);
+            userRepository.save(user1.get());
+            //mapUser.mapUserToUserDTO(delUser);
             return true;
         }
-        return false;
+
     }
 }
