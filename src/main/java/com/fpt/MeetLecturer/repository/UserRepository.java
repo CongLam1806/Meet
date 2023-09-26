@@ -1,6 +1,6 @@
 package com.fpt.MeetLecturer.repository;
 
-import com.fpt.MeetLecturer.EntityModel.User;
+import com.fpt.MeetLecturer.entityModel.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

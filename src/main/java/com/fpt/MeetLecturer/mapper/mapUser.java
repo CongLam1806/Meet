@@ -1,7 +1,7 @@
-package com.fpt.MeetLecturer.Mapper;
+package com.fpt.MeetLecturer.mapper;
 
-import com.fpt.MeetLecturer.BusinessModel.UserDTO;
-import com.fpt.MeetLecturer.EntityModel.User;
+import com.fpt.MeetLecturer.businessModel.UserDTO;
+import com.fpt.MeetLecturer.entityModel.User;
 import org.modelmapper.ModelMapper;
 
 public class mapUser {

@@ -1,16 +1,12 @@
 package com.fpt.MeetLecturer.service;
 
-import com.fpt.MeetLecturer.BusinessModel.LecturerDTO;
-import com.fpt.MeetLecturer.EntityModel.Lecturer;
-import com.fpt.MeetLecturer.Mapper.MapLecturer;
+import com.fpt.MeetLecturer.businessModel.LecturerDTO;
+import com.fpt.MeetLecturer.entityModel.Lecturer;
+import com.fpt.MeetLecturer.mapper.MapLecturer;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
-package com.fpt.MeetLecturer.BusinessModel;
+package com.fpt.MeetLecturer.businessModel;
 
-import com.fpt.MeetLecturer.EntityModel.User;
+import com.fpt.MeetLecturer.entityModel.User;
 import lombok.*;
 
 @Data
@@ -12,4 +12,6 @@ public class LecturerDTO {
     private String phone;
 
     private String note;
+
+    private User user;
 }

@@ -1,4 +1,4 @@
-package com.fpt.MeetLecturer.EntityModel;
+package com.fpt.MeetLecturer.entityModel;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -23,13 +23,11 @@ public class User {
     private String email;
     @Column
     private int role;
-    @Column
-    private boolean status;
 
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "user")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<Lecturer> lecturerList;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Lecturer> lecturerList;
 
 }
