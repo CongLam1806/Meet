@@ -1,7 +1,9 @@
 package com.fpt.MeetLecturer.service;
 
-import com.fpt.MeetLecturer.businessModel.LecturerDTO;
-import com.fpt.MeetLecturer.entityModel.Lecturer;
+
+import com.fpt.MeetLecturer.business.LecturerDTO;
+import com.fpt.MeetLecturer.entity.Lecturer;
+
 import com.fpt.MeetLecturer.mapper.MapLecturer;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
