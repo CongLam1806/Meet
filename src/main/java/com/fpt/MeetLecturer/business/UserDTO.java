@@ -1,4 +1,4 @@
-package com.fpt.MeetLecturer.BusinessModel;
+package com.fpt.MeetLecturer.business;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

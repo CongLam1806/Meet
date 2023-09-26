@@ -1,4 +1,4 @@
-package com.fpt.MeetLecturer.EntityModel;
+package com.fpt.MeetLecturer.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

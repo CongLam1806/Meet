@@ -1,7 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
-import com.fpt.MeetLecturer.BusinessModel.LecturerDTO;
-import com.fpt.MeetLecturer.EntityModel.Lecturer;
+import com.fpt.MeetLecturer.business.LecturerDTO;
 import com.fpt.MeetLecturer.service.LecturerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

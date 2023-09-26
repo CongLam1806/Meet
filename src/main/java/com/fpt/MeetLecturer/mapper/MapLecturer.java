@@ -1,9 +1,8 @@
-package com.fpt.MeetLecturer.Mapper;
+package com.fpt.MeetLecturer.mapper;
 
-import com.fpt.MeetLecturer.BusinessModel.LecturerDTO;
-import com.fpt.MeetLecturer.EntityModel.Lecturer;
+import com.fpt.MeetLecturer.business.LecturerDTO;
+import com.fpt.MeetLecturer.entity.Lecturer;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

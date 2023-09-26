@@ -1,10 +1,7 @@
-package com.fpt.MeetLecturer.EntityModel;
+package com.fpt.MeetLecturer.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Collection;
 
 @Getter
 @Setter
