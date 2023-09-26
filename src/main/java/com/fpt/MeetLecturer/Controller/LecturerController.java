@@ -1,4 +1,4 @@
-package com.fpt.MeetLecturer.controller;
+package com.fpt.MeetLecturer.Controller;
 
 import com.fpt.MeetLecturer.BusinessModel.LecturerDTO;
 import com.fpt.MeetLecturer.EntityModel.Lecturer;

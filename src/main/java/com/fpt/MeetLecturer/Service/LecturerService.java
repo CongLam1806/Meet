@@ -3,7 +3,7 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.BusinessModel.LecturerDTO;
 import com.fpt.MeetLecturer.EntityModel.Lecturer;
 import com.fpt.MeetLecturer.Mapper.MapLecturer;
-import com.fpt.MeetLecturer.repository.LecturerRepository;
+import com.fpt.MeetLecturer.Repository.LecturerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

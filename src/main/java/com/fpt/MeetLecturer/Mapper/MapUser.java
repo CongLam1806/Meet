@@ -3,10 +3,11 @@ package com.fpt.MeetLecturer.Mapper;
 import com.fpt.MeetLecturer.BusinessModel.UserDTO;
 import com.fpt.MeetLecturer.EntityModel.User;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class MapUser {
     private static final ModelMapper modelMapper = new ModelMapper();
 

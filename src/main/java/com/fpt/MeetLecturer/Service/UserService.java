@@ -14,31 +14,33 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    @Autowired
+    @Autowired(required = false)
     private UserRepository userRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private MapUser mapUser;
 
-    @Autowired
-    private ModelMapper modelMapper;
+
 
     public List<User> get(){
         return userRepository.findAll();
     }
 
-//    public UserDTO save(UserDTO userDTO){
-//
-//        User user;
-//        if(userDTO.getId() != 0){
-//            Optional<User> oldUser = userRepository.findById(userDTO.getId());
-//
-//        } else {
-//            user = new User();
-//        }
-//        modelMapper.map(userDTO, user);
-//
-//        user = userRepository.save(user);
-//        return modelMapper(user, userDTO);
-//    }
+    public UserDTO updateUser(UserDTO newUser) {
+        Optional<User> optionalUser = userRepository.findById(newUser.getId());
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+            existingUser.setName(newUser.getName());
+            existingUser.setEmail(newUser.getEmail());
+            existingUser.setRole(newUser.getRole());
+            existingUser.setPassword(newUser.getPassword());
+
+            userRepository.save(existingUser);
+            return mapUser.convertUserToUserDTO(existingUser);
+        } else {
+
+            User user = mapUser.convertUserDTOToUser(newUser);
+            return mapUser.convertUserToUserDTO(user);
+        }
+    }
 }
