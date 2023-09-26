@@ -43,4 +43,21 @@ public class UserService {
             return mapUser.convertUserToUserDTO(user);
         }
     }
+    //delete user
+    public boolean deleteUser(int id) {
+        Optional<User> user1 = userRepository.findById(id);
+        if (user1.isEmpty()) {
+            return false;
+        } else {
+            //User delUser = user1.get();
+            //userRepository.delete(user1.get());
+            if (!user1.get().isStatus()) {
+                return false;
+            }
+            user1.get().setStatus(false);
+            userRepository.save(user1.get());
+            //mapUser.mapUserToUserDTO(delUser);
+            return true;
+        }
+    }
 }
