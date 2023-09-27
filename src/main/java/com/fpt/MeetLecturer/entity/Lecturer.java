@@ -19,6 +19,7 @@ public class Lecturer {
 
     private String note;
 
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
