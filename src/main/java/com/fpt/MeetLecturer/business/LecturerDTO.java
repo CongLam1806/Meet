@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.business;
 
+import com.fpt.MeetLecturer.entity.User;
 import lombok.*;
 
 @Data
@@ -11,4 +12,5 @@ public class LecturerDTO {
     private String phone;
 
     private String note;
+
 }

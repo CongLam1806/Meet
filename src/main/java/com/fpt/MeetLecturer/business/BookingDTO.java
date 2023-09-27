@@ -17,9 +17,5 @@ public class BookingDTO {
 
     private boolean status;
 
-    private User user;
-
-    private Slot slot;
-
 
 }

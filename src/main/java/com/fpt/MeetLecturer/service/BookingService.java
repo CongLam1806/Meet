@@ -20,6 +20,11 @@ public class BookingService {
     @Autowired
     private MapBooking mapBooking;
 
+
+    public List<BookingDTO> getAllBooking(){
+        return mapBooking.convertListToBookingDto(bookingRepository.findAll());
+    }
+
     public BookingDTO getBookingById(int id){
         Optional<Booking> booking = bookingRepository.findById(id);
         if (booking.isPresent()){
@@ -40,14 +45,13 @@ public class BookingService {
         }
     }
 
-    public BookingDTO updateBooking(BookingDTO booking){
+    public void updateBooking(BookingDTO booking){
         Optional<Booking> bookingOptional = bookingRepository.findById(booking.getId());
         if (bookingOptional.isPresent()){
             Booking existingLecturer = bookingOptional.get();
             existingLecturer.setNote(booking.getNote());
-            existingLecturer.setStatus(booking.getUser().isStatus());
+            existingLecturer.setStatus(booking.isStatus());
             bookingRepository.save(existingLecturer);
-            return mapBooking.convertBookingtoBookingDTO(existingLecturer);
         } else {
             throw new RuntimeException("Can't find this booking slot");
         }

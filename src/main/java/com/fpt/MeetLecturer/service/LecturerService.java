@@ -41,9 +41,9 @@ public class LecturerService {
             lecturerRepository.save(existingLecturer);
             mapLecturer.convertLecturertoLecturerDTO(existingLecturer);
         } else {
-            newLecturer.setId(id);
             Lecturer lecturer = mapLecturer.convertLecturerDTOtoLecturer(newLecturer);
-            mapLecturer.convertLecturertoLecturerDTO(lecturer);
+            lecturer.setId(id);
+            lecturerRepository.save(lecturer);
         }
     }
 
