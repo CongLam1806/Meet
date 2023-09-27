@@ -1,13 +1,10 @@
 package com.fpt.MeetLecturer.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -19,7 +16,14 @@ public class Slot {
     @Id
     private int Id;
     @Column
-    private String lecture;
+    private String password;
     @Column
-    private String location;
+    private boolean status;
+
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "slot")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Booking> bookingList;
 }
