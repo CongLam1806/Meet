@@ -32,18 +32,18 @@ public class LecturerService {
         return mapLecturer.convertLecturertoLecturerDTO(lecturerRepository.findByUserEmail(email));
     }
 
-    public LecturerDTO updateLecturer(LecturerDTO newLecturer, int id) {
+    public void updateLecturer(LecturerDTO newLecturer, int id) {
         Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
         if (optionalLecturer.isPresent()) {
             Lecturer existingLecturer = optionalLecturer.get();
             existingLecturer.setNote(newLecturer.getNote());
             existingLecturer.setPhone(newLecturer.getPhone());
             lecturerRepository.save(existingLecturer);
-            return mapLecturer.convertLecturertoLecturerDTO(existingLecturer);
+            mapLecturer.convertLecturertoLecturerDTO(existingLecturer);
         } else {
             newLecturer.setId(id);
             Lecturer lecturer = mapLecturer.convertLecturerDTOtoLecturer(newLecturer);
-            return mapLecturer.convertLecturertoLecturerDTO(lecturer);
+            mapLecturer.convertLecturertoLecturerDTO(lecturer);
         }
     }
 

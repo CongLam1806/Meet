@@ -24,7 +24,7 @@ public class Lecturer {
 
 
     @JsonBackReference
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
