@@ -1,8 +1,11 @@
 package com.fpt.MeetLecturer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -26,5 +29,11 @@ public class Lecturer {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private User user;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "lecturer")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Slot> slotList;
 
 }
