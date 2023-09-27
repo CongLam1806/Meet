@@ -1,7 +1,10 @@
 package com.fpt.MeetLecturer.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -23,10 +26,16 @@ public class User {
     @Column
     private boolean status;
 
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "user")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<Lecturer> lecturerList;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Lecturer> lecturerList;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Booking> bookingList;
 
 }
