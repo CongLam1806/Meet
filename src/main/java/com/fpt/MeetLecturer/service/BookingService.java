@@ -23,7 +23,7 @@ public class BookingService {
         Optional<Booking> booking = bookingRepository.findById(id);
         if (booking.isPresent()){
             Booking existingBooking = booking.get();
-            return mapBooking.convertBookingtoBookingDTO(existingBooking);
+            return mapBooking.convertBookingtoBookingDTO(existingBooking);get bị sai do ông chưa
         }
     }
 
