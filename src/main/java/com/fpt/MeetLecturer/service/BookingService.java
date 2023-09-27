@@ -2,6 +2,7 @@ package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.entity.Booking;
+import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,40 @@ public class BookingService {
         Optional<Booking> booking = bookingRepository.findById(id);
         if (booking.isPresent()){
             Booking existingBooking = booking.get();
-            return mapBooking.convertBookingtoBookingDTO(existingBooking);get bị sai do ông chưa
+            return mapBooking.convertBookingtoBookingDTO(existingBooking);
+        } else {
+            throw new RuntimeException("can't find this booking slot by id");
         }
+
     }
 
-    public void createBooking(Booking booking){
+    public void createBooking(BookingDTO booking){
         Optional<Booking> booking1 = bookingRepository.findById(booking.getId());
         if (booking1.isPresent()){
             throw new IllegalStateException("this slot has already booked");
         } else {
-            bookingRepository.save(booking);
+            bookingRepository.save(mapBooking.convertBookingDTOtoBooking(booking));
         }
     }
 
+    public BookingDTO updateBooking(BookingDTO booking){
+        Optional<Booking> bookingOptional = bookingRepository.findById(booking.getId());
+        if (bookingOptional.isPresent()){
+            Booking existingLecturer = bookingOptional.get();
+            existingLecturer.setNote(booking.getNote());
+            existingLecturer.setStatus(booking.getUser().isStatus());
+            bookingRepository.save(existingLecturer);
+            return mapBooking.convertBookingtoBookingDTO(existingLecturer);
+        } else {
+            throw new RuntimeException("Can't find this booking slot");
+        }
+    }
+
+    public void deleteBooking(int id) {
+        boolean exist = bookingRepository.existsById(id);
+        if (!exist){
+            throw new IllegalStateException("student with id " + id + " does not exists");
+        }
+        bookingRepository.deleteById(id);
+    }
 }

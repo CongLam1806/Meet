@@ -27,10 +27,10 @@ public class User {
     private boolean status;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user")
+    @OneToOne(mappedBy = "user")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Lecturer> lecturerList;
+    private Lecturer lecturerList;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user")

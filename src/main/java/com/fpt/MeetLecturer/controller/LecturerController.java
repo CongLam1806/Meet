@@ -15,8 +15,8 @@ public class LecturerController {
     private LecturerService lecturerService;
 
     @GetMapping("{email}")
-    public List<LecturerDTO> getLecturerByEmail(@PathVariable String email){
-        return lecturerService.getAllLecturer();
+    public LecturerDTO getLecturerByEmail(@PathVariable String email){
+        return lecturerService.getLecturerByEmail(email);
     }
 
     @GetMapping("")
@@ -25,8 +25,8 @@ public class LecturerController {
     }
 
     @PutMapping("/{id}")
-    public LecturerDTO updateLecturer(@RequestBody LecturerDTO newLecturer, @PathVariable int id ){
-        return lecturerService.updateLecturer(newLecturer, id);
+    public void updateLecturer(@RequestBody LecturerDTO newLecturer, @PathVariable int id ){
+         lecturerService.updateLecturer(newLecturer, id);
     }
 
 }
