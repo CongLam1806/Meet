@@ -40,5 +40,11 @@ public class Slot {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Lecturer lecturer;
-
+    // check xem t add dung k nha -Minhdz-
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Location location;
 }
