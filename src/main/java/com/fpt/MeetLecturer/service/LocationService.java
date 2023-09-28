@@ -45,6 +45,7 @@ public class LocationService {
          }else{
              Location location1 = mapLocation.toLocationEntity(locationDTO);
              locationRepository.save(location1);
+
          }
     }
 

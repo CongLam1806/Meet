@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 public class Slot {
     @Id
-    private int Id;
+    private int id;
     @Column
     private String password;
     @Column
