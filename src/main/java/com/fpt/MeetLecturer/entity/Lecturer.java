@@ -37,10 +37,6 @@ public class Lecturer {
     @ToString.Exclude
     private Collection<Slot> slotList;
     // check xem t add dung k nha -Minhdz-
-    @JsonBackReference
-    @OneToMany(mappedBy = "location")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Location> location;
+
 
 }
