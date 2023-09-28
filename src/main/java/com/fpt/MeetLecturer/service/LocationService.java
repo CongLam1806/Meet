@@ -33,7 +33,7 @@ public class LocationService {
             return true;
         }
     }
-    public LocationDTO updateLocation(LocationDTO locationDTO){
+    public void updateLocation(LocationDTO locationDTO){
          Optional<Location> location = locationRepository.findById(locationDTO.getId());
          if(location.isPresent()){
              Location ExistLocation = location.get();
@@ -41,10 +41,10 @@ public class LocationService {
              ExistLocation.setAddress(locationDTO.getAddress());
              ExistLocation.setStatus(locationDTO.isStatus());
              locationRepository.save(ExistLocation);
-             return mapLocation.toLocationDTO(ExistLocation);
+
          }else{
              Location location1 = mapLocation.toLocationEntity(locationDTO);
-             return mapLocation.toLocationDTO(location1);
+             locationRepository.save(location1);
          }
     }
 
