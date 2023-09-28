@@ -32,9 +32,9 @@ public class LocationController {
     }
     @PostMapping("/new-location")
     @PutMapping("/update")
-    public LocationDTO updateLocation(@RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
+    public void updateLocation(@RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
         locationDTO.setId(id);
-        return locationService.updateLocation(locationDTO);
+        locationService.updateLocation(locationDTO);
     }
 
 }
