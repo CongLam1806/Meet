@@ -20,7 +20,7 @@ public class Slot {
     @Column
     private String password;
     @Column
-    private boolean status;
+    private boolean status; //status nay co y la co chap nhan hay k, thieu thuoc tinh la no co ton tai hay khong
     @Column
     private LocalDateTime startTime;
     @Column
