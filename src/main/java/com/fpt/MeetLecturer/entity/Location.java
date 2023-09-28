@@ -1,11 +1,8 @@
 package com.fpt.MeetLecturer.entity;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Getter
 @Setter
@@ -15,11 +12,12 @@ import java.util.Collection;
 @Entity
 public class Location {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private String address;
     private boolean status;
-    private int lecturerId;
+
 
     @JsonBackReference
     @ManyToOne
