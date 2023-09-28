@@ -30,7 +30,7 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(newUser.getId());
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
-            existingUser.setName(newUser.getName());
+            existingUser.setUserName(newUser.getName());
             existingUser.setEmail(newUser.getEmail());
             existingUser.setRole(newUser.getRole());
             existingUser.setPassword(newUser.getPassword());
