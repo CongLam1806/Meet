@@ -18,6 +18,8 @@ public class Location {
     private String address;
     private boolean status;
 
+    private int lecturerId; //xoa dong nay
+
 
     @JsonBackReference
     @ManyToOne

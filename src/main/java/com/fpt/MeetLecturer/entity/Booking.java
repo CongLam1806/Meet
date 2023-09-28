@@ -16,7 +16,7 @@ public class Booking {
 
     private String note;
 
-    private boolean status;
+    private boolean status; //int
 
     @JsonBackReference
     @ManyToOne

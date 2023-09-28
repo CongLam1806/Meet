@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -20,11 +21,13 @@ public class Slot {
     @Column
     private String password;
     @Column
-    private boolean status; //status nay co y la co chap nhan hay k, thieu thuoc tinh la no co ton tai hay khong
+    private boolean status; //status nay co y la co chap nhan hay k
     @Column
     private LocalDateTime startTime;
     @Column
     private LocalDateTime endTime;
+    @Column
+    private Date meetingDate;
 
 
 
