@@ -50,7 +50,7 @@ public class BookingService {
         if (bookingOptional.isPresent()){
             Booking existingLecturer = bookingOptional.get();
             existingLecturer.setNote(booking.getNote());
-            existingLecturer.setStatus(booking.isStatus());
+            existingLecturer.setStatus(booking.getStatus());
             bookingRepository.save(existingLecturer);
         } else {
             throw new RuntimeException("Can't find this booking slot");

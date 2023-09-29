@@ -15,7 +15,7 @@ public class BookingDTO {
 
     private String note;
 
-    private boolean status;
+    private int status;
 
 
 }

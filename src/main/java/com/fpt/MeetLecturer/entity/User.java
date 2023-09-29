@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,16 +27,15 @@ public class User {
     @Column
     private boolean status;
 
-    @JsonManagedReference
-    @OneToOne(mappedBy = "user")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Lecturer lecturerList;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Lecturer lecturer;
 
-    @JsonManagedReference
+
+    //    @JsonManagedReference
     @OneToMany(mappedBy = "user")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Booking> bookingList;
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
 
+    private List<Booking> bookingList;
 }

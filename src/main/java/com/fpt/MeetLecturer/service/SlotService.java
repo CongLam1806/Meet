@@ -9,10 +9,12 @@ import com.fpt.MeetLecturer.repository.SlotRepositoty;
 import com.fpt.MeetLecturer.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class SlotService {
     @Autowired(required = false)
     private SlotRepositoty slotRepository;

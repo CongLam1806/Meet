@@ -13,4 +13,6 @@ public class LecturerDTO {
 
     private String note;
 
+    private int Userid;
+
 }
