@@ -31,23 +31,23 @@ public class Slot {
 
 
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(mappedBy = "slot")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private Collection<Booking> bookingList;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "lecturer_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private Lecturer lecturer;
-    // check xem t add dung k nha -Minhdz-
-    @JsonBackReference
+
+//    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "location_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private Location location;
 }

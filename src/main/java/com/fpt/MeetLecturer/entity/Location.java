@@ -21,11 +21,11 @@ public class Location {
 
 
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "lecturer_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Lecturer lecturer;
+//    @JsonBackReference
+//    @ManyToOne
+//    @JoinColumn(name = "lecturer_id")
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Lecturer lecturer;
 
 }

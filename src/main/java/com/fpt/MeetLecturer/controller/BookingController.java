@@ -25,17 +25,17 @@ public class BookingController {
         return bookingService.getBookingById(id);
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public void createBooking(@RequestBody BookingDTO bookingDTO){
         bookingService.createBooking(bookingDTO);
     }
 
-    @PutMapping("/update")
+    @PutMapping("")
     public void updateBooking(@RequestBody BookingDTO bookingDTO){
         bookingService.updateBooking(bookingDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteBooking(@PathVariable int id){
         bookingService.deleteBooking(id);
     }

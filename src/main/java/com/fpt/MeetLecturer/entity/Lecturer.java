@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +16,6 @@ import java.util.Collection;
 @Entity
 public class Lecturer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
 
@@ -23,19 +23,14 @@ public class Lecturer {
 
     private String note;
 
-
-    @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+    @OneToOne(mappedBy = "lecturer")
     private User user;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "lecturer")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Slot> slotList;
+    private List<Slot> slotList;
     // check xem t add dung k nha -Minhdz-
 
 
