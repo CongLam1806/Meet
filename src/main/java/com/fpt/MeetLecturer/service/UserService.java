@@ -22,11 +22,13 @@ public class UserService {
 
 
 
-    public List<User> get(){
-        return userRepository.findAll();
+    public List<UserDTO> get()
+    {
+
+        return mapUser.convertListToUserDTO(userRepository.findAll());
     }
 
-    public UserDTO updateUser(UserDTO newUser) {
+    public void updateUser(UserDTO newUser) {
         Optional<User> optionalUser = userRepository.findById(newUser.getId());
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
@@ -36,11 +38,11 @@ public class UserService {
             existingUser.setPassword(newUser.getPassword());
 
             userRepository.save(existingUser);
-            return mapUser.convertUserToUserDTO(existingUser);
+            mapUser.convertUserToUserDTO(existingUser);
         } else {
 
             User user = mapUser.convertUserDTOToUser(newUser);
-            return mapUser.convertUserToUserDTO(user);
+            userRepository.save(user);
         }
     }
     //delete user

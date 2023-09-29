@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,9 +26,9 @@ public class Slot {
     @Column
     private boolean status; //status nay co y la co chap nhan hay k
     @Column
-    private LocalDateTime startTime;
+    private Time startTime;
     @Column
-    private LocalDateTime endTime;
+    private Time endTime;
     @Column
     private Date meetingDate;
 
@@ -37,17 +40,17 @@ public class Slot {
 //    @ToString.Exclude
     private Collection<Booking> bookingList;
 
-//    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "lecturer_id")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-    private Lecturer lecturer;
 
-//    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "location_id")
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
     private Location location;
+
+    @ManyToMany
+    @JoinTable(
+            name = "slot_subject",
+            joinColumns = @JoinColumn(name = "slot_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private List<Subject> likedSubjects;
 }

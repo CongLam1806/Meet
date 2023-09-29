@@ -24,8 +24,8 @@ public class SlotService {
     @Autowired(required = false)
     private ModelMapper modelMapper;
 
-    public List<Slot> get(){
-        return slotRepository.findAll();
+    public List<SlotDTO> get(){
+        return mapSlot.convertListToSlotDTO(slotRepository.findAll());
     }
 
     public SlotDTO updateSlot(SlotDTO newSlot){

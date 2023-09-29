@@ -29,9 +29,14 @@ public class Lecturer {
     @OneToOne(mappedBy = "lecturer")
     private User user;
 
-    @OneToMany(mappedBy = "lecturer")
-    private List<Slot> slotList;
-    // check xem t add dung k nha -Minhdz-
+    //@OneToMany(mappedBy = "lecturer")
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "lecturer")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Location> locationList;
+    
+    
 
 }

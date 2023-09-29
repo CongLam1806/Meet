@@ -15,15 +15,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user")
-    public List<User> getUser(){
+    public List<UserDTO> getUser(){
         return userService.get();
     }
 
     
     @PutMapping("/user/{id}")
-    public UserDTO createNew(@RequestBody UserDTO model, @PathVariable("id") int id){
+    public void createNew(@RequestBody UserDTO model, @PathVariable("id") int id){
         model.setId(id);
-        return userService.updateUser(model);
+        userService.updateUser(model);
 
     }
   @DeleteMapping("/delete-user")
