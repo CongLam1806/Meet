@@ -20,7 +20,7 @@ import java.util.Set;
 @Entity
 public class Slot {
     @Id
-    private int Id;
+    private int id;
     @Column
     private String password;
     @Column
@@ -34,19 +34,17 @@ public class Slot {
 
 
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(mappedBy = "slot")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private Collection<Booking> bookingList;
 
 
-    // check xem t add dung k nha -Minhdz-
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "location_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private Location location;
 
     @ManyToMany

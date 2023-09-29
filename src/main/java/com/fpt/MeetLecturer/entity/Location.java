@@ -22,15 +22,16 @@ public class Location {
     private String address;
     private boolean status;
 
-    //private int lecturerId; //xoa dong nay
 
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "lecturer_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Lecturer lecturer;
+
+
+//    @JsonBackReference
+//    @ManyToOne
+//    @JoinColumn(name = "lecturer_id")
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Lecturer lecturer;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "location")

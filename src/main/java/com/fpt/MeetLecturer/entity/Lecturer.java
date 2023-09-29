@@ -16,7 +16,6 @@ import java.util.List;
 @Entity
 public class Lecturer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
 
@@ -24,24 +23,20 @@ public class Lecturer {
 
     private String note;
 
-
-    @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+    @OneToOne(mappedBy = "lecturer")
     private User user;
+
+    //@OneToMany(mappedBy = "lecturer")
 
     @JsonManagedReference
     @OneToMany(mappedBy = "lecturer")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Location> locationList;
-    // check xem t add dung k nha -Minhdz-
-//    @JsonBackReference
-//    @OneToMany(mappedBy = "location")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<Location> location;
+    
+    
 
 }

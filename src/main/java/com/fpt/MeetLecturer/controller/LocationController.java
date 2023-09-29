@@ -31,7 +31,7 @@ public class LocationController {
         return locationService.deleteLocation(id);
     }
     @PostMapping("/new-location")
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public void updateLocation(@RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
         locationDTO.setId(id);
         locationService.updateLocation(locationDTO);
