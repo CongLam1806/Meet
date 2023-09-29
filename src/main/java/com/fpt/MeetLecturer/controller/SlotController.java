@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api")
+@RequestMapping(path="/api/slot")
 public class SlotController {
     @Autowired
     private SlotService slotService;
 
-    @GetMapping("/slot")
-    public List<Slot> getSlot(){
+    @GetMapping("")
+    public List<SlotDTO> getSlot(SlotDTO slotDTO){
         return slotService.get();
     }
 
 
-    @PutMapping("/slot/put/{id}")
+    @PutMapping("/put/{id}")
     public SlotDTO createNew(@RequestBody SlotDTO model, @PathVariable("id") int id){
         model.setId(id);
         return slotService.updateSlot(model);
 
     }
 
-    @DeleteMapping("/slot/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean deleteUser(@RequestParam(value = "id") int id) {
         return slotService.deleteSlot(id);
     }

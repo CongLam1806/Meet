@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,12 +36,12 @@ public class Lecturer {
     @OneToMany(mappedBy = "lecturer")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Slot> slotList;
+    private List<Location> locationList;
     // check xem t add dung k nha -Minhdz-
-    @JsonBackReference
-    @OneToMany(mappedBy = "location")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Location> location;
+//    @JsonBackReference
+//    @OneToMany(mappedBy = "location")
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<Location> location;
 
 }

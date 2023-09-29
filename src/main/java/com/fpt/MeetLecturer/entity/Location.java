@@ -1,8 +1,12 @@
 package com.fpt.MeetLecturer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +22,7 @@ public class Location {
     private String address;
     private boolean status;
 
-    private int lecturerId; //xoa dong nay
+    //private int lecturerId; //xoa dong nay
 
 
     @JsonBackReference
@@ -27,5 +31,11 @@ public class Location {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Lecturer lecturer;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "location")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Slot> slotList;
 
 }
