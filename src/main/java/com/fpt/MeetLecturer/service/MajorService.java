@@ -38,7 +38,7 @@ public class MajorService {
 
     }
 
-    public void createSubject(MajorDTO subjectDTO){
+    public void createMajor(MajorDTO subjectDTO){
         Optional<Major> major = majorRepository.findById(subjectDTO.getId());
         if (major.isPresent()){
             throw new IllegalStateException("this subject has already booked");
@@ -47,27 +47,16 @@ public class MajorService {
         }
     }
 
-    public void updateSubject(MajorDTO subjectDTO){
-        Optional<Subject> subject = majorRepository.findById(subjectDTO.getId());
-        if (subject.isPresent()){
-            Subject subject1 = subject.get();
-            subject1.setName(subjectDTO.getName());
-            subject1.setSemester(subjectDTO.getSemester());
-            majorRepository.save(subject1);
-        } else {
-            throw new RuntimeException("Can't find this subjectDTO slot");
-        }
-    }
 
-    public void deleteBooking(int id) {
-        Optional<Subject> SubjectOptional = majorRepository.findById(id);
-        if (SubjectOptional.isPresent()){
-            Subject existSubject = SubjectOptional.get();
-            existSubject.setStatus(false);
-            majorRepository.save(existSubject);
-        } else {
-            throw new IllegalStateException("student with id " + id + " does not exists");
-        }
-
-    }
+//    public void deleteMajor(int id) {
+//        Optional<Major> SubjectOptional = majorRepository.findById(id);
+//        if (SubjectOptional.isPresent()){
+//            Major existMajor = SubjectOptional.get();
+//            existMajor.setStatus(false);
+//            majorRepository.save(existMajor);
+//        } else {
+//            throw new IllegalStateException("student with id " + id + " does not exists");
+//        }
+//
+//    }
 }

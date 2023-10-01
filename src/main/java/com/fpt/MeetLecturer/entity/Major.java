@@ -17,6 +17,8 @@ public class Major {
 
     private String name;
 
+
+
     @OneToMany(mappedBy = "major")
     private List<Subject> subjectList;
 
