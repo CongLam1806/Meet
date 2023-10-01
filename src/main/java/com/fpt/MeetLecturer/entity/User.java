@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true)
     private int id;
     @Column
     private String userName;
@@ -29,14 +29,9 @@ public class User {
     private boolean status;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
 
-
-    //    @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-
+    @OneToMany(mappedBy = "user")
     private List<Booking> bookingList;
 }

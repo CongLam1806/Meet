@@ -18,8 +18,8 @@ public class MapSlot {
         //Define the mapping configuration for Slot to SlotDTO
         TypeMap<Slot, SlotDTO> slotToDTOTypeMap = modelMapper.createTypeMap(Slot.class, SlotDTO.class)
                 .addMapping(src -> src.getLocation().getId(), SlotDTO::setLocationId)
-                .addMapping(src -> src.getLocation().getName(), SlotDTO::setLocationName)
-                .addMapping(src -> MapSubject.convertListToSubjectDTO(src.getLikedSubjects()), SlotDTO::setSubjectList);
+                .addMapping(src -> src.getLocation().getName(), SlotDTO::setLocationName);
+//                .addMapping(src -> MapSubject.convertListToSubjectDTO(src.getLikedSubjects()), SlotDTO::setSubjectList);
     }
 
     public SlotDTO convertSlotToSlotDTO(Optional<Slot> slot){
