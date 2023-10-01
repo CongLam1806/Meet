@@ -2,11 +2,8 @@ package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.entity.Slot;
-import com.fpt.MeetLecturer.entity.User;
 import com.fpt.MeetLecturer.mapper.MapSlot;
-import com.fpt.MeetLecturer.mapper.MapUser;
 import com.fpt.MeetLecturer.repository.SlotRepositoty;
-import com.fpt.MeetLecturer.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,29 +18,26 @@ public class SlotService {
 
     @Autowired(required = false)
     private MapSlot mapSlot;
-    @Autowired(required = false)
-    private ModelMapper modelMapper;
+
+    private ModelMapper modelMapper = new ModelMapper();
 
     public List<SlotDTO> get(){
         return mapSlot.convertListToSlotDTO(slotRepository.findAll());
     }
 
-    public SlotDTO updateSlot(SlotDTO newSlot){
-        Optional<Slot> optionalSlot = slotRepository.findById(newSlot.getId());
-        if (optionalSlot.isPresent()) {
-            Slot existingSlot = optionalSlot.get();
-            existingSlot.setPassword(newSlot.getPassword());
-            existingSlot.setStatus(newSlot.isStatus());
-            existingSlot.setEndTime(newSlot.getEndTime());
-            existingSlot.setStartTime(newSlot.getStartTime());
+    public void updateSlot(SlotDTO newSlot){
 
-            slotRepository.save(existingSlot);
-            return mapSlot.convertSlotToSlotDTO(existingSlot);
+        Slot slot;
+        if (newSlot.getId() == 0) {
+           slot = new Slot();
         } else {
+            slot = slotRepository.findById(newSlot.getId()).orElseThrow();
 
-            Slot slot = mapSlot.convertSlotDTOToSlot(newSlot);
-            return mapSlot.convertSlotToSlotDTO(slot);
         }
+        modelMapper.map(newSlot, slot);
+
+        slotRepository.save(slot);
+
     }
 
     public boolean deleteSlot(int id) {

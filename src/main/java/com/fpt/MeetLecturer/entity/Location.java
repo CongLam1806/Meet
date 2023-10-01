@@ -26,17 +26,15 @@ public class Location {
 
 
 
-//    @JsonBackReference
-//    @ManyToOne
-//    @JoinColumn(name = "lecturer_id")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Lecturer lecturer;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "location")
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lecturer_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    private Lecturer lecturer;
+
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<Slot> slotList;
 
 }

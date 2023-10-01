@@ -25,4 +25,8 @@ public class MapSubject {
         subjects.forEach(subject -> list.add(convertSubjectToSubjectDTO(subject)));
         return list;
     }
+
+    public static Subject convertSubjectDTOToSubject(SubjectDTO subjectDTO){
+        return modelMapper.map(subjectDTO, Subject.class);
+    }
 }

@@ -3,8 +3,7 @@ package com.fpt.MeetLecturer.business;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationDTO {
