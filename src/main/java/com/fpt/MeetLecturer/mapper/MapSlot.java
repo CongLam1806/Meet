@@ -1,15 +1,14 @@
 package com.fpt.MeetLecturer.mapper;
 
 import com.fpt.MeetLecturer.business.SlotDTO;
-import com.fpt.MeetLecturer.business.UserDTO;
 import com.fpt.MeetLecturer.entity.Slot;
-import com.fpt.MeetLecturer.entity.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MapSlot {
@@ -23,17 +22,19 @@ public class MapSlot {
                 .addMapping(src -> MapSubject.convertListToSubjectDTO(src.getLikedSubjects()), SlotDTO::setSubjectList);
     }
 
-    public static SlotDTO convertSlotToSlotDTO(Slot slot){
+    public SlotDTO convertSlotToSlotDTO(Optional<Slot> slot){
         return modelMapper.map(slot, SlotDTO.class);
     }
 
-    public static List<SlotDTO> convertListToSlotDTO(List<Slot> slots){
+    public List<SlotDTO> convertListToSlotDTO(List<Slot> slots){
         List<SlotDTO> list = new ArrayList<>();
-        slots.forEach(slot -> list.add(convertSlotToSlotDTO(slot)));
+        slots.forEach(slot -> list.add(convertSlotToSlotDTO(Optional.ofNullable(slot))));
         return list;
     }
-    public static Slot convertSlotDTOToSlot(SlotDTO slotDTO){
+    public Slot convertSlotDTOToSlot(SlotDTO slotDTO){
         return modelMapper.map(slotDTO, Slot.class);
     }
+
+
 
 }

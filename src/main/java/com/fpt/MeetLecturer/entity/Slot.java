@@ -1,7 +1,6 @@
 package com.fpt.MeetLecturer.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +19,7 @@ import java.util.Set;
 @Entity
 public class Slot {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String password;
@@ -35,19 +35,19 @@ public class Slot {
 
 
 //    @JsonManagedReference
-    @OneToMany(mappedBy = "slot")
+    @OneToMany(mappedBy = "slot", cascade = CascadeType.ALL)
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
     private Collection<Booking> bookingList;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
     private Location location;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "slot_subject",
             joinColumns = @JoinColumn(name = "slot_id"),

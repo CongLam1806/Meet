@@ -24,10 +24,10 @@ public class SlotController {
 
 
     @PutMapping("/put/{id}")
-    public SlotDTO createNew(@RequestBody SlotDTO model, @PathVariable("id") int id){
-        model.setId(id);
-        return slotService.updateSlot(model);
-
+    public void createNew(@RequestBody SlotDTO model, @PathVariable("id") int id){
+        System.out.println(model);
+        slotService.updateSlot(model);
+        System.out.println("OK");
     }
 
     @DeleteMapping("/delete/{id}")

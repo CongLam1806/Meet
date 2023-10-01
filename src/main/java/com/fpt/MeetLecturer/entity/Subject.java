@@ -14,6 +14,7 @@ import java.util.Set;
 @Entity
 public class Subject {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     @Column
     private String name;
@@ -22,6 +23,6 @@ public class Subject {
     @Column
     private boolean status;
 
-    @ManyToMany(mappedBy = "likedSubjects")
+    @ManyToMany(mappedBy = "likedSubjects", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Slot> slots;
 }

@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String userName;
@@ -33,7 +34,7 @@ public class User {
 
 
     //    @JsonManagedReference
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
 
