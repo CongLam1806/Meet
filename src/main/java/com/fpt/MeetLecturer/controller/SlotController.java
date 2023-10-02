@@ -17,21 +17,26 @@ public class SlotController {
     @Autowired
     private SlotService slotService;
 
-    @GetMapping("")
-    public List<SlotDTO> getSlot(SlotDTO slotDTO){
+    @GetMapping("/get")
+    public List<SlotDTO> getSlot(){
         return slotService.get();
+    }
+
+    @PostMapping("/post")
+    public void createNew(@RequestBody SlotDTO model){
+        slotService.createSlot(model);
     }
 
 
     @PutMapping("/put/{id}")
-    public void createNew(@RequestBody SlotDTO model, @PathVariable("id") int id){
-        System.out.println(model);
+    public void updateSlot(@RequestBody SlotDTO model, @PathVariable("id") int id){
+
         slotService.updateSlot(model);
-        System.out.println("OK");
+        //System.out.println("OK");
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean deleteUser(@RequestParam(value = "id") int id) {
+    public boolean deleteUser(@PathVariable("id") int id) {
         return slotService.deleteSlot(id);
     }
 }

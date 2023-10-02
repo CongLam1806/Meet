@@ -23,9 +23,10 @@ public class SlotDTO {
     private Date meetingDate;
 
     private int locationId;
-    private String locationName;
+    private String lecturerName;
 
     private List<SubjectResponseDTO> subjectList;
+
 
 
 }

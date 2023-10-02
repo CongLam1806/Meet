@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,7 +19,7 @@ public class User {
     @Column(unique = true)
     private int id;
     @Column
-    private String userName;
+    private String name;
     @Column
     private String password;
     @Column
@@ -28,10 +29,23 @@ public class User {
     @Column
     private boolean status;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lecturer_id")
+    @PrimaryKeyJoinColumn
     private Lecturer lecturer;
 
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Student student;
+
+   
+
     @OneToMany(mappedBy = "user")
+
     private List<Booking> bookingList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Slot> slotList;
+
 }

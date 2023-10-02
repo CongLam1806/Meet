@@ -6,6 +6,7 @@ import com.fpt.MeetLecturer.entity.User;
 import com.fpt.MeetLecturer.mapper.MapUser;
 
 import com.fpt.MeetLecturer.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,31 +21,25 @@ public class UserService {
     @Autowired(required = false)
     private MapUser mapUser;
 
-
+    private ModelMapper modelMapper = new ModelMapper();
 
     public List<UserDTO> get()
     {
-
         return mapUser.convertListToUserDTO(userRepository.findAll());
     }
 
-    public void updateUser(UserDTO newUser) {
-        Optional<User> optionalUser = userRepository.findById(newUser.getId());
-        if (optionalUser.isPresent()) {
-            User existingUser = optionalUser.get();
-            existingUser.setUserName(newUser.getName());
-            existingUser.setEmail(newUser.getEmail());
-            existingUser.setRole(newUser.getRole());
-            existingUser.setPassword(newUser.getPassword());
-
-            userRepository.save(existingUser);
-            mapUser.convertUserToUserDTO(existingUser);
-        } else {
-
-            User user = mapUser.convertUserDTOToUser(newUser);
-            userRepository.save(user);
-        }
+    public void createUser(UserDTO newUser){
+        User user = new User();
+        modelMapper.map(newUser, user);
+        userRepository.save(user);
     }
+    public void updateUser(UserDTO newUser) {
+            User user;
+            user = userRepository.findById(newUser.getId()).orElseThrow();
+            modelMapper.map(newUser, user);
+            userRepository.save(user);
+    }
+
     //delete user
     public boolean deleteUser(int id) {
         Optional<User> user1 = userRepository.findById(id);

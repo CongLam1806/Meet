@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,34 +9,34 @@ import lombok.*;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table (name="Lecturer")
 @Entity
 public class Lecturer {
     @Id
-    @Column(unique = true)
+
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+  
+    //@Column(unique = true)
     private int id;
-    private String name;
+
 
     private String phone;
 
     private String note;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-    @OneToOne(mappedBy = "lecturer")
+    @JsonIgnore
+    @OneToOne (cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "user_id")
     private User user;
-
-    //@OneToMany(mappedBy = "lecturer")
-
-//    @JsonManagedReference
+    
+   
+    @JsonIgnore
     @OneToMany(mappedBy = "lecturer")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
     private List<Location> locationList;
 
     @ManyToMany

@@ -1,8 +1,11 @@
 package com.fpt.MeetLecturer.mapper;
 
+import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.business.UserDTO;
+import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.entity.User;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.List;
 @Component
 public class MapUser {
     private static final ModelMapper modelMapper = new ModelMapper();
+
 
     public  User convertUserDTOToUser(UserDTO userDTO){
         return modelMapper.map(userDTO, User.class);
