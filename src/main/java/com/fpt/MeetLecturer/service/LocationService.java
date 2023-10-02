@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.business.LocationDTO;
 import com.fpt.MeetLecturer.entity.Location;
 import com.fpt.MeetLecturer.entity.Slot;
+import com.fpt.MeetLecturer.exception.CustomException;
 import com.fpt.MeetLecturer.mapper.MapLocation;
 import com.fpt.MeetLecturer.repository.LocationRepository;
 import org.modelmapper.ModelMapper;
@@ -31,7 +32,10 @@ public class LocationService {
     }
     public boolean deleteLocation(int id){
         Optional<Location> location = locationRepository.findById(id);
-        if(location.isEmpty()) return false;
+        if(location.isEmpty()){
+            //throw new CustomException("Id: " + id + " not found!!!");
+            return false;
+        }
         else {
             locationRepository.delete(location.get());
             return true;
