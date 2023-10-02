@@ -23,6 +23,6 @@ public class Subject {
     @Column
     private boolean status;
 
-    @ManyToMany(mappedBy = "likedSubjects", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "likedSubjects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Slot> slots;
 }

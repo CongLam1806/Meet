@@ -9,20 +9,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api")
+@RequestMapping(path="/api/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user")
+    @GetMapping("/get")
     public List<UserDTO> getUser(){
         return userService.get();
     }
 
-    
-    @PutMapping("/user/{id}")
-    public void createNew(@RequestBody UserDTO model, @PathVariable("id") int id){
-        model.setId(id);
+    @PostMapping("post")
+    public void createUser(@RequestBody UserDTO model){
+
+    }
+    @PutMapping("/put/{id}")
+    public void createUser(@RequestBody UserDTO model, @PathVariable("id") int id){
+
         userService.updateUser(model);
 
     }

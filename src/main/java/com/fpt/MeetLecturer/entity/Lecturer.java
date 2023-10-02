@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,17 +9,17 @@ import lombok.*;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table (name="Lecturer")
 @Entity
 public class Lecturer {
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String name;
+
 
     private String phone;
 
@@ -27,14 +28,19 @@ public class Lecturer {
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id")
 //    private User user;
-    @OneToOne(mappedBy = "lecturer", cascade = CascadeType.ALL)
+    //@OneToOne(mappedBy = "lecturer", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne (cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "user_id")
     private User user;
+    //@JoinColumn(name = "user_id", referencedColumnName = "id")
+
 
     //@OneToMany(mappedBy = "lecturer")
 
-
-    @OneToMany(mappedBy = "lecturer", cascade = CascadeType.ALL)
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "lecturer")
     private List<Location> locationList;
     
     

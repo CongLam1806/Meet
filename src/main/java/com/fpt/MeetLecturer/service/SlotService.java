@@ -23,35 +23,36 @@ public class SlotService {
 
     public List<SlotDTO> get(){
         return mapSlot.convertListToSlotDTO(slotRepository.findAll());
+        //System.out.println(slotRepository.findAll());
+        //return slotRepository.findAll();
+    }
+
+    public void createSlot(SlotDTO newSlot){
+
+        Slot slot = new Slot();
+        modelMapper.map(newSlot, slot);
+        slotRepository.save(slot);
     }
 
     public void updateSlot(SlotDTO newSlot){
-
         Slot slot;
-        if (newSlot.getId() == 0) {
-           slot = new Slot();
-        } else {
-            slot = slotRepository.findById(newSlot.getId()).orElseThrow();
-
-        }
+        slot = slotRepository.findById(newSlot.getId()).orElseThrow();
         modelMapper.map(newSlot, slot);
-
         slotRepository.save(slot);
-
     }
 
     public boolean deleteSlot(int id) {
-        Optional<Slot> slot = slotRepository.findById(id);
-        if (slot.isEmpty()) {
+        Slot slot = slotRepository.findById(id).orElseThrow();
+        if (slot.getId() == 0) {
             return false;
         } else {
             //User delUser = user1.get();
             //userRepository.delete(user1.get());
-            if (!slot.get().isStatus()) {
+            if (!slot.isStatus()) {
                 return false;
             }
-            slot.get().setStatus(false);
-            slotRepository.save(slot.get());
+            slot.setStatus(false);
+            slotRepository.save(slot);
             //mapUser.mapUserToUserDTO(delUser);
             return true;
         }

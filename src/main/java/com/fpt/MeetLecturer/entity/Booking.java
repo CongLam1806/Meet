@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,13 +18,19 @@ public class Booking {
 
     private int status; //int
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "slot_id")
     private Slot slot;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private Student student;
 
 
 }
