@@ -33,6 +33,8 @@ public class Slot {
     private Time endTime;
     @Column
     private Date meetingDate;
+    @Column
+    private int mode;
 
 
 
