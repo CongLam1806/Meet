@@ -21,6 +21,7 @@ public class SlotDTO {
     private Time startTime;
     private Time endTime;
     private Date meetingDate;
+    private int mode;
 
     private int locationId;
     private String lecturerName;
