@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true)
     private int id;
     @Column
     private String name;
@@ -31,26 +31,21 @@ public class User {
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     @PrimaryKeyJoinColumn
     private Lecturer lecturer;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "student_id", referencedColumnName = "id")
     @PrimaryKeyJoinColumn
     private Student student;
 
-    //    @JsonManagedReference
+   
 
     @OneToMany(mappedBy = "user")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
+
     private List<Booking> bookingList;
 
     @OneToMany(mappedBy = "user")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
     private List<Slot> slotList;
 
 }

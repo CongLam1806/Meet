@@ -20,6 +20,7 @@ public class MapSlot {
                 .addMapping(src -> src.getLocation().getId(), SlotDTO::setLocationId)
                 .addMapping(src -> src.getUser().getName(), SlotDTO::setLecturerName)
                 .addMapping(src -> MapSubject.convertListToSubjectDTO(src.getLikedSubjects()), SlotDTO::setSubjectList);
+
     }
 
     public SlotDTO convertSlotToSlotDTO(Slot slot){
