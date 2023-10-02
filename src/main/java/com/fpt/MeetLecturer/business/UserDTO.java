@@ -21,6 +21,8 @@ public class UserDTO {
     private String email;
     private int role;
 
+
     private Lecturer lecturer;
     private Student student;
+
 }

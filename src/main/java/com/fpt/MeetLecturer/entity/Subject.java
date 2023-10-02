@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -14,8 +13,9 @@ import java.util.Set;
 @Entity
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private String id;
+    private int id;
     @Column
     private String name;
     @Column
@@ -25,4 +25,14 @@ public class Subject {
 
     @ManyToMany(mappedBy = "likedSubjects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Slot> slots;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "major_id")
+    private Major major;
+
+    @ManyToMany(mappedBy = "likedSubjects")
+    private List<Slot> slotList;
+
+    @ManyToMany(mappedBy = "Subject")
+    private List<Lecturer> lecturerList;
 }
