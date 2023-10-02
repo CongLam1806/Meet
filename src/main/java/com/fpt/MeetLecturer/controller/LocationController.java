@@ -23,7 +23,7 @@ public class LocationController {
         return locationService.getAllLocation();
     }
     @GetMapping("/personal")
-    public List<LocationDTO> getAllPersonalLocation(@RequestParam(value = "id") int id){
+    public List<LocationDTO> getAllPersonalLocation(@RequestParam(value = "Lecturer-id") int id){
         return locationService.getAllPersonalLocation(id);
     }
     @DeleteMapping("/delete")
