@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.controller;
 import com.fpt.MeetLecturer.business.LocationDTO;
 import com.fpt.MeetLecturer.repository.LocationRepository;
 import com.fpt.MeetLecturer.service.LocationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class LocationController {
     }
     @PostMapping("/new-location")
     @PutMapping("/update/{id}")
-    public void updateLocation(@RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
+    public void updateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
         //locationDTO.setId(id);
         locationService.updateLocation(locationDTO);
     }
