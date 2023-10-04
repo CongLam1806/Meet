@@ -1,7 +1,9 @@
 package com.fpt.MeetLecturer.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -18,11 +20,13 @@ public class Subject {
 
 //    private String id;
     private int id;
-    @Column
+    @NotBlank(message = "Name must not be blank")
     private String name;
-    @Column
+
+    @NotBlank(message = "Semester must not be blank")
     private int semester;
-    @Column
+
+    @Value("1")
     private boolean status;
 
     @ManyToMany(mappedBy = "likedSubjects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
