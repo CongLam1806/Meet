@@ -5,6 +5,7 @@ import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +37,13 @@ public class BookingService {
 
     }
 
-    public void createBooking(BookingDTO booking){
-        Optional<Booking> booking1 = bookingRepository.findById(booking.getId());
+    public void createBooking(BookingDTO bookingDTO){
+        Optional<Booking> booking1 = bookingRepository.findById(bookingDTO.getId());
         if (booking1.isPresent()){
             throw new IllegalStateException("this slot has already booked");
         } else {
-            bookingRepository.save(mapBooking.convertBookingDTOtoBooking(booking));
+            Booking booking = new ModelMapper().map(bookingDTO, Booking.class);
+            bookingRepository.save(booking);
         }
     }
 

@@ -24,6 +24,12 @@ public class LecturerController {
         return lecturerService.getAllLecturer();
     }
 
+    @PostMapping("")
+    public void createLecturer(@RequestBody LecturerDTO lecturerDTO){
+        lecturerService.createLecturer(lecturerDTO);
+    }
+
+
     @PutMapping("/{id}")
     public void updateLecturer(@RequestBody LecturerDTO newLecturer, @PathVariable int id ){
          lecturerService.updateLecturer(newLecturer, id);

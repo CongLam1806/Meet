@@ -4,6 +4,7 @@ import com.fpt.MeetLecturer.business.SubjectDTO;
 import com.fpt.MeetLecturer.entity.Subject;
 import com.fpt.MeetLecturer.mapper.MapSubject;
 import com.fpt.MeetLecturer.repository.SubjectRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +48,8 @@ public class SubjectService {
         }
     }
 
-    public void updateSubject(SubjectDTO subjectDTO){
-        Optional<Subject> subject = subjectRepository.findById(subjectDTO.getId());
+    public void updateSubject(SubjectDTO subjectDTO, int id){
+        Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isPresent()){
             Subject subject1 = subject.get();
             subject1.setName(subjectDTO.getName());
@@ -58,6 +59,16 @@ public class SubjectService {
             throw new RuntimeException("Can't find this subjectDTO slot");
         }
     }
+
+//    public void updateSubject(SubjectDTO subjectDTO, int id){
+//        Optional<Subject> subject = subjectRepository.findById(id);
+//        if (subject.isPresent()){
+//            Subject subject1 = new ModelMapper().map(subjectDTO, Subject.class);
+//            subjectRepository.save(subject1);
+//        } else {
+//            throw new RuntimeException("Can't find this subjectDTO slot");
+//        }
+//    }
 
     public void deleteBooking(int id) {
         Optional<Subject> SubjectOptional = subjectRepository.findById(id);

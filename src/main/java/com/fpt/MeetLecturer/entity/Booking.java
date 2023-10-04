@@ -18,7 +18,6 @@ public class Booking {
 
     private int status; //int
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;

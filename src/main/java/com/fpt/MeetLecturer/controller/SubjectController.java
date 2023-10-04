@@ -32,9 +32,9 @@ public class SubjectController {
          subjectService.createSubject(subjectDTO);
     }
 
-    @PutMapping("")
-    public void updateSubject(@RequestBody SubjectDTO subjectDTO){
-        subjectService.updateSubject(subjectDTO);
+    @PutMapping("/{id}")
+    public void updateSubject(@RequestBody SubjectDTO subjectDTO, @PathVariable int id){
+        subjectService.updateSubject(subjectDTO,id);
     }
 
     @DeleteMapping("/{id}")

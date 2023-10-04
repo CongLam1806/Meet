@@ -1,10 +1,8 @@
 package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.MajorDTO;
-import com.fpt.MeetLecturer.business.SubjectDTO;
 import com.fpt.MeetLecturer.entity.Major;
-import com.fpt.MeetLecturer.entity.Subject;
-import com.fpt.MeetLecturer.mapper.MapMajor;
+import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.repository.MajorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +19,9 @@ public class MajorService {
 
 
     @Autowired
-    private MapMajor mapMajor;
+    private GenericMap genericMap;
     public List<MajorDTO> getAllMajor(){
-        return mapMajor.convertEntityListToDTOList(majorRepository.findAll(),MajorDTO.class);
+        return genericMap.convertEntityListToDTOList(majorRepository.findAll(),MajorDTO.class);
     }
 
 
@@ -31,7 +29,7 @@ public class MajorService {
         Optional<Major> major = majorRepository.findById(id);
         if (major.isPresent()){
             Major existingBooking = major.get();
-            return mapMajor.convertEntityToDTO(existingBooking, MajorDTO.class);
+            return genericMap.convertEntityToDTO(existingBooking, MajorDTO.class);
         } else {
             throw new RuntimeException("can't find this major slot by id");
         }
@@ -43,7 +41,8 @@ public class MajorService {
         if (major.isPresent()){
             throw new IllegalStateException("this subject has already booked");
         } else {
-            majorRepository.save(mapMajor.convertDTOToEntity(subjectDTO, Major.class));
+            Major major1 = new ModelMapper().map(subjectDTO, Major.class);
+            majorRepository.save(major1);
         }
     }
 
@@ -52,7 +51,7 @@ public class MajorService {
 //        Optional<Major> SubjectOptional = majorRepository.findById(id);
 //        if (SubjectOptional.isPresent()){
 //            Major existMajor = SubjectOptional.get();
-//            existMajor.setStatus(false);
+//            existMajor.se(false);
 //            majorRepository.save(existMajor);
 //        } else {
 //            throw new IllegalStateException("student with id " + id + " does not exists");
