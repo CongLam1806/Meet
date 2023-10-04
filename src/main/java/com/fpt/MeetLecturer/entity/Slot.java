@@ -4,8 +4,10 @@ package com.fpt.MeetLecturer.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.joda.time.LocalDate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -27,23 +29,23 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column
+    @NotBlank(message = "Password must not be blank")
     private String password;
 
-    @Column
-    private boolean status; //status nay co y la co chap nhan hay k
+    @Value("1")
+    private boolean status;
 
-    @Column
+    @NotBlank(message = "Start Time must not be blank")
     private Time startTime;
 
-    @Column
+    @NotBlank(message = "End Time must not be blank")
     private Time endTime;
 
-    @Column
+    @NotBlank(message = "Meeting Date must not be blank")
     @JsonFormat(pattern="dd.MM.yyyy")
     private Date meetingDate;
 
-    @Column
+    @Value("1")
     private int mode;
 
 
