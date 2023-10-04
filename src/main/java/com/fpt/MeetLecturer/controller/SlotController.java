@@ -19,6 +19,7 @@ public class SlotController {
 
     @GetMapping("/get")
     public List<SlotDTO> getSlot(){
+
         return slotService.get();
     }
 

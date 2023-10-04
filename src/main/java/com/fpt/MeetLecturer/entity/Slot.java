@@ -1,10 +1,13 @@
 package com.fpt.MeetLecturer.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.joda.time.LocalDate;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.sql.Time;
 import java.util.Collection;
@@ -23,16 +26,23 @@ public class Slot {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @Column
     private String password;
+
     @Column
     private boolean status; //status nay co y la co chap nhan hay k
+
     @Column
     private Time startTime;
+
     @Column
     private Time endTime;
+
     @Column
+    @JsonFormat(pattern="dd.MM.yyyy")
     private Date meetingDate;
+
     @Column
     private int mode;
 

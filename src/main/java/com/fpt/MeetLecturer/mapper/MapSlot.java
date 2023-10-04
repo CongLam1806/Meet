@@ -8,23 +8,27 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class MapSlot {
     private static final ModelMapper modelMapper = new ModelMapper();
+
 
     static {
         //Define the mapping configuration for Slot to SlotDTO
         TypeMap<Slot, SlotDTO> slotToDTOTypeMap = modelMapper.createTypeMap(Slot.class, SlotDTO.class)
                 .addMapping(src -> src.getLocation().getId(), SlotDTO::setLocationId)
                 .addMapping(src -> src.getUser().getName(), SlotDTO::setLecturerName)
-                .addMapping(src -> MapSubject.convertListToSubjectDTO(src.getLikedSubjects()), SlotDTO::setSubjectList);
+                .addMapping(Slot::getLikedSubjects, SlotDTO::setSubjectList);
+                //.addMapping(src -> DateFormat.formatDate(src.getMeetingDate()), SlotDTO::setMeetingDate);
+                //.addMapping(src -> MapSubject.convertListToSubjectDto(src.getLikedSubjects()), SlotDTO::setSubjectList);
 
     }
 
     public SlotDTO convertSlotToSlotDTO(Slot slot){
-        return modelMapper.map(slot, SlotDTO.class);
+        return  modelMapper.map(slot, SlotDTO.class);
+        //slotDTO.setMeetingDate(new SimpleDateFormat("yyyy-MM-dd").format(slotDTO));
+
     }
 
     public  List<SlotDTO> convertListToSlotDTO(List<Slot> slots){
