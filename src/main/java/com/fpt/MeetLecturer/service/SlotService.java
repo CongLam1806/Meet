@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SlotService {
@@ -19,10 +18,17 @@ public class SlotService {
     @Autowired(required = false)
     private MapSlot mapSlot;
 
+
+
+
+
+
     private ModelMapper modelMapper = new ModelMapper();
 
     public List<SlotDTO> get(){
+
         return mapSlot.convertListToSlotDTO(slotRepository.findAll());
+
         //System.out.println(slotRepository.findAll());
         //return slotRepository.findAll();
     }
