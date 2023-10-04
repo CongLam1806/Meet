@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Subject {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 //    private String id;
     private int id;
     @Column
