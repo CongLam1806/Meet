@@ -19,6 +19,10 @@ public class UserController {
         return userService.get();
     }
 
+    @GetMapping("/get/{id}")
+    public UserDTO getById(@PathVariable("id") int id){
+        return userService.getById(id);
+    }
     @PostMapping("post")
     public void createUser(@RequestBody UserDTO model){
 

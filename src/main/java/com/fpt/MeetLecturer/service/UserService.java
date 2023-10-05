@@ -27,6 +27,9 @@ public class UserService {
     {
         return mapUser.convertListToUserDTO(userRepository.findAll());
     }
+    public UserDTO getById(int id){
+        return mapUser.toUserDTO(userRepository.findById(id));
+    }
 
     public void createUser(UserDTO newUser){
         User user = new User();
