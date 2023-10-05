@@ -36,6 +36,7 @@ public class UserService {
     public void updateUser(UserDTO newUser) {
             User user;
             user = userRepository.findById(newUser.getId()).orElseThrow();
+
             modelMapper.map(newUser, user);
             userRepository.save(user);
     }

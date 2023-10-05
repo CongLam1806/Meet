@@ -22,14 +22,16 @@ public class Lecturer {
     //@Column(unique = true)
     private int id;
 
-    private String name;
+    //private String name;
 
     private String phone;
 
     private String note;
 
-    @OneToOne(mappedBy = "lecturer")
-////    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @OneToOne (cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "lecturer")
