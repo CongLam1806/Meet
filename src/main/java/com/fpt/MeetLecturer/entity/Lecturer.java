@@ -28,7 +28,7 @@ public class Lecturer {
 
     private String note;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToOne (cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "user_id")

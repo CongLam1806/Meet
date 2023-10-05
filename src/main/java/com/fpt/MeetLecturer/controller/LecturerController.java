@@ -2,6 +2,7 @@ package com.fpt.MeetLecturer.controller;
 
 import com.fpt.MeetLecturer.business.LecturerDTO;
 import com.fpt.MeetLecturer.service.LecturerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class LecturerController {
     }
 
     @PostMapping("")
-    public void createLecturer(@RequestBody LecturerDTO lecturerDTO){
+    public void createLecturer(@RequestBody @Valid LecturerDTO lecturerDTO){
         lecturerService.createLecturer(lecturerDTO);
     }
 

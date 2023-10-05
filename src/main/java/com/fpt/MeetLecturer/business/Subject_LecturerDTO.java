@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.business;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Subject_LecturerDTO {
-    private int subjectId;
+    @NotBlank(message = "subject should not be empty")
+    private String subjectId;
     private String name;
 }
