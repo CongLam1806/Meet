@@ -20,13 +20,13 @@ public class Subject {
 
 //    private String id;
     private int id;
-    @NotBlank(message = "Name must not be blank")
+
     private String name;
 
-    @NotBlank(message = "Semester must not be blank")
+
     private int semester;
 
-    @Value("1")
+
     private boolean status;
 
     @ManyToMany(mappedBy = "likedSubjects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -42,7 +42,7 @@ public class LecturerService {
         Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
         if (optionalLecturer.isPresent()) {
             Lecturer existingLecturer = optionalLecturer.get();
-            existingLecturer.setName(newLecturer.getName());
+            //existingLecturer.setName(newLecturer.getName());
             existingLecturer.setNote(newLecturer.getNote());
             existingLecturer.setPhone(newLecturer.getPhone());
             lecturerRepository.save(existingLecturer);

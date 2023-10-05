@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -18,10 +19,13 @@ public class SubjectDTO {
 
     private int id;
 
-    @NotBlank(message = "Subject name should not be blanked")
+    @NotBlank(message = "Name must not be blank")
     private String name;
 
+    @NotBlank(message = "Semester must not be blank")
     private int semester;
+
+    @Value("1")
     private boolean status;
 
     //nếu thay tên Major thành tên khác thì sẽ ko lấy đc info

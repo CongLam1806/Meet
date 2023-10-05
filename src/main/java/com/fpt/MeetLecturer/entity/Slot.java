@@ -29,23 +29,23 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotBlank(message = "Password must not be blank")
+
     private String password;
 
-    @Value("1")
+
     private boolean status;
 
-    @NotBlank(message = "Start Time must not be blank")
+
     private Time startTime;
 
-    @NotBlank(message = "End Time must not be blank")
+
     private Time endTime;
 
-    @NotBlank(message = "Meeting Date must not be blank")
+
     @JsonFormat(pattern="dd.MM.yyyy")
     private Date meetingDate;
 
-    @Value("1")
+
     private int mode;
 
 

@@ -20,9 +20,10 @@ public class MapSlot {
                 .addMapping(src -> src.getLocation().getId(), SlotDTO::setLocationId)
 
                 .addMapping(src -> src.getUser().getName(), SlotDTO::setLecturerName)
-                .addMapping(Slot::getLikedSubjects, SlotDTO::setSubjectList);
+                .addMapping(Slot::getLikedSubjects, SlotDTO::setSubjectList)
+                .addMapping(src -> src.getUser().getEmail(), SlotDTO::setUserEmail);
 
-                .addMapping(src -> src.getUser().getName(), SlotDTO::setLecturerName);            
+                //.addMapping(src -> src.getUser().getName(), SlotDTO::setLecturerName);
 
     }
 

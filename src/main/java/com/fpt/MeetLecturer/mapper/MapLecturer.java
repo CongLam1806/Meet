@@ -23,7 +23,7 @@ public class MapLecturer {
     static {
         TypeMap<Lecturer, LecturerDTO> propertyMapper = modelMapper.createTypeMap(Lecturer.class, LecturerDTO.class);
         propertyMapper
-                .addMapping(src -> src.getUser().getId(), LecturerDTO::setUserid)
+                //.addMapping(src -> src.getUser().getId(), LecturerDTO::setUserid)
                 .addMapping(Lecturer::getSubject, LecturerDTO::setSubjectName);
     }
 

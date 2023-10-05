@@ -21,25 +21,25 @@ public class User {
     @Column(unique = true)
     private int id;
 
-    @NotBlank(message = "Name must not be blank")
+
     private String name;
 
-    @NotBlank(message = "Password must not be blank")
+
     private String password;
 
-    @NotBlank(message = "Email must not be blank")
+
     private String email;
 
-    @NotBlank(message = "Role must no be blank")
+
     private int role;
 
     @Value("1")
     private boolean status;
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-//    @JoinColumn(name = "lecturer_id")
+    @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
 
 //    @JsonIgnore

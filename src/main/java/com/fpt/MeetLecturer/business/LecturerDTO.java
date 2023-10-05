@@ -24,7 +24,7 @@ public class LecturerDTO {
 
     private String note;
 
-    private int Userid;
+    private User user ;
 
     private List<Subject_LecturerDTO> SubjectName;
 
