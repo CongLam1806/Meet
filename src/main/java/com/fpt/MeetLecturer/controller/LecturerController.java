@@ -15,7 +15,7 @@ public class LecturerController {
     @Autowired
     private LecturerService lecturerService;
 
-    @GetMapping("{email}")
+    @GetMapping("/{email}")
     public LecturerDTO getLecturerByEmail(@PathVariable String email){
         return lecturerService.getLecturerByEmail(email);
     }
