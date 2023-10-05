@@ -32,7 +32,7 @@ public class LecturerController {
 
 
     @PutMapping("/{id}")
-    public void updateLecturer(@RequestBody LecturerDTO newLecturer, @PathVariable int id ){
+    public void updateLecturer(@RequestBody @Valid LecturerDTO newLecturer, @PathVariable int id ){
          lecturerService.updateLecturer(newLecturer, id);
     }
 
