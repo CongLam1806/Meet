@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @OpenAPIDefinition(
 		servers = {
-				@Server(url = "/myapp/", description = "Default Server URL")
+				@Server(url = "/", description = "Default Server URL")
 		}
 )
 public class MeetLecturerApplication {
