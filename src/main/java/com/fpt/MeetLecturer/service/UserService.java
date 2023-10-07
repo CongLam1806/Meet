@@ -58,20 +58,20 @@ public class UserService {
     }
 
     //delete user
-    public boolean deleteUser(int id) {
+    public ResponseDTO deleteUser(int id) {
         Optional<User> user1 = userRepository.findById(id);
         if (user1.isEmpty()) {
-            return false;
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", user1);
         } else {
             //User delUser = user1.get();
             //userRepository.delete(user1.get());
             if (!user1.get().isStatus()) {
-                return false;
+                return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", user1);
             }
             user1.get().setStatus(false);
             userRepository.save(user1.get());
             //mapUser.mapUserToUserDTO(delUser);
-            return true;
+            return new ResponseDTO(HttpStatus.OK, "Delete successfully!", user1);
         }
     }
 }

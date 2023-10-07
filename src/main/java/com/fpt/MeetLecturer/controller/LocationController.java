@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.controller;
 
 import com.fpt.MeetLecturer.business.LocationDTO;
+import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.repository.LocationRepository;
 import com.fpt.MeetLecturer.service.LocationService;
 import jakarta.validation.Valid;
@@ -16,26 +17,26 @@ public class LocationController {
     @Autowired
     private LocationService locationService;
     @GetMapping("")
-    public List<LocationDTO> getAllLocation(){
+    public ResponseDTO getAllLocation(){
         return locationService.getAllLocation();
     }
     @GetMapping("/public")
-    public List<LocationDTO> getAllPublicLocation(){
+    public ResponseDTO getAllPublicLocation(){
         return locationService.getAllLocation();
     }
     @GetMapping("/personal")
-    public List<LocationDTO> getAllPersonalLocation(@RequestParam(value = "Lecturer-id") int id){
+    public ResponseDTO getAllPersonalLocation(@RequestParam(value = "Lecturer-id") int id){
         return locationService.getAllPersonalLocation(id);
     }
     @DeleteMapping("/delete")
-    public boolean deleteLocation(@RequestParam(value = "id")int id){
+    public ResponseDTO deleteLocation(@RequestParam(value = "id")int id){
         return locationService.deleteLocation(id);
     }
     @PostMapping("/new-location")
     @PutMapping("/update/{id}")
-    public void updateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
-        //locationDTO.setId(id);
-        locationService.updateLocation(locationDTO);
+    public ResponseDTO updateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
+        /* locationDTO.setId(id); */
+       return locationService.updateLocation1(locationDTO);
     }
 
 }
