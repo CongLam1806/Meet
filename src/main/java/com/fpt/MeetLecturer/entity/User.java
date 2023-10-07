@@ -19,6 +19,7 @@ import java.util.List;
 public class User {
     @Id
     @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
 
