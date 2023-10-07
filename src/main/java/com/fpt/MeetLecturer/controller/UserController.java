@@ -25,10 +25,10 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @GetMapping("/get/{id}")
-    public UserDTO getById(@PathVariable("id") int id){
-        return userService.getById(id);
-    }
+//    @GetMapping("/get/{id}")
+//    public UserDTO getById(@PathVariable("id") int id){
+//        return userService.getById(id);
+//    }
     @PostMapping("post")
     public ResponseDTO createUser(@RequestBody UserDTO model){
         return userService.createUser(model);
