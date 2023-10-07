@@ -1,9 +1,11 @@
 package com.fpt.MeetLecturer.controller;
 
 import com.fpt.MeetLecturer.business.LecturerDTO;
+import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.service.LecturerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public class LecturerController {
     private LecturerService lecturerService;
 
     @GetMapping("/{email}")
-    public LecturerDTO getLecturerByEmail(@PathVariable String email){
+    public ResponseEntity<ResponseDTO> getLecturerByEmail(@PathVariable String email){
         return lecturerService.getLecturerByEmail(email);
     }
 
@@ -26,14 +28,14 @@ public class LecturerController {
     }
 
     @PostMapping("")
-    public void createLecturer(@RequestBody @Valid LecturerDTO lecturerDTO){
-        lecturerService.createLecturer(lecturerDTO);
+    public ResponseEntity<ResponseDTO> createLecturer(@RequestBody @Valid LecturerDTO lecturerDTO){
+       return lecturerService.createLecturer(lecturerDTO);
     }
 
 
     @PutMapping("/{id}")
-    public void updateLecturer(@RequestBody @Valid LecturerDTO newLecturer, @PathVariable int id ){
-         lecturerService.updateLecturer(newLecturer, id);
+    public ResponseEntity<ResponseDTO> updateLecturer(@RequestBody @Valid LecturerDTO newLecturer, @PathVariable int id ){
+         return lecturerService.updateLecturer(newLecturer, id);
     }
 
 }

@@ -2,6 +2,7 @@ package com.fpt.MeetLecturer.service;
 
 
 import com.fpt.MeetLecturer.business.LecturerDTO;
+import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.Subject_LecturerDTO;
 import com.fpt.MeetLecturer.entity.Lecturer;
 
@@ -11,6 +12,8 @@ import com.fpt.MeetLecturer.repository.LecturerRepository;
 import com.fpt.MeetLecturer.repository.SubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,27 +38,44 @@ public class LecturerService {
     }
 
     //get lecturer by email
-    public LecturerDTO getLecturerByEmail(String email) {
-        return mapLecturer.convertLecturertoLecturerDTO(lecturerRepository.findByUserEmail(email));
+    public ResponseEntity<ResponseDTO> getLecturerByEmail(String email) {
+        boolean exist = lecturerRepository.existsByUserEmail(email);
+        if (exist) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Get successfully",
+                            mapLecturer.convertLecturertoLecturerDTO(lecturerRepository.findByUserEmail(email)))
+            );
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseDTO(HttpStatus.NOT_FOUND, "Can't find this email", "")
+        );
+
     }
 
-    public void createLecturer(LecturerDTO LecturerDTO) {
+    public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
         Lecturer lecturer = new ModelMapper().map(LecturerDTO, Lecturer.class);
-//        Lecturer lecturer = mapLecturer.convertLecturerDTOtoLecturer(LecturerDTO);
         lecturerRepository.save(lecturer);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseDTO(HttpStatus.OK, "Create successfully", "")
+        );
 
     }
 
-    public void updateLecturer(LecturerDTO newLecturer, int id) {
+
+    public ResponseEntity<ResponseDTO> updateLecturer(LecturerDTO newLecturer, int id) {
+        Lecturer LecturerEntity = new ModelMapper().map(newLecturer, Lecturer.class);
         Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
         if (optionalLecturer.isPresent()) {
             Lecturer existingLecturer = optionalLecturer.get();
             //existingLecturer.setName(newLecturer.getName());
-            existingLecturer.setNote(newLecturer.getNote());
-            existingLecturer.setPhone(newLecturer.getPhone());
+            existingLecturer.setNote(LecturerEntity.getNote());
+            existingLecturer.setPhone(LecturerEntity.getPhone());
             lecturerRepository.save(existingLecturer);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Update successfully", "")
+            );
         } else {
-            throw new RuntimeException();
+            throw new RuntimeException("Can't find lecturer with id: " + id);
         }
     }
 

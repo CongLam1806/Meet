@@ -25,11 +25,12 @@ public class SlotController {
         return ResponseEntity.ok().body(slotService.getSlot());
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<ResponseDTO> getSlotBy(){
+//    @GetMapping("/get")
+//    public ResponseEntity<ResponseDTO> getSlotBy(){
+//
+//        return ResponseEntity.ok().body(slotService.getSlot());
+//    }
 
-        return ResponseEntity.ok().body(slotService.getSlot());
-    }
     @PostMapping("/post")
     public ResponseEntity<ResponseDTO> createNew(@RequestBody SlotDTO model){
 
