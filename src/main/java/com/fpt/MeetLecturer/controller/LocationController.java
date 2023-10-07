@@ -2,14 +2,10 @@ package com.fpt.MeetLecturer.controller;
 
 import com.fpt.MeetLecturer.business.LocationDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
-import com.fpt.MeetLecturer.repository.LocationRepository;
 import com.fpt.MeetLecturer.service.LocationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path="/api/location")
