@@ -1,11 +1,13 @@
 package com.fpt.MeetLecturer.service;
 
+import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.repository.SlotRepositoty;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,42 +27,48 @@ public class SlotService {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public List<SlotDTO> get(){
-
-        return mapSlot.convertListToSlotDTO(slotRepository.findAll());
+    public ResponseDTO getSlot(){
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", mapSlot.convertListToSlotDTO(slotRepository.findAll()));
+        return responseDTO;
 
         //System.out.println(slotRepository.findAll());
         //return slotRepository.findAll();
     }
 
-    public void createSlot(SlotDTO newSlot){
-
+    public ResponseDTO createSlot(SlotDTO newSlot){
         Slot slot = new Slot();
         modelMapper.map(newSlot, slot);
         slotRepository.save(slot);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
+        return responseDTO;
     }
 
-    public void updateSlot(SlotDTO newSlot){
+    public ResponseDTO updateSlot(SlotDTO newSlot){
         Slot slot;
         slot = slotRepository.findById(newSlot.getId()).orElseThrow();
         modelMapper.map(newSlot, slot);
         slotRepository.save(slot);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
+        return responseDTO;
     }
 
-    public boolean deleteSlot(int id) {
+    public ResponseDTO deleteSlot(int id) {
+        boolean bool;
         Slot slot = slotRepository.findById(id).orElseThrow();
         if (slot.getId() == 0) {
-            return false;
+            bool = false;
         } else {
             //User delUser = user1.get();
             //userRepository.delete(user1.get());
             if (!slot.isStatus()) {
-                return false;
+                bool = false;
             }
             slot.setStatus(false);
             slotRepository.save(slot);
             //mapUser.mapUserToUserDTO(delUser);
-            return true;
+            bool = true;
         }
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", bool);
+        return responseDTO;
     }
 }

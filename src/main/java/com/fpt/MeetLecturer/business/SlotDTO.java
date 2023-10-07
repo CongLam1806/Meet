@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Time;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
@@ -35,7 +36,7 @@ public class SlotDTO {
     private Time endTime;
 
     @NotBlank(message = "Meeting Date must not be blank")
-    @JsonFormat(pattern="dd.MM.yyyy")
+
     private Date meetingDate;
 
     @Value("1")
