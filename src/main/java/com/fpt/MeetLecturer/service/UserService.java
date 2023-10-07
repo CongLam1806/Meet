@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.service;
 
 
+import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.UserDTO;
 import com.fpt.MeetLecturer.entity.User;
 import com.fpt.MeetLecturer.mapper.MapUser;
@@ -8,6 +9,7 @@ import com.fpt.MeetLecturer.mapper.MapUser;
 import com.fpt.MeetLecturer.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,22 +25,33 @@ public class UserService {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public List<UserDTO> get()
+    public ResponseDTO getUser()
     {
-        return mapUser.convertListToUserDTO(userRepository.findAll());
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL COURSES", mapUser.convertListToUserDTO(userRepository.findAll()));
+        return responseDTO;
     }
 
-    public void createUser(UserDTO newUser){
+    public ResponseDTO getUserById(int id)
+    {
+        User user = userRepository.findById(id).orElseThrow();
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND COURSE", mapUser.convertUserToUserDTO(user));
+        return responseDTO;
+    }
+
+    public ResponseDTO createUser(UserDTO newUser){
         User user = new User();
         modelMapper.map(newUser, user);
         userRepository.save(user);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE COURSE SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
+        return responseDTO;
     }
-    public void updateUser(UserDTO newUser) {
+    public ResponseDTO updateUser(UserDTO newUser) {
             User user;
             user = userRepository.findById(newUser.getId()).orElseThrow();
-
             modelMapper.map(newUser, user);
             userRepository.save(user);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE COURSE SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
+        return responseDTO;
     }
 
     //delete user
