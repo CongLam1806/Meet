@@ -27,7 +27,7 @@ public class UserService {
 
     public ResponseDTO getUser()
     {
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL COURSES", mapUser.convertListToUserDTO(userRepository.findAll()));
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL USERS", mapUser.convertListToUserDTO(userRepository.findAll()));
         return responseDTO;
     }
     public UserDTO getById(int id){
@@ -37,7 +37,7 @@ public class UserService {
     public ResponseDTO getUserById(int id)
     {
         User user = userRepository.findById(id).orElseThrow();
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND COURSE", mapUser.convertUserToUserDTO(user));
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND USER", mapUser.convertUserToUserDTO(user));
         return responseDTO;
     }
 
@@ -45,15 +45,15 @@ public class UserService {
         User user = new User();
         modelMapper.map(newUser, user);
         userRepository.save(user);
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE COURSE SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
         return responseDTO;
     }
     public ResponseDTO updateUser(UserDTO newUser) {
-            User user;
-            user = userRepository.findById(newUser.getId()).orElseThrow();
-            modelMapper.map(newUser, user);
-            userRepository.save(user);
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE COURSE SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
+        User user;
+        user = userRepository.findById(newUser.getId()).orElseThrow();
+        modelMapper.map(newUser, user);
+        userRepository.save(user);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
         return responseDTO;
     }
 

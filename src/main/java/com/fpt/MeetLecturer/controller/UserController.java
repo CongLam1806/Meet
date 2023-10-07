@@ -5,6 +5,7 @@ import com.fpt.MeetLecturer.business.UserDTO;
 import com.fpt.MeetLecturer.entity.User;
 import com.fpt.MeetLecturer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +17,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/get")
-    public ResponseDTO getUser(){
-        return userService.getUser();
+    public ResponseEntity<ResponseDTO> getUser(){
+
+        return ResponseEntity.ok().body(userService.getUser()) ;
     }
 
     @GetMapping("/get/{id}")
-    public ResponseDTO getUserById(@PathVariable("id") int id){
-        return userService.getUserById(id);
+    public ResponseEntity<ResponseDTO> getUserById(@PathVariable("id") int id){
+
+        return ResponseEntity.ok().body(userService.getUserById(id)) ;
     }
 
     @GetMapping("/get/{id}")
@@ -30,13 +33,13 @@ public class UserController {
         return userService.getById(id);
     }
     @PostMapping("post")
-    public ResponseDTO createUser(@RequestBody UserDTO model){
-        return userService.createUser(model);
+    public ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO model){
+        return ResponseEntity.ok().body(userService.createUser(model));
     }
     @PutMapping("/put/{id}")
-    public ResponseDTO updateUser(@RequestBody UserDTO model, @PathVariable("id") int id){
+    public ResponseEntity<ResponseDTO> updateUser(@RequestBody UserDTO model, @PathVariable("id") int id){
 
-        return userService.updateUser(model);
+        return ResponseEntity.ok().body(userService.updateUser(model));
 
     }
     @DeleteMapping("/delete-user")
