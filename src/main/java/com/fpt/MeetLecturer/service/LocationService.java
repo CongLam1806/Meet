@@ -3,7 +3,6 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.business.LocationDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Location;
-import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.MapLocation;
 import com.fpt.MeetLecturer.repository.LocationRepository;
 import org.modelmapper.ModelMapper;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 @Service
 public class LocationService {
