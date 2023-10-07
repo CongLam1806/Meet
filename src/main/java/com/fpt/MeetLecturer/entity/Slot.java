@@ -74,7 +74,7 @@ public class Slot {
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private List<Subject> likedSubjects;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
     @JoinColumn(name = "user_id")
 //    @EqualsAndHashCode.Exclude

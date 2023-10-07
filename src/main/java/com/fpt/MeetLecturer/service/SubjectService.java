@@ -28,7 +28,7 @@ public class SubjectService {
     public List<SubjectDTO> getAvailableSubject(){
         return mapSubject.convertListToSubjectDto(subjectRepository.findByStatus(true));
     }
-    public SubjectDTO getSubjectById(int id){
+    public SubjectDTO getSubjectById(String id){
         Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isPresent()){
             Subject existingBooking = subject.get();
@@ -48,7 +48,7 @@ public class SubjectService {
         }
     }
 
-    public void updateSubject(SubjectDTO subjectDTO, int id){
+    public void updateSubject(SubjectDTO subjectDTO, String id){
         Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isPresent()){
             Subject subject1 = subject.get();
@@ -70,8 +70,8 @@ public class SubjectService {
 //        }
 //    }
 
-    public void deleteBooking(int id) {
-        Optional<Subject> SubjectOptional = subjectRepository.findById(id);
+    public void deleteSubject(String id) {
+        Optional<Subject> SubjectOptional = subjectRepository.findById(Integer.valueOf((id)));
         if (SubjectOptional.isPresent()){
             Subject existSubject = SubjectOptional.get();
             existSubject.setStatus(false);

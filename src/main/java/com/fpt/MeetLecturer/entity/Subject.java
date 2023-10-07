@@ -18,8 +18,8 @@ public class Subject {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-//    private String id;
-    private int id;
+    private String id;
+//    private int id;
 
     private String name;
 

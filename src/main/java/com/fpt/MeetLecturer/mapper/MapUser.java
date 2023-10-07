@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Component
 public class MapUser {
     private static final ModelMapper modelMapper = new ModelMapper();
@@ -29,7 +31,7 @@ public class MapUser {
     public  UserDTO convertUserToUserDTO(User user){
         return modelMapper.map(user, UserDTO.class);
     }
-
+    public UserDTO toUserDTO(Optional<User> user){return modelMapper.map(user, UserDTO.class);}
     public List<UserDTO> convertListToUserDTO(List<User> users){
         List<UserDTO> list = new ArrayList<>();
         users.forEach(user -> list.add(convertUserToUserDTO(user)));

@@ -27,7 +27,6 @@ public class Location {
 
 
     //@JsonBackReference
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lecturer_id")
     //@EqualsAndHashCode.Exclude

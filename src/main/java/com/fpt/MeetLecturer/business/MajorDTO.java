@@ -17,7 +17,7 @@ import java.util.List;
 public class MajorDTO {
     private int id;
 
-    @NotBlank(message = "Major should be included")
+    @NotBlank(message = "Major's name should be included")
     private String name;
 
 //    private List<SubjectDTO> subject;

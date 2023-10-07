@@ -18,13 +18,13 @@ public class LecturerDTO {
     private String name;
 
     @NotBlank(message = "phone should not blank")
-    @Pattern(regexp = "\\d+{0,11}", message = "Invalid number !!!!")
+    @Pattern(regexp = "^\\d{1,11}$", message = "Invalid number !!!!")
     private String phone;
 
 
     private String note;
 
-    private User user ;
+    private UserDTO user ;
 
     private List<Subject_LecturerDTO> SubjectName;
 

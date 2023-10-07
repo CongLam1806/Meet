@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.controller;
 
 import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.service.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,12 @@ public class BookingController {
     }
 
     @PostMapping("")
-    public void createBooking(@RequestBody BookingDTO bookingDTO){
+    public void createBooking(@Valid @RequestBody BookingDTO bookingDTO){
         bookingService.createBooking(bookingDTO);
     }
 
     @PutMapping("")
-    public void updateBooking(@RequestBody BookingDTO bookingDTO){
+    public void updateBooking(@Valid @RequestBody BookingDTO bookingDTO){
         bookingService.updateBooking(bookingDTO);
     }
 

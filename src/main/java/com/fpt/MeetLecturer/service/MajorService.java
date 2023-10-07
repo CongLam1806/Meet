@@ -21,7 +21,7 @@ public class MajorService {
     @Autowired
     private GenericMap genericMap;
     public List<MajorDTO> getAllMajor(){
-        return genericMap.convertEntityListToDTOList(majorRepository.findAll(),MajorDTO.class);
+        return genericMap.ToDTOList(majorRepository.findAll(),MajorDTO.class);
     }
 
 
@@ -29,7 +29,7 @@ public class MajorService {
         Optional<Major> major = majorRepository.findById(id);
         if (major.isPresent()){
             Major existingBooking = major.get();
-            return genericMap.convertEntityToDTO(existingBooking, MajorDTO.class);
+            return genericMap.ToDTO(existingBooking, MajorDTO.class);
         } else {
             throw new RuntimeException("can't find this major slot by id");
         }

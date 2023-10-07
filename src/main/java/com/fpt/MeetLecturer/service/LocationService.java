@@ -1,13 +1,14 @@
 package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.LocationDTO;
+import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Location;
 import com.fpt.MeetLecturer.entity.Slot;
-import com.fpt.MeetLecturer.exception.CustomException;
 import com.fpt.MeetLecturer.mapper.MapLocation;
 import com.fpt.MeetLecturer.repository.LocationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,42 +21,37 @@ public class LocationService {
     @Autowired
     private MapLocation mapLocation;
 
-    private ModelMapper modelMapper = new ModelMapper();
-     public List<LocationDTO> getAllLocation(){
-         return mapLocation.tolocationDTOList(locationRepository.findAll());
+    private final ModelMapper modelMapper = new ModelMapper();
+     public ResponseDTO getAllLocation(){
+         return new ResponseDTO(HttpStatus.OK, "Get all Location",  mapLocation.tolocationDTOList(locationRepository.findAll()));
      }
-    public List<LocationDTO> getAllPublicLocation(){
-        return mapLocation.tolocationDTOList(locationRepository.findByStatus());
+    public ResponseDTO getAllPublicLocation(){
+        return new ResponseDTO(HttpStatus.OK,"Get all public Location",mapLocation.tolocationDTOList(locationRepository.findByStatus()));
     }
-    public List<LocationDTO> getAllPersonalLocation(int id){
-         return mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id));
+    public ResponseDTO getAllPersonalLocation(int id){
+         return new ResponseDTO(HttpStatus.OK, "Personal location", mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id)));
     }
-    public boolean deleteLocation(int id){
+    public ResponseDTO deleteLocation(int id){
         Optional<Location> location = locationRepository.findById(id);
         if(location.isEmpty()){
-            //throw new CustomException("Id: " + id + " not found!!!");
-            return false;
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Location not found!", location);
         }
         else {
             locationRepository.delete(location.get());
-            return true;
+            return new ResponseDTO(HttpStatus.OK, "Location deleted!", location);
         }
     }
-//    public void updateLocation(LocationDTO locationDTO){
-//         Optional<Location> location = locationRepository.findById(locationDTO.getId());
-//         if(location.isPresent()){
-//             Location ExistLocation = location.get();
-//             ExistLocation.setName(locationDTO.getName());
-//             ExistLocation.setAddress(locationDTO.getAddress());
-//             ExistLocation.setStatus(locationDTO.isStatus());
-//             locationRepository.save(ExistLocation);
-//
-//         }else{
-//             Location location1 = mapLocation.toLocationEntity(locationDTO);
-//             locationRepository.save(location1);
-//
-//         }
-//    }
+    public ResponseDTO updateLocation1(LocationDTO locationDTO){
+            Location location;
+         if(locationDTO.getId() == 0){
+             location = new Location();
+         }else{
+             location = locationRepository.findById(locationDTO.getId()).orElseThrow();
+         }
+         modelMapper.map(locationDTO, location);
+         locationRepository.save(location);
+         return new ResponseDTO(HttpStatus.OK, "Updated", location);
+    }
 
     public void updateLocation(LocationDTO newLocation){
         Location location;

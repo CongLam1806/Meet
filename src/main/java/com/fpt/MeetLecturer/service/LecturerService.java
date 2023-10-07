@@ -2,10 +2,13 @@ package com.fpt.MeetLecturer.service;
 
 
 import com.fpt.MeetLecturer.business.LecturerDTO;
+import com.fpt.MeetLecturer.business.Subject_LecturerDTO;
 import com.fpt.MeetLecturer.entity.Lecturer;
 
+import com.fpt.MeetLecturer.entity.Subject;
 import com.fpt.MeetLecturer.mapper.MapLecturer;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
+import com.fpt.MeetLecturer.repository.SubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,9 @@ import java.util.Optional;
 public class LecturerService {
     @Autowired
     private LecturerRepository lecturerRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     @Autowired
     private MapLecturer mapLecturer;
@@ -33,9 +39,11 @@ public class LecturerService {
         return mapLecturer.convertLecturertoLecturerDTO(lecturerRepository.findByUserEmail(email));
     }
 
-    public void createLecturer(LecturerDTO LecturerDTO){
+    public void createLecturer(LecturerDTO LecturerDTO) {
         Lecturer lecturer = new ModelMapper().map(LecturerDTO, Lecturer.class);
+//        Lecturer lecturer = mapLecturer.convertLecturerDTOtoLecturer(LecturerDTO);
         lecturerRepository.save(lecturer);
+
     }
 
     public void updateLecturer(LecturerDTO newLecturer, int id) {
@@ -52,6 +60,33 @@ public class LecturerService {
     }
 
 //    public void updateLecturer(LecturerDTO newLecturer, int id) {
+//        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
+//
+//        if (optionalLecturer.isPresent()) {
+//            Lecturer existingLecturer = optionalLecturer.get();
+//            existingLecturer.setName(newLecturer.getName());
+//            existingLecturer.setNote(newLecturer.getNote());
+//            existingLecturer.setPhone(newLecturer.getPhone());
+//            List<Subject_LecturerDTO> subject_lecturerDTOS = newLecturer.getSubjectName();
+//            if (subject_lecturerDTOS != null) {
+//                List<Subject> subjectList = existingLecturer.getSubject();
+//                for (Subject_LecturerDTO subjectdto : subject_lecturerDTOS) {
+//                    Subject subject = subjectRepository.findById(subjectdto.getSubjectId()).get();
+//                    if (subjectList.contains(subject)) {
+//                        subjectList.remove(subject);
+//                    } else {
+//                        subjectList.add(subject);
+//                    }
+//                    existingLecturer.setSubject(subjectList);
+//                }
+//            }
+//            lecturerRepository.save(existingLecturer);
+//        } else {
+//            throw new RuntimeException("Lecturer not found with id: " + id);
+//        }
+//    }
+
+//    public void updateLecturer(LecturerDTO newLecturer, int id) {
 //        Lecturer lecturer;
 //        if (lecturerRepository.findById(id).isEmpty()) {
 //            lecturer = new Lecturer();
@@ -64,8 +99,6 @@ public class LecturerService {
 //
 //        lecturerRepository.save(lecturer);
 //    }
-
-
 
 
 }

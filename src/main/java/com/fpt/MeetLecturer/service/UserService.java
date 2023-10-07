@@ -30,6 +30,9 @@ public class UserService {
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL USERS", mapUser.convertListToUserDTO(userRepository.findAll()));
         return responseDTO;
     }
+    public UserDTO getById(int id){
+        return mapUser.toUserDTO(userRepository.findById(id));
+    }
 
     public ResponseDTO getUserById(int id)
     {
@@ -55,20 +58,20 @@ public class UserService {
     }
 
     //delete user
-    public boolean deleteUser(int id) {
+    public ResponseDTO deleteUser(int id) {
         Optional<User> user1 = userRepository.findById(id);
         if (user1.isEmpty()) {
-            return false;
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", user1);
         } else {
             //User delUser = user1.get();
             //userRepository.delete(user1.get());
             if (!user1.get().isStatus()) {
-                return false;
+                return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", user1);
             }
             user1.get().setStatus(false);
             userRepository.save(user1.get());
             //mapUser.mapUserToUserDTO(delUser);
-            return true;
+            return new ResponseDTO(HttpStatus.OK, "Delete successfully!", user1);
         }
     }
 }

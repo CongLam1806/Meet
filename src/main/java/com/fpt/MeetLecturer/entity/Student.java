@@ -23,9 +23,9 @@ public class Student {
 
     //@OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     //@JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnore
-    @OneToOne (cascade = CascadeType.ALL)
+//    @JsonIgnore
+    @OneToOne (cascade = CascadeType.ALL, mappedBy = "student")
     @MapsId
-    @JoinColumn(name = "user_id")
+//    @JoinColumn(name = "user_id")
     private User user;
 }

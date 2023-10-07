@@ -28,6 +28,10 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserById(id)) ;
     }
 
+    @GetMapping("/get/{id}")
+    public UserDTO getById(@PathVariable("id") int id){
+        return userService.getById(id);
+    }
     @PostMapping("post")
     public ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO model){
         return ResponseEntity.ok().body(userService.createUser(model));
@@ -39,7 +43,7 @@ public class UserController {
 
     }
     @DeleteMapping("/delete-user")
-    public boolean deleteUser(@RequestParam(value = "id") int id) {
+    public ResponseDTO deleteUser(@RequestParam(value = "id") int id) {
       return userService.deleteUser(id);
   }
 }
