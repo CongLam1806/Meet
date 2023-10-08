@@ -33,9 +33,9 @@ public class SlotController {
         return ResponseEntity.ok().body(slotService.getSlotBySubject(id));
     }
 
-    @GetMapping("/get/ByDateRange")
-    public ResponseEntity<ResponseDTO> getSlotBySubject(@RequestParam("startDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                                                        @RequestParam("endDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+    @GetMapping("/get/ByDateRange?{startDay}&{endDay}")
+    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("startDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                                        @PathVariable("endDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
         return ResponseEntity.ok().body(slotService.getSlotByDate(startDate, endDate));
     }
 
