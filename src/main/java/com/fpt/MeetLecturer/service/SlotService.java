@@ -2,14 +2,18 @@ package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
+import com.fpt.MeetLecturer.business.SubjectDTO;
 import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.MapSlot;
+import com.fpt.MeetLecturer.mapper.MapSubject;
 import com.fpt.MeetLecturer.repository.SlotRepositoty;
+import com.fpt.MeetLecturer.repository.SubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,7 +22,13 @@ public class SlotService {
     private SlotRepositoty slotRepository;
 
     @Autowired(required = false)
+    private SubjectRepository subjectRepository;
+
+    @Autowired(required = false)
     private MapSlot mapSlot;
+
+    @Autowired(required = false)
+    private MapSubject mapSubject;
 
 
 
@@ -30,9 +40,17 @@ public class SlotService {
     public ResponseDTO getSlot(){
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", mapSlot.convertListToSlotDTO(slotRepository.findAll()));
         return responseDTO;
+    }
 
-        //System.out.println(slotRepository.findAll());
-        //return slotRepository.findAll();
+    public ResponseDTO getSlotBySubject(String id){
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLikedSubjectsId(id));
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT ID", slotsDTO);
+    }
+
+    public ResponseDTO getSlotByDate(Date startDate, Date endDate){
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY DATE", slotsDTO);
+
     }
 
     public ResponseDTO createSlot(SlotDTO newSlot){

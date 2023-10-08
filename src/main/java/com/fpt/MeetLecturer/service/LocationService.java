@@ -51,18 +51,18 @@ public class LocationService {
          return new ResponseDTO(HttpStatus.OK, "Updated", location);
     }
 
-    public void updateLocation(LocationDTO newLocation){
-        Location location;
-        if (newLocation.getId() == 0) {
-            location = new Location();
-        } else {
-            location = locationRepository.findById(newLocation.getId()).orElseThrow();
-
-        }
-        modelMapper.map(newLocation, location);
-
-        locationRepository.save(location);
-    }
+//    public void updateLocation(LocationDTO newLocation){
+//        Location location;
+//        if (newLocation.getId() == 0) {
+//            location = new Location();
+//        } else {
+//            location = locationRepository.findById(newLocation.getId()).orElseThrow();
+//
+//        }
+//        modelMapper.map(newLocation, location);
+//
+//        locationRepository.save(location);
+//    }
 
 
 }
