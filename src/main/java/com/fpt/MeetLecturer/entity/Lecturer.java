@@ -40,7 +40,7 @@ public class Lecturer {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "teach",
-            joinColumns = @JoinColumn(name = "address_id"),
+            joinColumns = @JoinColumn(name = "lecturer_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private List<Subject> Subject;
     

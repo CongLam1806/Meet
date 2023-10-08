@@ -8,9 +8,11 @@ import com.fpt.MeetLecturer.entity.User;
 import com.fpt.MeetLecturer.service.SlotService;
 import com.fpt.MeetLecturer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,11 +27,17 @@ public class SlotController {
         return ResponseEntity.ok().body(slotService.getSlot());
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<ResponseDTO> getSlotBy(){
-
-        return ResponseEntity.ok().body(slotService.getSlot());
+    @GetMapping("/get/{subjectId}")
+    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("subjectId") String id){
+        return ResponseEntity.ok().body(slotService.getSlotBySubject(id));
     }
+
+    @GetMapping("/get/ByDateRange")
+    public ResponseEntity<ResponseDTO> getSlotBySubject(@RequestParam("startDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                                        @RequestParam("endDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+        return ResponseEntity.ok().body(slotService.getSlotByDate(startDate, endDate));
+    }
+
     @PostMapping("/post")
     public ResponseEntity<ResponseDTO> createNew(@RequestBody SlotDTO model){
 

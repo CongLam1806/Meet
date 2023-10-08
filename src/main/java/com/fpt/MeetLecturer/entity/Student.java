@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +26,11 @@ public class Student {
     //@OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     //@JoinColumn(name = "user_id", referencedColumnName = "id")
 //    @JsonIgnore
-    @OneToOne (cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToOne (cascade = CascadeType.ALL)
     @MapsId
-//    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "student")
+    private List<Booking> bookingList;
 }
