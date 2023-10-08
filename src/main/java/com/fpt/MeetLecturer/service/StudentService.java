@@ -6,7 +6,6 @@ import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.entity.Student;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.mapper.MapStudent;
-import com.fpt.MeetLecturer.repository.SlotRepositoty;
 import com.fpt.MeetLecturer.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
