@@ -38,19 +38,17 @@ public class User {
     private boolean status;
 
 //    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    @JoinColumn(name = "lecturer_id")
     private Lecturer lecturerList;
 
 //    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "lecturer_id")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Student student;
 
 
-    @OneToMany(mappedBy = "user")
-    private List<Booking> bookingList;
+
 
     @OneToMany(mappedBy = "user")
     private List<Slot> slotList;

@@ -44,7 +44,7 @@ public class Slot {
     private Time endTime;
 
 
-    @JsonFormat(pattern="dd.MM.yyyy")
+    //@JsonFormat(pattern="dd.MM.yyyy")
     private Date meetingDate;
 
 
