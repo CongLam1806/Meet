@@ -6,7 +6,8 @@ import com.fpt.MeetLecturer.business.SubjectDTO;
 import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.mapper.MapSubject;
-import com.fpt.MeetLecturer.repository.SlotRepositoty;
+import com.fpt.MeetLecturer.repository.SlotRepository;
+
 import com.fpt.MeetLecturer.repository.SubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.List;
 @Service
 public class SlotService {
     @Autowired(required = false)
-    private SlotRepositoty slotRepository;
+    private SlotRepository slotRepository;
 
     @Autowired(required = false)
     private SubjectRepository subjectRepository;
