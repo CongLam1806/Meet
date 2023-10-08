@@ -27,6 +27,7 @@ public class SlotController {
         return ResponseEntity.ok().body(slotService.getSlot());
     }
 
+
     @GetMapping("/get/{subjectId}")
     public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("subjectId") String id){
         return ResponseEntity.ok().body(slotService.getSlotBySubject(id));
@@ -37,6 +38,7 @@ public class SlotController {
                                                         @RequestParam("endDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
         return ResponseEntity.ok().body(slotService.getSlotByDate(startDate, endDate));
     }
+
 
     @PostMapping("/post")
     public ResponseEntity<ResponseDTO> createNew(@RequestBody SlotDTO model){
