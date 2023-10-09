@@ -1,8 +1,10 @@
 package com.fpt.MeetLecturer.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+@Component
 public class Utility {
     final static String pattern = "\\b\\p{Alpha}{2}\\d{6}\\b"; // Matches 2 letters followed by 6 digits
     public  boolean isStudent(String Email){
