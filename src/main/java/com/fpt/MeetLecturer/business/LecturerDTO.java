@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.business;
 
+import com.fpt.MeetLecturer.entity.Subject_Lecturer;
 import com.fpt.MeetLecturer.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -14,8 +15,8 @@ import java.util.List;
 public class LecturerDTO {
     private int id;
 
-    @NotBlank(message = "name should not blank")
-    private String name;
+//    @NotBlank(message = "name should not blank")
+//    private String name;
 
     @NotBlank(message = "phone should not blank")
     @Pattern(regexp = "^\\d{1,11}$", message = "Invalid number !!!!")
@@ -26,6 +27,7 @@ public class LecturerDTO {
 
     private UserDTO user ;
 
-    private List<Subject_LecturerDTO> SubjectName;
+//    private List<Subject_LecturerDTO> SubjectName;
 
+    private List<Subject_LecturerDTO> subjectList;
 }

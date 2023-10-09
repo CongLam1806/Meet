@@ -38,9 +38,9 @@ public class User {
     private boolean status;
 
 //    @JsonIgnore
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Lecturer lecturerList;
+//    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+//    private Lecturer lecturerList;
 
 //    @JsonIgnore
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)

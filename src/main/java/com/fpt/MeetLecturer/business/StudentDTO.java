@@ -15,4 +15,5 @@ public class StudentDTO {
     private int semester;
 
     private User user;
+//    private UserDTO user;
 }

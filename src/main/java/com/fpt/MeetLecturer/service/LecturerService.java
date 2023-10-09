@@ -37,20 +37,19 @@ public class LecturerService {
         return mapLecturer.convertListToLecturerDto(lecturerRepository.findAll());
     }
 
-    //get lecturer by email
-    public ResponseEntity<ResponseDTO> getLecturerByEmail(String email) {
-        boolean exist = lecturerRepository.existsByUserEmail(email);
-        if (exist) {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Get successfully",
-                            mapLecturer.convertLecturertoLecturerDTO(lecturerRepository.findByUserEmail(email)))
-            );
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponseDTO(HttpStatus.NOT_FOUND, "Can't find this email", "")
-        );
-
-    }
+//    public ResponseEntity<ResponseDTO> getLecturerByEmail(String email) {
+//        boolean exist = lecturerRepository.existsByUserEmail(email);
+//        if (exist) {
+//            return ResponseEntity.status(HttpStatus.OK).body(
+//                    new ResponseDTO(HttpStatus.OK, "Get successfully",
+//                            mapLecturer.convertLecturertoLecturerDTO(lecturerRepository.findByUserEmail(email)))
+//            );
+//        }
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+//                new ResponseDTO(HttpStatus.NOT_FOUND, "Can't find this email", "")
+//        );
+//
+//    }
 
     public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
         Lecturer lecturer = new ModelMapper().map(LecturerDTO, Lecturer.class);
@@ -79,32 +78,6 @@ public class LecturerService {
         }
     }
 
-//    public void updateLecturer(LecturerDTO newLecturer, int id) {
-//        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
-//
-//        if (optionalLecturer.isPresent()) {
-//            Lecturer existingLecturer = optionalLecturer.get();
-//            existingLecturer.setName(newLecturer.getName());
-//            existingLecturer.setNote(newLecturer.getNote());
-//            existingLecturer.setPhone(newLecturer.getPhone());
-//            List<Subject_LecturerDTO> subject_lecturerDTOS = newLecturer.getSubjectName();
-//            if (subject_lecturerDTOS != null) {
-//                List<Subject> subjectList = existingLecturer.getSubject();
-//                for (Subject_LecturerDTO subjectdto : subject_lecturerDTOS) {
-//                    Subject subject = subjectRepository.findById(subjectdto.getSubjectId()).get();
-//                    if (subjectList.contains(subject)) {
-//                        subjectList.remove(subject);
-//                    } else {
-//                        subjectList.add(subject);
-//                    }
-//                    existingLecturer.setSubject(subjectList);
-//                }
-//            }
-//            lecturerRepository.save(existingLecturer);
-//        } else {
-//            throw new RuntimeException("Lecturer not found with id: " + id);
-//        }
-//    }
 
 //    public void updateLecturer(LecturerDTO newLecturer, int id) {
 //        Lecturer lecturer;
