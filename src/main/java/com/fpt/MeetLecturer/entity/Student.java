@@ -6,31 +6,47 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
+@Table(name="Student")
 @Entity
 public class Student {
     @Id
-    private int id;
-    //@Column
-    //private String name;
+    @Column
+    private int Id;
+    @Column
+    private String code;
+    @Column
+    private String name;
+    @Column
+    private Date dob;
+    @Column
+    private String address;
+    @Column
+    private String phone;
+    @Column
+    private String email;
     @Column
     private String curriculum;
     @Column
     private int semester;
+    @Column
+    private boolean status;
 
     //@OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     //@JoinColumn(name = "user_id", referencedColumnName = "id")
 //    @JsonIgnore
-    @OneToOne (cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @OneToOne (cascade = CascadeType.ALL)
+//    @MapsId
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
+//    @OneToMany(mappedBy = "student")
+//    private List<Slot> slotList;
     @OneToMany(mappedBy = "student")
     private List<Booking> bookingList;
 }

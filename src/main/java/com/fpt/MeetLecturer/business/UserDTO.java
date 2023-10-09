@@ -20,19 +20,15 @@ public class UserDTO {
     @NotBlank(message = "Name must not be blank")
     private String name;
 
-    @NotBlank(message = "Password must not be blank")
-    private String password;
-
     @NotBlank(message = "Email must not be blank")
     private String email;
+
+    private String password;
 
     @NotBlank(message = "Role must no be blank")
     private int role;
 
     private boolean status;
 
-
-//    private Lecturer lecturer;
-//    private Student student;
 
 }
