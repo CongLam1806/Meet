@@ -44,7 +44,7 @@ public class SlotDTO {
 
     private int locationId;
     private String lecturerName;
-    private String userEmail;
+    private String studentEmail;
     private List<SubjectResponseDTO> subjectList;
 
 

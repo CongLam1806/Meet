@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO {
-    private int Id;
+    private String Id;
     private String code;
 
     private String name;

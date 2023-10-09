@@ -17,7 +17,7 @@ import java.util.List;
 public class Student {
     @Id
     @Column
-    private int Id;
+    private String Id;
     @Column
     private String code;
     @Column

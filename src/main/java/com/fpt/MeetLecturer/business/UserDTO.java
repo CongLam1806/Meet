@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    private int id;// doi sang long de nhan duoc id cua google
+    private String Id;
 
     @NotBlank(message = "Name must not be blank")
     private String name;

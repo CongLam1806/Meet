@@ -21,7 +21,6 @@ public class MapBooking {
     static {
         TypeMap<Booking, BookingDTO> propertyMapper = modelMapper.createTypeMap(Booking.class, BookingDTO.class);
         propertyMapper
-                .addMapping(src -> src.getSlot().getUser().getName(), BookingDTO::setLecturerName)
                 .addMapping(src -> src.getSlot().getStartTime(), BookingDTO::setStartTime)
                 .addMapping(src -> src.getSlot().getEndTime(), BookingDTO::setEndTime)
                 .addMapping(src -> src.getSlot().getMeetingDate(), BookingDTO::setMeetingDate)
