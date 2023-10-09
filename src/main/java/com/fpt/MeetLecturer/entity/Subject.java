@@ -23,9 +23,7 @@ public class Subject {
 
     private String name;
 
-
     private int semester;
-
 
     private boolean status;
 
@@ -39,6 +37,7 @@ public class Subject {
     @ManyToMany(mappedBy = "likedSubjects")
     private List<Slot> slotList;
 
-    @ManyToMany(mappedBy = "Subject")
-    private List<Lecturer> lecturerList;
+    //    @ManyToMany(mappedBy = "Subject")
+    @OneToMany(mappedBy = "subject")
+    private List<Subject_Lecturer> LecturerList;
 }

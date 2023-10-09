@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Subject_LecturerDTO {
     @NotBlank(message = "subject should not be empty")
+    private long id;
     private String subjectId;
-    private String name;
+    private String subjectName;
 }

@@ -32,11 +32,11 @@ public class LocationService {
     public ResponseDTO deleteLocation(int id){
         Optional<Location> location = locationRepository.findById(id);
         if(location.isEmpty()){
-            return new ResponseDTO(HttpStatus.NOT_FOUND, "Location not found!", location);
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Location not found!", "");
         }
         else {
             locationRepository.delete(location.get());
-            return new ResponseDTO(HttpStatus.OK, "Location deleted!", location);
+            return new ResponseDTO(HttpStatus.OK, "Location deleted!", "");
         }
     }
     public ResponseDTO updateLocation1(LocationDTO locationDTO){
@@ -48,7 +48,13 @@ public class LocationService {
          }
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
-         return new ResponseDTO(HttpStatus.OK, "Updated", location);
+         return new ResponseDTO(HttpStatus.OK, "Updated", "");
+    }
+    public ResponseDTO createLocation(LocationDTO locationDTO){
+         Location location = new Location();
+         modelMapper.map(locationDTO, location);
+         locationRepository.save(location);
+         return  new ResponseDTO(HttpStatus.OK, "created","");
     }
 
 //    public void updateLocation(LocationDTO newLocation){

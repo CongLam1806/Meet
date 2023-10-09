@@ -5,6 +5,7 @@ import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.UserDTO;
 import com.fpt.MeetLecturer.entity.User;
 import com.fpt.MeetLecturer.mapper.MapUser;
+import com.fpt.MeetLecturer.util.Utility;
 
 import com.fpt.MeetLecturer.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -22,7 +23,8 @@ public class UserService {
 
     @Autowired(required = false)
     private MapUser mapUser;
-
+    @Autowired
+    private Utility utility;
     private ModelMapper modelMapper = new ModelMapper();
 
     public ResponseDTO getUser()
@@ -73,5 +75,20 @@ public class UserService {
             //mapUser.mapUserToUserDTO(delUser);
             return new ResponseDTO(HttpStatus.OK, "Delete successfully!", "");
         }
+    }
+    private boolean  checkUserRole(String email){
+        return utility.isStudent(email);
+    }
+    public ResponseDTO createUser2(UserDTO newUser){
+        User user = new User();
+        boolean checkRole = checkUserRole(newUser.getEmail());
+        if(checkRole){
+            newUser.setRole(2);
+        }else {
+            newUser.setRole(1);
+        }
+        modelMapper.map(newUser, user);
+        userRepository.save(user);
+        return new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
     }
 }
