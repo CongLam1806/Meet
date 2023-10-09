@@ -43,7 +43,7 @@ public class UserController {
 
     }
     @DeleteMapping("/delete-user")
-    public ResponseDTO deleteUser(@RequestParam(value = "id") int id) {
-      return userService.deleteUser(id);
+    public ResponseEntity<ResponseDTO> deleteUser(@RequestParam(value = "id") int id) {
+      return ResponseEntity.ok().body(userService.deleteUser(id));
   }
 }

@@ -61,17 +61,17 @@ public class UserService {
     public ResponseDTO deleteUser(int id) {
         Optional<User> user1 = userRepository.findById(id);
         if (user1.isEmpty()) {
-            return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", user1);
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", "");
         } else {
             //User delUser = user1.get();
             //userRepository.delete(user1.get());
             if (!user1.get().isStatus()) {
-                return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", user1);
+                return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", "");
             }
             user1.get().setStatus(false);
             userRepository.save(user1.get());
             //mapUser.mapUserToUserDTO(delUser);
-            return new ResponseDTO(HttpStatus.OK, "Delete successfully!", user1);
+            return new ResponseDTO(HttpStatus.OK, "Delete successfully!", "");
         }
     }
 }
