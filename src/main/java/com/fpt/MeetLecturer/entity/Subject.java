@@ -27,15 +27,15 @@ public class Subject {
 
     private boolean status;
 
-    @ManyToMany(mappedBy = "likedSubjects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Slot> slots;
+//    @ManyToMany(mappedBy = "likedSubjects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<Slot> slots;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "major_id")
     private Major major;
 
-    @ManyToMany(mappedBy = "likedSubjects")
-    private List<Slot> slotList;
+//    @ManyToMany(mappedBy = "likedSubjects")
+//    private List<Slot> slotList;
 
     //    @ManyToMany(mappedBy = "Subject")
     @OneToMany(mappedBy = "subject")
