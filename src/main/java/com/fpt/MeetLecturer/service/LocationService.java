@@ -32,11 +32,11 @@ public class LocationService {
     public ResponseDTO deleteLocation(int id){
         Optional<Location> location = locationRepository.findById(id);
         if(location.isEmpty()){
-            return new ResponseDTO(HttpStatus.NOT_FOUND, "Location not found!", location);
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Location not found!", "");
         }
         else {
             locationRepository.delete(location.get());
-            return new ResponseDTO(HttpStatus.OK, "Location deleted!", location);
+            return new ResponseDTO(HttpStatus.OK, "Location deleted!", "");
         }
     }
     public ResponseDTO updateLocation1(LocationDTO locationDTO){
