@@ -20,37 +20,35 @@ public class User {
     @Id
     @Column(unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String Id;
 
+    @Column
+    private String name; //de admin dang nhap bang
 
-    private String name;
-
-
+    @Column
+    private String email;
+    @Column
     private String password;
 
-
-    private String email;
-
-
+    @Column
     private int role;
 
     @Value("1")
     private boolean status;
 
 //    @JsonIgnore
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Lecturer lecturerList;
+//    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+//    private Lecturer lecturerList;
 
 //    @JsonIgnore
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Student student;
+//    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+//    private Student student;
 
 
 
-
-    @OneToMany(mappedBy = "user")
-    private List<Slot> slotList;
+//    @OneToMany(mappedBy = "user")
+//    private List<Slot> slotList;
 
 }

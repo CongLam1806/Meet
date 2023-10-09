@@ -23,33 +23,32 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
+@Table(name="Slot")
 @Entity
 @Transactional(readOnly = true)
 public class Slot {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int Id;
 
-
+    @Column
     private String password;
 
-
+    @Column
     private boolean status;
 
-
+    @Column
     private Time startTime;
 
-
+    @Column
     private Time endTime;
 
-
-    //@JsonFormat(pattern="dd.MM.yyyy")
+    @Column
     private Date meetingDate;
 
-
+    @Column
     private int mode;
-
 
 
 //    @JsonManagedReference
@@ -67,17 +66,21 @@ public class Slot {
     private Location location;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "slot_subject",
-            joinColumns = @JoinColumn(name = "slot_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private List<Subject> likedSubjects;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "slot_subject",
+//            joinColumns = @JoinColumn(name = "slot_id"),
+//            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+//    private List<Subject> likedSubjects;
 
 //    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "lecturer_id")
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
-    private User user;
+    private Lecturer lecturer;
+
+//    @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
+//    @JoinColumn(name = "student_id")
+//    private Student student;
 }
