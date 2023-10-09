@@ -48,7 +48,13 @@ public class LocationService {
          }
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
-         return new ResponseDTO(HttpStatus.OK, "Updated", location);
+         return new ResponseDTO(HttpStatus.OK, "Updated", "");
+    }
+    public ResponseDTO createLocation(LocationDTO locationDTO){
+         Location location = new Location();
+         modelMapper.map(locationDTO, location);
+         locationRepository.save(location);
+         return  new ResponseDTO(HttpStatus.OK, "created","");
     }
 
 //    public void updateLocation(LocationDTO newLocation){
