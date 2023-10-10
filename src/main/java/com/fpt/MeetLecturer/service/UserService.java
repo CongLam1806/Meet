@@ -3,8 +3,12 @@ package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.UserDTO;
+import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Student;
 import com.fpt.MeetLecturer.entity.User;
 import com.fpt.MeetLecturer.mapper.MapUser;
+import com.fpt.MeetLecturer.repository.LecturerRepository;
+import com.fpt.MeetLecturer.repository.StudentRepository;
 import com.fpt.MeetLecturer.util.Utility;
 
 import com.fpt.MeetLecturer.repository.UserRepository;
@@ -20,6 +24,11 @@ import java.util.Optional;
 public class UserService {
     @Autowired(required = false)
     private UserRepository userRepository;
+
+    @Autowired(required = false)
+    private StudentRepository studentRepository;
+    @Autowired(required = false)
+    private LecturerRepository lecturerRepository;
 
     @Autowired(required = false)
     private MapUser mapUser;
@@ -87,8 +96,20 @@ public class UserService {
         }else {
             newUser.setRole(1);
         }
+        recordUser(newUser); // map user based on their role
         modelMapper.map(newUser, user);
         userRepository.save(user);
         return new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
+    }
+    private void recordUser(UserDTO userDTO){
+        Lecturer lecturer = new Lecturer();
+        Student student = new Student();
+        if(userDTO.getRole() == 1){
+            modelMapper.map(userDTO, lecturer);
+            lecturerRepository.save(lecturer);
+        } else if(userDTO.getRole() == 2){
+            modelMapper.map(userDTO, student);
+            studentRepository.save(student);
+        }
     }
 }
