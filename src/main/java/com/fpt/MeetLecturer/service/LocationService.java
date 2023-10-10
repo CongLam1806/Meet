@@ -21,13 +21,13 @@ public class LocationService {
 
     private final ModelMapper modelMapper = new ModelMapper();
      public ResponseDTO getAllLocation(){
-         return new ResponseDTO(HttpStatus.OK, "Get all Location",  mapLocation.tolocationDTOList(locationRepository.findAll()));
+         return new ResponseDTO(HttpStatus.OK, "Get all Locations:",  mapLocation.tolocationDTOList(locationRepository.findAll()));
      }
     public ResponseDTO getAllPublicLocation(){
-        return new ResponseDTO(HttpStatus.OK,"Get all public Location",mapLocation.tolocationDTOList(locationRepository.findByStatus()));
+        return new ResponseDTO(HttpStatus.OK,"Get all public Locations:",mapLocation.tolocationDTOList(locationRepository.findByStatus()));
     }
     public ResponseDTO getAllPersonalLocation(int id){
-         return new ResponseDTO(HttpStatus.OK, "Personal location", mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id)));
+         return new ResponseDTO(HttpStatus.OK, "Personal locations:", mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id)));
     }
     public ResponseDTO deleteLocation(int id){
         Optional<Location> location = locationRepository.findById(id);
@@ -48,13 +48,13 @@ public class LocationService {
          }
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
-         return new ResponseDTO(HttpStatus.OK, "Updated", "");
+         return new ResponseDTO(HttpStatus.OK, "Updated!", "");
     }
     public ResponseDTO createLocation(LocationDTO locationDTO){
          Location location = new Location();
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
-         return  new ResponseDTO(HttpStatus.OK, "created","");
+         return  new ResponseDTO(HttpStatus.OK, "Created!","");
     }
 
 //    public void updateLocation(LocationDTO newLocation){
