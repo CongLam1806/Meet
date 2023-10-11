@@ -28,10 +28,10 @@ public class SlotController {
     }
 
 
-    @GetMapping("/get/{subjectId}")
-    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("subjectId") String id){
-        return ResponseEntity.ok().body(slotService.getSlotBySubject(id));
-    }
+//    @GetMapping("/get/{subjectId}")
+//    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("subjectId") String id){
+//        return ResponseEntity.ok().body(slotService.getSlotBySubject(id));
+//    }
 
     @GetMapping("/get/ByDateRange?{startDay}&{endDay}")
     public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("startDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,

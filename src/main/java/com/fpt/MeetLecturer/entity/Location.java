@@ -21,9 +21,6 @@ public class Location {
     private boolean status;
 
 
-
-
-
     //@JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lecturer_id")

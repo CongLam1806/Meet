@@ -36,17 +36,17 @@ public class SlotService {
 
 
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private static ModelMapper modelMapper = new ModelMapper();
 
     public ResponseDTO getSlot(){
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", mapSlot.convertListToSlotDTO(slotRepository.findAll()));
         return responseDTO;
     }
 
-    public ResponseDTO getSlotBySubject(String id){
-        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLikedSubjectsId(id));
-        return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT ID", slotsDTO);
-    }
+//    public ResponseDTO getSlotBySubject(String id){
+//        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLikedSubjectsId(id));
+//        return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT ID", slotsDTO);
+//    }
 
     public ResponseDTO getSlotByDate(Date startDate, Date endDate){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));

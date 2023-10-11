@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface SlotRepository extends JpaRepository<Slot,Integer> {
     //List<SlotDTO> slotsDTO =
-    List<Slot> findByLikedSubjectsId(String id);
+//    List<Slot> findByLikedSubjectsId(String id);
 
     //List<Slot> findByStartDateBetween(Date startDate, Date endDate);
 
