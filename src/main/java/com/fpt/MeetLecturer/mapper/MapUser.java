@@ -18,6 +18,13 @@ import java.util.Optional;
 public class MapUser {
     private static final ModelMapper modelMapper = new ModelMapper();
 
+//    static {
+//        //Define the mapping configuration for Slot to SlotDTO
+//        TypeMap<User, UserDTO> slotToDTOTypeMap = modelMapper.createTypeMap(User.class, UserDTO.class)
+//                //.addMapping(src -> src.get, SlotDTO::);
+//
+//    }
+
     public  User convertUserDTOToUser(UserDTO userDTO){
         return modelMapper.map(userDTO, User.class);
     }

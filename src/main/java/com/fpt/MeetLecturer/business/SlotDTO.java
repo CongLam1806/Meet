@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.entity.Subject;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -43,6 +44,7 @@ public class SlotDTO {
     private int mode;
 
     private int locationId;
+    private Lecturer lecturer;
     private String lecturerName;
     private String studentEmail;
     private List<SubjectResponseDTO> subjectList;
