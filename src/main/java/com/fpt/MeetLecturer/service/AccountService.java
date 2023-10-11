@@ -2,28 +2,28 @@ package com.fpt.MeetLecturer.service;
 
 
 import com.fpt.MeetLecturer.business.ResponseDTO;
-import com.fpt.MeetLecturer.business.UserDTO;
+import com.fpt.MeetLecturer.business.AccountDTO;
+import com.fpt.MeetLecturer.entity.Account;
 import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.entity.Student;
-import com.fpt.MeetLecturer.entity.User;
-import com.fpt.MeetLecturer.mapper.MapUser;
+import com.fpt.MeetLecturer.mapper.MapAccount;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
 import com.fpt.MeetLecturer.repository.StudentRepository;
 import com.fpt.MeetLecturer.util.Utility;
 
-import com.fpt.MeetLecturer.repository.UserRepository;
+import com.fpt.MeetLecturer.repository.AccountRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
+
 @Service
-public class UserService {
+public class AccountService {
     @Autowired(required = false)
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
 
     @Autowired(required = false)
     private StudentRepository studentRepository;
@@ -31,24 +31,24 @@ public class UserService {
     private LecturerRepository lecturerRepository;
 
     @Autowired(required = false)
-    private MapUser mapUser;
+    private MapAccount mapAccount;
     @Autowired
     private Utility utility;
     private ModelMapper modelMapper = new ModelMapper();
 
-    public ResponseDTO getUser()
+    public ResponseDTO getAccount()
     {
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL USERS", mapUser.convertListToUserDTO(userRepository.findAll()));
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL ACCOUNTS", mapAccount.convertListToAccountDTO(accountRepository.findAll()));
         return responseDTO;
     }
 //    public UserDTO getById(int id){
 //        return mapUser.toUserDTO(userRepository.findById(id));
 //    }
 
-    public ResponseDTO getUserById(int id)
+    public ResponseDTO getAccountById(String id)
     {
-        User user = userRepository.findById(id).orElseThrow();
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND USER", mapUser.convertUserToUserDTO(user));
+        Account account = accountRepository.findById(id).orElseThrow();
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ACCOUNT", mapAccount.convertAccountToAccountDTO(account));
         return responseDTO;
     }
 
@@ -59,56 +59,53 @@ public class UserService {
 //        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
 //        return responseDTO;
 //    }
-    public ResponseDTO updateUser(UserDTO newUser) {
-        User user;
-        user = userRepository.findById(newUser.getId());
-        modelMapper.map(newUser, user);
-        userRepository.save(user);
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
+    public ResponseDTO updateAccount(AccountDTO newAccount) {
+        Account account;
+        account = accountRepository.findById(newAccount.getId()).orElseThrow();
+        modelMapper.map(newAccount, account);
+        accountRepository.save(account);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE ACCOUNT SUCCESSFULLY", mapAccount.convertAccountToAccountDTO(account));
         return responseDTO;
     }
 
-    //delete user
-    public ResponseDTO deleteUser(int id) {
-        Optional<User> user1 = userRepository.findById(id);
+//    delete user
+    public ResponseDTO deleteAccount(String id) {
+        Optional<Account> user1 = accountRepository.findById(id);
         if (user1.isEmpty()) {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", "");
         } else {
-            //User delUser = user1.get();
-            //userRepository.delete(user1.get());
             if (!user1.get().isStatus()) {
                 return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", "");
             }
             user1.get().setStatus(false);
-            userRepository.save(user1.get());
-            //mapUser.mapUserToUserDTO(delUser);
+            accountRepository.save(user1.get());
             return new ResponseDTO(HttpStatus.OK, "Delete successfully!", "");
         }
     }
     private boolean  checkUserRole(String email){
         return utility.isStudent(email);
     }
-    public ResponseDTO createUser2(UserDTO newUser){
-        User user = new User();
-        boolean checkRole = checkUserRole(newUser.getEmail());
+    public ResponseDTO createUser2(AccountDTO newAccount){
+        Account user = new Account();
+        boolean checkRole = checkUserRole(newAccount.getEmail());
         if(checkRole){
-            newUser.setRole(2);
+            newAccount.setRole(2);
         }else {
-            newUser.setRole(1);
+            newAccount.setRole(1);
         }
-        recordUser(newUser); // map user based on their role
-        modelMapper.map(newUser, user);
-        userRepository.save(user);
-        return new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
+        recordUser(newAccount); // map user based on their role
+        modelMapper.map(newAccount, user);
+        accountRepository.save(user);
+        return new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapAccount.convertAccountToAccountDTO(user));
     }
-    private void recordUser(UserDTO userDTO){
+    private void recordUser(AccountDTO accountDTO){
         Lecturer lecturer = new Lecturer();
         Student student = new Student();
-        if(userDTO.getRole() == 1){
-            modelMapper.map(userDTO, lecturer);
+        if(accountDTO.getRole() == 1){
+            modelMapper.map(accountDTO, lecturer);
             lecturerRepository.save(lecturer);
-        } else if(userDTO.getRole() == 2){
-            modelMapper.map(userDTO, student);
+        } else if(accountDTO.getRole() == 2){
+            modelMapper.map(accountDTO, student);
             studentRepository.save(student);
         }
     }

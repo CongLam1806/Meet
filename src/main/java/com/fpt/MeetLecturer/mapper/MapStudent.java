@@ -2,7 +2,6 @@ package com.fpt.MeetLecturer.mapper;
 
 import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.business.StudentDTO;
-import com.fpt.MeetLecturer.business.UserDTO;
 import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.entity.Student;
 import org.modelmapper.ModelMapper;
