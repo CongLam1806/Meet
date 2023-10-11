@@ -15,20 +15,23 @@ import java.util.List;
 @Entity
 public class Subject {
     @Id
-    private int id;
+    private int Id;
 
+    @Column(name="name")
     private String name;
 
+    @Column(name="semester")
     private int semester;
 
+    @Column(name="status")
     private boolean status = true;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "major_id")
+    @JoinColumn(name = "majorId", referencedColumnName = "Id")
     private Major major;
 
-    @OneToMany(mappedBy = "subject")
-    private List<Booking> bookingList;
+//    @OneToMany(mappedBy = "subject")
+//    private List<Booking> bookingList;
 
     @OneToMany(mappedBy = "subject")
     private List<Subject_Lecturer> LecturerList;

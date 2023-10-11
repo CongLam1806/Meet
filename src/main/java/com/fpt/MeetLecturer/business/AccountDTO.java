@@ -27,7 +27,6 @@ public class AccountDTO {
 
     private boolean status;
 
-    private Student student;
 
 
 }

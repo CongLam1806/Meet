@@ -1,6 +1,6 @@
 package com.fpt.MeetLecturer.business;
 
-import com.fpt.MeetLecturer.entity.User;
+
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;

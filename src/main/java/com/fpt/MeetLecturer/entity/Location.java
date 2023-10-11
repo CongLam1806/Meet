@@ -23,7 +23,7 @@ public class Location {
 
     //@JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lecturer_id")
+    @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
     //@EqualsAndHashCode.Exclude
     //@ToString.Exclude
     private Lecturer lecturer;
