@@ -32,49 +32,43 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Id;
 
-    @Column
+    @Column(name="password")
     private String password;
 
-    @Column
+    @Column(name="startTime")
     private Time startTime;
 
-    @Column
+    @Column(name="endTime")
     private Time endTime;
 
-    @Column
+    @Column(name="meetingDay")
     private Date meetingDate;
 
-    @Column
+    @Column(name="mode")
     private int mode;
 
-    @Column
+    @Column(name="status")
     private boolean status;
+
+
 
 
 //    @JsonManagedReference
 
     @OneToMany(mappedBy = "slot")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
     private Collection<Booking> bookingList;
 
 
     @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
-    @JoinColumn(name = "location_id")
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
+    @JoinColumn(name = "locationId", referencedColumnName = "Id")
+
     private Location location;
 
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "slot_subject",
-//            joinColumns = @JoinColumn(name = "slot_id"),
-//            inverseJoinColumns = @JoinColumn(name = "subject_id"))
-//    private List<Subject> likedSubjects;
+    @OneToMany(mappedBy = "slot")
+    private List<Slot_Subject> slot_subject;
 
     @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
-    @JoinColumn(name = "lecturer_id")
+    @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
     private Lecturer lecturer;
 
 }

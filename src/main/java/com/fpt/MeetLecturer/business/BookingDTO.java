@@ -1,7 +1,6 @@
 package com.fpt.MeetLecturer.business;
 
 import com.fpt.MeetLecturer.entity.Slot;
-import com.fpt.MeetLecturer.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

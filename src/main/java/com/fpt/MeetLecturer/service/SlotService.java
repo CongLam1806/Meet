@@ -3,11 +3,14 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.business.SubjectDTO;
+import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.mapper.MapSubject;
+import com.fpt.MeetLecturer.repository.BookingRepository;
 import com.fpt.MeetLecturer.repository.SlotRepository;
 
+import com.fpt.MeetLecturer.repository.SlotSubjectRepository;
 import com.fpt.MeetLecturer.repository.SubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,12 @@ public class SlotService {
     private SubjectRepository subjectRepository;
 
     @Autowired(required = false)
+    private BookingRepository bookingRepository;
+
+    @Autowired(required = false)
+    private SlotSubjectRepository slotSubjectRepository;
+
+    @Autowired(required = false)
     private MapSlot mapSlot;
 
     @Autowired(required = false)
@@ -39,7 +48,17 @@ public class SlotService {
     private static ModelMapper modelMapper = new ModelMapper();
 
     public ResponseDTO getSlot(){
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", mapSlot.convertListToSlotDTO(slotRepository.findAll()));
+        List<SlotDTO> slotList = mapSlot.convertListToSlotDTO(slotRepository.findAll());
+
+        slotList.forEach(slotDTO -> {
+            Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
+            if(booking != null){
+                slotDTO.setStudentEmail(booking.getStudent().getEmail());
+            }
+            slotDTO.setSubjectName(slotSubjectRepository.findBySlotId(slotDTO.getId()).getSubject().getName());
+
+        });
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
         return responseDTO;
     }
 

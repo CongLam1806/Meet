@@ -1,7 +1,9 @@
 package com.fpt.MeetLecturer.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Slot_Subject;
 import com.fpt.MeetLecturer.entity.Subject;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -27,9 +29,6 @@ public class SlotDTO {
     @NotBlank(message = "Password must not be blank")
     private String password;
 
-    @Value("1")
-    private boolean status;
-
     @NotBlank(message = "Start Time must not be blank")
     private Time startTime;
 
@@ -43,11 +42,15 @@ public class SlotDTO {
     @Value("1")
     private int mode;
 
+    @Value("1")
+    private boolean status;
+
+
     private int locationId;
-    private Lecturer lecturer;
     private String lecturerName;
     private String studentEmail;
-    private List<SubjectResponseDTO> subjectList;
+    private String subjectName;
+    //private List<Slot_Subject> slot_subject;
 
 
 
