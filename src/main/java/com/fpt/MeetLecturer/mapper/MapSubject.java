@@ -15,27 +15,5 @@ import java.util.List;
 public class MapSubject {
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    public SubjectDTO convertEntitytoDTO(Subject subject){
-        return modelMapper.map(subject, SubjectDTO.class);
-    }
 
-    public List<SubjectDTO> convertListToSubjectDto(List<Subject> subjects){
-        List<SubjectDTO> list = new ArrayList<>();
-        subjects.forEach(subject -> list.add(convertEntitytoDTO(subject)));
-        return list;
-    }
-
-    public Subject convertBookingDTOtoBooking(SubjectDTO subjectDTO){
-        return  modelMapper.map(subjectDTO, Subject.class);
-    }
-
-    public List<Subject> convertListToLecturer(List<SubjectDTO> subjectDTOS){
-        List<Subject> list = new ArrayList<>();
-        subjectDTOS.forEach(subjectDTO -> list.add(convertBookingDTOtoBooking(subjectDTO)));
-        return list;
-    }
-
-    public static Subject convertSubjectDTOToSubject(SubjectDTO subjectDTO){
-        return modelMapper.map(subjectDTO, Subject.class);
-    }
 }

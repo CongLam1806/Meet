@@ -48,7 +48,7 @@ public class LecturerService {
     }
 
     public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
-        Lecturer lecturer = new ModelMapper().map(LecturerDTO, Lecturer.class);
+        Lecturer lecturer = genericMap.ToEntity(LecturerDTO, Lecturer.class);
         lecturerRepository.save(lecturer);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseDTO(HttpStatus.OK, "Create successfully", "")
@@ -57,7 +57,7 @@ public class LecturerService {
     }
 
     public ResponseEntity<ResponseDTO> updateLecturer(LecturerDTO newLecturer, int id) {
-        Lecturer LecturerEntity = new ModelMapper().map(newLecturer, Lecturer.class);
+            Lecturer LecturerEntity = genericMap.ToEntity(newLecturer, Lecturer.class);
         Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
         if (optionalLecturer.isPresent()) {
             for(Subject_LecturerDTO a : newLecturer.getSubjectList()){

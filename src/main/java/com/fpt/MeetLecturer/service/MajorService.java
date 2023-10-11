@@ -47,15 +47,15 @@ public class MajorService {
     }
 
 
-//    public void deleteMajor(int id) {
-//        Optional<Major> SubjectOptional = majorRepository.findById(id);
-//        if (SubjectOptional.isPresent()){
-//            Major existMajor = SubjectOptional.get();
-//            existMajor.se(false);
-//            majorRepository.save(existMajor);
-//        } else {
-//            throw new IllegalStateException("student with id " + id + " does not exists");
-//        }
-//
-//    }
+    public void deleteMajor(int id) {
+        Optional<Major> SubjectOptional = majorRepository.findById(id);
+        if (SubjectOptional.isPresent()){
+            Major existMajor = SubjectOptional.get();
+            existMajor.setStatus(false);
+            majorRepository.save(existMajor);
+        } else {
+            throw new IllegalStateException("student with id " + id + " does not exists");
+        }
+
+    }
 }
