@@ -27,18 +27,18 @@ public class AccountController {
     }
 
 
-//    @PostMapping("/post")
-//    public ResponseEntity<ResponseDTO> createAccount(@RequestBody AccountDTO model){
-//        return ResponseEntity.ok().body(userService.createUser2(model));
-//    }
+    @PostMapping("/post")
+    public ResponseEntity<ResponseDTO> createAccount(@RequestBody AccountDTO model){
+        return ResponseEntity.ok().body(accountService.createUser2(model));
+    }
     @PutMapping("/put/{id}")
     public ResponseEntity<ResponseDTO> updateAccount(@RequestBody AccountDTO model, @PathVariable("id") String id){
 
         return ResponseEntity.ok().body(accountService.updateAccount(model));
 
     }
-//    @DeleteMapping("/delete-user")
-//    public ResponseEntity<ResponseDTO> deleteUser(@RequestParam(value = "id") int id) {
-//      return ResponseEntity.ok().body(userService.deleteUser(id));
-//  }
+    @DeleteMapping("/delete-user")
+    public ResponseEntity<ResponseDTO> deleteUser(@RequestParam(value = "id") String id) {
+      return ResponseEntity.ok().body(accountService.deleteAccount(id));
+  }
 }

@@ -4,6 +4,8 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.AccountDTO;
 import com.fpt.MeetLecturer.entity.Account;
+import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Student;
 import com.fpt.MeetLecturer.mapper.MapAccount;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
 import com.fpt.MeetLecturer.repository.StudentRepository;
@@ -14,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -64,48 +68,45 @@ public class AccountService {
         return responseDTO;
     }
 
-    //delete user
-//    public ResponseDTO deleteUser(int id) {
-//        Optional<User> user1 = userRepository.findById(id);
-//        if (user1.isEmpty()) {
-//            return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", "");
-//        } else {
-//            //User delUser = user1.get();
-//            //userRepository.delete(user1.get());
-//            if (!user1.get().isStatus()) {
-//                return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", "");
-//            }
-//            user1.get().setStatus(false);
-//            userRepository.save(user1.get());
-//            //mapUser.mapUserToUserDTO(delUser);
-//            return new ResponseDTO(HttpStatus.OK, "Delete successfully!", "");
-//        }
-//    }
-//    private boolean  checkUserRole(String email){
-//        return utility.isStudent(email);
-//    }
-//    public ResponseDTO createUser2(UserDTO newUser){
-//        User user = new User();
-//        boolean checkRole = checkUserRole(newUser.getEmail());
-//        if(checkRole){
-//            newUser.setRole(2);
-//        }else {
-//            newUser.setRole(1);
-//        }
-//        recordUser(newUser); // map user based on their role
-//        modelMapper.map(newUser, user);
-//        userRepository.save(user);
-//        return new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
-//    }
-//    private void recordUser(UserDTO userDTO){
-//        Lecturer lecturer = new Lecturer();
-//        Student student = new Student();
-//        if(userDTO.getRole() == 1){
-//            modelMapper.map(userDTO, lecturer);
-//            lecturerRepository.save(lecturer);
-//        } else if(userDTO.getRole() == 2){
-//            modelMapper.map(userDTO, student);
-//            studentRepository.save(student);
-//        }
-//    }
+//    delete user
+    public ResponseDTO deleteAccount(String id) {
+        Optional<Account> user1 = accountRepository.findById(id);
+        if (user1.isEmpty()) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", "");
+        } else {
+            if (!user1.get().isStatus()) {
+                return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", "");
+            }
+            user1.get().setStatus(false);
+            accountRepository.save(user1.get());
+            return new ResponseDTO(HttpStatus.OK, "Delete successfully!", "");
+        }
+    }
+    private boolean  checkUserRole(String email){
+        return utility.isStudent(email);
+    }
+    public ResponseDTO createUser2(AccountDTO newAccount){
+        Account user = new Account();
+        boolean checkRole = checkUserRole(newAccount.getEmail());
+        if(checkRole){
+            newAccount.setRole(2);
+        }else {
+            newAccount.setRole(1);
+        }
+        recordUser(newAccount); // map user based on their role
+        modelMapper.map(newAccount, user);
+        accountRepository.save(user);
+        return new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapAccount.convertAccountToAccountDTO(user));
+    }
+    private void recordUser(AccountDTO accountDTO){
+        Lecturer lecturer = new Lecturer();
+        Student student = new Student();
+        if(accountDTO.getRole() == 1){
+            modelMapper.map(accountDTO, lecturer);
+            lecturerRepository.save(lecturer);
+        } else if(accountDTO.getRole() == 2){
+            modelMapper.map(accountDTO, student);
+            studentRepository.save(student);
+        }
+    }
 }
