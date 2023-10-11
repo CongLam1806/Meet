@@ -15,29 +15,21 @@ import java.util.List;
 @Entity
 public class Subject {
     @Id
-
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
-    private String id;
-//    private int id;
+    private int id;
 
     private String name;
 
     private int semester;
 
-    private boolean status;
-
-//    @ManyToMany(mappedBy = "likedSubjects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Slot> slots;
+    private boolean status = true;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "major_id")
     private Major major;
 
-//    @ManyToMany(mappedBy = "likedSubjects")
-//    private List<Slot> slotList;
+    @OneToMany(mappedBy = "subject")
+    private List<Booking> bookingList;
 
-    //    @ManyToMany(mappedBy = "Subject")
     @OneToMany(mappedBy = "subject")
     private List<Subject_Lecturer> LecturerList;
 }

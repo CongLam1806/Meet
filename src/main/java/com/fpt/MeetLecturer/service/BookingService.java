@@ -3,7 +3,6 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Booking;
-import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
 import org.modelmapper.ModelMapper;
@@ -34,7 +33,9 @@ public class BookingService {
         if (booking.isPresent()){
             Booking existingBooking = booking.get();
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Get all booking info successfully", mapBooking.convertBookingtoBookingDTO(existingBooking))
+                    new ResponseDTO(HttpStatus.OK,
+                            "Get all booking info successfully",
+                            mapBooking.convertBookingtoBookingDTO(existingBooking))
             );
         } else {
             throw new RuntimeException("can't find this booking slot by id");
@@ -50,7 +51,7 @@ public class BookingService {
             Booking booking = new ModelMapper().map(bookingDTO, Booking.class);
             bookingRepository.save(booking);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Create successfully","")
+                    new ResponseDTO(HttpStatus.OK, "Booking successfully","")
             );
         }
     }

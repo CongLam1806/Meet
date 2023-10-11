@@ -15,14 +15,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubjectDTO {
-        private String id;
 
-//    private int id;
+//    private String id;
+
+    private int id;
 
     @NotBlank(message = "Name must not be blank")
     private String name;
 
-    @NotBlank(message = "Semester must not be blank")
     private int semester;
 
     @Value("1")

@@ -38,9 +38,9 @@ public class StudentService {
 
     public void updateStudent(StudentDTO newStudent){
         Student student;
-        student = studentRepository.findById(newStudent.getId()).orElseThrow();
-        modelMapper.map(newStudent, student);
-        studentRepository.save(student);
+//        student = studentRepository.findById(newStudent.getId()).orElseThrow();
+//        modelMapper.map(newStudent, student);
+//        studentRepository.save(student);
     }
 
 }

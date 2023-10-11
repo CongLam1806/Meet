@@ -14,13 +14,14 @@ import java.util.List;
 @Entity
 public class Major {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "Name")
     private String name;
 
     @Column(name = "Status")
-    private boolean status;
+    private boolean status = true;
 
     @OneToMany(mappedBy = "major")
     private List<Subject> subjectList;
