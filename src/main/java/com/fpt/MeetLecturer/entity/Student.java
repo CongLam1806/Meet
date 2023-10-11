@@ -37,16 +37,7 @@ public class Student {
     @Column
     private boolean status;
 
-    //@OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
-    //@JoinColumn(name = "user_id", referencedColumnName = "id")
-//    @JsonIgnore
-//    @OneToOne (cascade = CascadeType.ALL)
-//    @MapsId
-//    @JoinColumn(name = "user_id")
-//    private User user;
 
-//    @OneToMany(mappedBy = "student")
-//    private List<Slot> slotList;
     @OneToMany(mappedBy = "student")
     private List<Booking> bookingList;
 }
