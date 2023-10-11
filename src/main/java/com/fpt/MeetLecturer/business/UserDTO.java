@@ -30,5 +30,7 @@ public class UserDTO {
 
     private boolean status;
 
+    private Student student;
+
 
 }

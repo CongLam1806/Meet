@@ -36,9 +36,6 @@ public class Slot {
     private String password;
 
     @Column
-    private boolean status;
-
-    @Column
     private Time startTime;
 
     @Column
@@ -49,6 +46,9 @@ public class Slot {
 
     @Column
     private int mode;
+
+    @Column
+    private boolean status;
 
 
 //    @JsonManagedReference
