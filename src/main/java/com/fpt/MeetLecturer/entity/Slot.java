@@ -1,18 +1,17 @@
 package com.fpt.MeetLecturer.entity;
 
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.transaction.annotation.Transactional;
 
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -41,6 +40,7 @@ public class Slot {
     @Column(name="endTime")
     private Time endTime;
 
+    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column(name="meetingDay")
     private Date meetingDate;
 
@@ -65,7 +65,7 @@ public class Slot {
     private Location location;
 
     @OneToMany(mappedBy = "slot")
-    private List<Slot_Subject> slot_subject;
+    private List<Slot_Subject> slotSubjects;
 
     @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
     @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
