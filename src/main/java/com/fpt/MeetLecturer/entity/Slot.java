@@ -27,7 +27,7 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class Slot {
     @Id
-    @Column
+//    @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Id;
 
@@ -50,18 +50,14 @@ public class Slot {
     @Column(name="status")
     private boolean status;
 
-
-
-
 //    @JsonManagedReference
 
     @OneToMany(mappedBy = "slot")
-    private Collection<Booking> bookingList;
+    private List<Booking> bookingList;
 
 
     @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
     @JoinColumn(name = "locationId", referencedColumnName = "Id")
-
     private Location location;
 
     @OneToMany(mappedBy = "slot")

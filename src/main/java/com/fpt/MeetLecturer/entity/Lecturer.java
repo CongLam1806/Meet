@@ -14,23 +14,19 @@ import java.util.List;
 @Entity
 public class Lecturer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     //@Column(unique = true)
-    @Column(name="Id")
-    private int Id;
+    private String Id;
 
-    @Column(name = "Name")
     private String Name;
 
-    @Column(name = "Phone")
     private String phone;
 
-    @Column(name = "Note")
     private String note;
 
-    @Column(name = "Email")
     private String email;
+
+    private String password;
 
     private boolean status = true;
 

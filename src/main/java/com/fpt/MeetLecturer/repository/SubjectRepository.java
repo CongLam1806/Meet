@@ -13,6 +13,10 @@ import java.util.Optional;
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     List<Subject> findByStatus(boolean status);
 
+
     Subject findByCode(String code);
+
+    Optional<Subject> findById(String id);
+
 
 }

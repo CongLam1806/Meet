@@ -3,8 +3,10 @@ package com.fpt.MeetLecturer.mapper;
 
 import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.LecturerDTO;
+import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Slot;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
@@ -21,29 +23,21 @@ public class MapBooking {
     static {
         TypeMap<Booking, BookingDTO> propertyMapper = modelMapper.createTypeMap(Booking.class, BookingDTO.class);
         propertyMapper
+                .addMapping(src -> src.getStudent().getName(), BookingDTO::setStudentName)
                 .addMapping(src -> src.getSlot().getStartTime(), BookingDTO::setStartTime)
                 .addMapping(src -> src.getSlot().getEndTime(), BookingDTO::setEndTime)
                 .addMapping(src -> src.getSlot().getMeetingDate(), BookingDTO::setMeetingDate)
-                .addMapping(src -> src.getStudent().getId(), BookingDTO::setStudentId);
+                .addMapping(src -> src.getSlot().getLecturer().getName(), BookingDTO::setLecturerName);
     }
 
-    public BookingDTO convertBookingtoBookingDTO(Booking booking) {
-        return modelMapper.map(booking, BookingDTO.class);
+    public BookingDTO convertBookingToBookingDTO(Booking slot) {
+        return modelMapper.map(slot, BookingDTO.class);
     }
 
-    public List<BookingDTO> convertListToBookingDto(List<Booking> bookings) {
+    public List<BookingDTO> convertListToBookingDTO(List<Booking> slots) {
         List<BookingDTO> list = new ArrayList<>();
-        bookings.forEach(booking -> list.add(convertBookingtoBookingDTO(booking)));
+        slots.forEach(booking -> list.add(convertBookingToBookingDTO(booking)));
         return list;
     }
 
-    public Booking convertBookingDTOtoBooking(BookingDTO bookingDTO) {
-        return modelMapper.map(bookingDTO, Booking.class);
-    }
-
-    public List<Booking> convertListToLecturer(List<BookingDTO> bookingDTOS) {
-        List<Booking> list = new ArrayList<>();
-        bookingDTOS.forEach(bookingDTO -> list.add(convertBookingDTOtoBooking(bookingDTO)));
-        return list;
-    }
 }

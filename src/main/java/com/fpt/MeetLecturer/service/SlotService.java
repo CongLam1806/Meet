@@ -30,7 +30,7 @@ public class SlotService {
     @Autowired(required = false)
     private SubjectRepository subjectRepository;
 
-    @Autowired(required = false)
+    @Autowired
     private BookingRepository bookingRepository;
 
     @Autowired(required = false)
@@ -38,6 +38,7 @@ public class SlotService {
 
     @Autowired(required = false)
     private MapSlot mapSlot;
+
 
 
 

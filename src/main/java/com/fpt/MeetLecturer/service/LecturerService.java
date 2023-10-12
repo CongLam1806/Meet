@@ -8,6 +8,7 @@ import com.fpt.MeetLecturer.business.Subject_LecturerDTO;
 import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.entity.Subject_Lecturer;
 import com.fpt.MeetLecturer.mapper.GenericMap;
+import com.fpt.MeetLecturer.mapper.MapLecturer;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,15 @@ public class LecturerService {
     private GenericMap genericMap;
 
     @Autowired
+    private MapLecturer mapLecturer;
+
+    @Autowired
     private SubjectLecturerService subjectLecturerService;
 
 
     //get all lecturer
     public List<LecturerDTO> getAllLecturer() {
-        return genericMap.ToDTOList(lecturerRepository.findAll(), LecturerDTO.class);
+        return mapLecturer.convertListToLecturerDTO(lecturerRepository.findAll());
     }
 
     public ResponseEntity<ResponseDTO> getLecturerByEmail(String email){
@@ -48,7 +52,7 @@ public class LecturerService {
     }
 
     public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
-        Lecturer lecturer = new ModelMapper().map(LecturerDTO, Lecturer.class);
+        Lecturer lecturer = genericMap.ToEntity(LecturerDTO, Lecturer.class);
         lecturerRepository.save(lecturer);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseDTO(HttpStatus.OK, "Create successfully", "")
@@ -56,13 +60,13 @@ public class LecturerService {
 
     }
 
-    public ResponseEntity<ResponseDTO> updateLecturer(LecturerDTO newLecturer, int id) {
-        Lecturer LecturerEntity = new ModelMapper().map(newLecturer, Lecturer.class);
+    public ResponseEntity<ResponseDTO> updateLecturer(LecturerDTO newLecturer, String id) {
+            Lecturer LecturerEntity = genericMap.ToEntity(newLecturer, Lecturer.class);
         Optional<Lecturer> optionalLecturer = lecturerRepository.findById(id);
         if (optionalLecturer.isPresent()) {
-            for(Subject_LecturerDTO a : newLecturer.getSubjectList()){
-                subjectLecturerService.updateSubjectLecturer(id, a.getSubjectId());
-            }
+//            for(Subject_LecturerDTO a : newLecturer.getSubjectList()){
+//                subjectLecturerService.updateSubjectLecturer(id, a.getSubjectName());
+//            }
 
             Lecturer existingLecturer = optionalLecturer.get();
             existingLecturer.setNote(LecturerEntity.getNote());
@@ -76,7 +80,7 @@ public class LecturerService {
         }
     }
 
-    public ResponseEntity<ResponseDTO> deleteLecturer(int id) {
+    public ResponseEntity<ResponseDTO> deleteLecturer(String id) {
         Optional<Lecturer> lecturerOptional = lecturerRepository.findById(id);
         if (lecturerOptional.isPresent()){
             Lecturer lecturer = lecturerOptional.get();

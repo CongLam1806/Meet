@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LecturerDTO {
-    private int id;
+    private String id;
 
     @NotBlank(message = "name should not blank")
     private String name;
@@ -28,6 +28,8 @@ public class LecturerDTO {
     private String email;
 
     private String note;
+
+    private String password;
 
 //    private List<Subject_LecturerDTO> SubjectName;
 
