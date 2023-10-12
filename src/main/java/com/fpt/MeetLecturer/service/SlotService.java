@@ -2,9 +2,10 @@ package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
-import com.fpt.MeetLecturer.business.SubjectDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Slot;
+import com.fpt.MeetLecturer.entity.Slot_Subject;
+import com.fpt.MeetLecturer.entity.Subject;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.mapper.MapSubject;
 import com.fpt.MeetLecturer.repository.BookingRepository;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,10 +39,11 @@ public class SlotService {
     @Autowired(required = false)
     private MapSlot mapSlot;
 
+
+
+
     @Autowired(required = false)
     private MapSubject mapSubject;
-
-
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -48,24 +51,45 @@ public class SlotService {
         List<SlotDTO> slotList = mapSlot.convertListToSlotDTO(slotRepository.findAll());
 
         slotList.forEach(slotDTO -> {
+
             Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
             if(booking != null){
                 slotDTO.setStudentEmail(booking.getStudent().getEmail());
             }
-            slotDTO.setSubjectName(slotSubjectRepository.findBySlotId(slotDTO.getId()).getSubject().getName());
 
+            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
+            List<String> subjectCode = new ArrayList<>();
+            slotSubjectList.forEach(slotSubject -> {
+                subjectCode.add(slotSubject.getSubject().getCode());
+            });
+            slotDTO.setSubjectCode(subjectCode);
         });
+
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
         return responseDTO;
     }
 
-//    public ResponseDTO getSlotBySubject(String id){
-//        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLikedSubjectsId(id));
-//        return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT ID", slotsDTO);
-//    }
+    public ResponseDTO getSlotBySubjectCode(String code){
+        Subject subject = subjectRepository.findByCode(code);
+
+        List<Slot> slotList = slotRepository.findAll();
+        List<Slot> slots = new ArrayList<>();
+
+        List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCode(code);
+
+        slotSubjects.forEach(slotSubject -> {
+            if(slotSubject.getSubject().equals(subject)){
+
+                slots.add(slotSubject.getSlot());
+            }
+        });
+
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT CODE ", mapSlot.convertListToSlotDTO(slots));
+    }
 
     public ResponseDTO getSlotByDate(Date startDate, Date endDate){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
+        System.out.println(slotsDTO);
         return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY DATE", slotsDTO);
 
     }

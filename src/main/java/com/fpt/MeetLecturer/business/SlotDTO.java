@@ -1,23 +1,14 @@
 package com.fpt.MeetLecturer.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fpt.MeetLecturer.entity.Booking;
-import com.fpt.MeetLecturer.entity.Lecturer;
-import com.fpt.MeetLecturer.entity.Slot_Subject;
-import com.fpt.MeetLecturer.entity.Subject;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.joda.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Time;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.sql.Timestamp;
+import java.util.*;
 
 
 @AllArgsConstructor
@@ -37,6 +28,7 @@ public class SlotDTO {
 
     @NotBlank(message = "Meeting Date must not be blank")
 
+    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
     private Date meetingDate;
 
     @Value("1")
@@ -49,8 +41,9 @@ public class SlotDTO {
     private int locationId;
     private String lecturerName;
     private String studentEmail;
-    private String subjectName;
-    //private List<Slot_Subject> slot_subject;
+    private List<String> subjectCode;
+    //private SubjectResponseDTO subjectResponseDTOS;
+    //private Subject subjects;
 
 
 

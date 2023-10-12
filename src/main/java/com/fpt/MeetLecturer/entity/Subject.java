@@ -17,6 +17,9 @@ public class Subject {
     @Id
     private int Id;
 
+    @Column(name="")
+    private String code;
+
     @Column(name="name")
     private String name;
 
@@ -29,6 +32,9 @@ public class Subject {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "majorId", referencedColumnName = "Id")
     private Major major;
+
+    @OneToMany(mappedBy = "subject")
+    private List<Slot_Subject> slotSubjects;
 
 //    @OneToMany(mappedBy = "subject")
 //    private List<Booking> bookingList;
