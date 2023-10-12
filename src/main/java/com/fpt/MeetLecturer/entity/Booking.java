@@ -18,7 +18,11 @@ public class Booking {
     private int status; //int
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "studentId", referencedColumnName = "Id")
+    @JoinColumn(name = "slotId")
+    private Slot slot;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "studentId")
     private Student student;
 
 //    @ManyToOne(cascade = CascadeType.ALL)
@@ -26,9 +30,7 @@ public class Booking {
 //    private Subject subject;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "slotId", referencedColumnName = "Id")
-    private Slot slot;
+
 
 
 

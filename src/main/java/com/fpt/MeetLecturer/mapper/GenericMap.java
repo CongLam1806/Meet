@@ -8,7 +8,7 @@ import java.util.List;
 @Component
 public class GenericMap {
 
-    private final ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
 
     public <S, T> T ToDTO(S entity, Class<T> dtoClass) {
@@ -27,7 +27,7 @@ public class GenericMap {
         return modelMapper.map(dto, entityClass);
     }
 
-    public <S, T> List<S> convertDTOListToEntityList(List<T> dtoList, Class<S> entityClass) {
+    public <S, T> List<S> ToEntityList(List<T> dtoList, Class<S> entityClass) {
         List<S> entityList = new ArrayList<>();
         for (T dto : dtoList) {
             entityList.add(ToEntity(dto, entityClass));
