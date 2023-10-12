@@ -17,7 +17,8 @@ public class Lecturer {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     //@Column(unique = true)
-    private int id;
+    @Column(name="Id")
+    private int Id;
 
     @Column(name = "Name")
     private String Name;

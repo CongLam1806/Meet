@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@Table(name="Teaching")
 @NoArgsConstructor
 @Data
 public class Subject_Lecturer {
@@ -20,13 +21,13 @@ public class Subject_Lecturer {
     private SubjectLecturerKey id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @MapsId("lecturerId")
-    @JoinColumn(name = "Lecturer_Id")
+    //@MapsId("lecturerId")
+    @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
     private Lecturer lecturer;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @MapsId("subjectId")
-    @JoinColumn(name = "Subject_Id")
+    //@MapsId("subjectId")
+    @JoinColumn(name = "subjectId", referencedColumnName = "Id")
     private Subject subject;
 
     public Subject_Lecturer(Lecturer lecturer, Subject subject) {
