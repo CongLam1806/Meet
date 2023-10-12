@@ -2,13 +2,15 @@ package com.fpt.MeetLecturer.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="Teaching")
+@Table(name = "Teaching")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class Subject_Lecturer {
 
@@ -16,9 +18,12 @@ public class Subject_Lecturer {
 //    @GeneratedValue(strategy = GenerationType.AUTO)
 //    private String Subject_LecturerID;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    @EmbeddedId
-    private SubjectLecturerKey id;
+//    @EmbeddedId
+//    private SubjectLecturerKey id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     //@MapsId("lecturerId")
@@ -30,9 +35,4 @@ public class Subject_Lecturer {
     @JoinColumn(name = "subjectId", referencedColumnName = "Id")
     private Subject subject;
 
-    public Subject_Lecturer(Lecturer lecturer, Subject subject) {
-        this.id = new SubjectLecturerKey(lecturer.getId(), subject.getId());
-        this.lecturer = lecturer;
-        this.subject = subject;
-    }
 }
