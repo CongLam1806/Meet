@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 public class Lecturer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     //@Column(unique = true)
     private String Id;
 
