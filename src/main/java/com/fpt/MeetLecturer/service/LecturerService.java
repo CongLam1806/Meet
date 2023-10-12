@@ -80,7 +80,7 @@ public class LecturerService {
         }
     }
 
-    public ResponseEntity<ResponseDTO> deleteLecturer(int id) {
+    public ResponseEntity<ResponseDTO> deleteLecturer(String id) {
         Optional<Lecturer> lecturerOptional = lecturerRepository.findById(id);
         if (lecturerOptional.isPresent()){
             Lecturer lecturer = lecturerOptional.get();

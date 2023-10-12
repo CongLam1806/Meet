@@ -49,7 +49,7 @@ public class LecturerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deleteLecturer(@PathVariable int id ){
+    public ResponseEntity<ResponseDTO> deleteLecturer(@PathVariable String id ){
         return lecturerService.deleteLecturer(id);
     }
 }

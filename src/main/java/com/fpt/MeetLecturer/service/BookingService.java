@@ -5,6 +5,7 @@ import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.mapper.GenericMap;
+import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,12 @@ public class BookingService {
     @Autowired
     private GenericMap genericMap;
 
+    @Autowired
+    private MapBooking mapBooking;
+
 
     public List<BookingDTO> getAllBooking(){
-        return genericMap.ToDTOList(bookingRepository.findAll(), BookingDTO.class);
+        return mapBooking.convertListToBookingDTO(bookingRepository.findAll());
     }
 
     public ResponseEntity<ResponseDTO> getBookingById(int id){
@@ -36,13 +40,15 @@ public class BookingService {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseDTO(HttpStatus.OK,
                             "Get all booking info successfully",
-                            genericMap.ToDTO(existingBooking, BookingDTO.class))
+                            mapBooking.convertBookingToBookingDTO(existingBooking))
             );
         } else {
             throw new RuntimeException("can't find this booking slot by id");
         }
 
     }
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! cận thẩn slot và booking
 
     public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO){
         Booking bookingEntity = genericMap.ToEntity(bookingDTO, Booking.class);

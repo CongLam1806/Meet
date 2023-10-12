@@ -13,10 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LecturerRepository extends JpaRepository<Lecturer, Integer> {
+public interface LecturerRepository extends JpaRepository<Lecturer, String> {
     Lecturer findByEmail(String email);
-
-    Optional<Lecturer> findById(String id);
     List<Lecturer> findByStatus(boolean status);
 
 //    boolean existsByUserEmail(String email);
