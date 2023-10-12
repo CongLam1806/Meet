@@ -1,6 +1,5 @@
 package com.fpt.MeetLecturer.business;
 
-import com.fpt.MeetLecturer.entity.Student;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

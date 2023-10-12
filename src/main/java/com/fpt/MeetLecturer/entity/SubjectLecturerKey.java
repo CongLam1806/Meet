@@ -6,16 +6,12 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Embeddable
 public class SubjectLecturerKey implements Serializable {
-    @Column(name = "Lecturer_Id")
-    private Integer lecturerId;
-
-    @Column(name = "Subject_Id")
-    private Integer subjectId;
+//    @Column(name = "Lecturer_Id")
+//    private String lecturerId;
+//
+//    @Column(name = "Subject_Id")
+//    private int subjectId;
 
 }

@@ -12,5 +12,8 @@ import java.util.Optional;
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     List<Subject> findByStatus(boolean status);
 
+    Subject findByName(String name);
+
+//    Optional<Subject> findById(String id);
 
 }

@@ -24,26 +24,8 @@ public class MapBooking {
                 .addMapping(src -> src.getSlot().getStartTime(), BookingDTO::setStartTime)
                 .addMapping(src -> src.getSlot().getEndTime(), BookingDTO::setEndTime)
                 .addMapping(src -> src.getSlot().getMeetingDate(), BookingDTO::setMeetingDate)
-                .addMapping(src -> src.getStudent().getId(), BookingDTO::setStudentId);
+                .addMapping(src -> src.getStudent().getId(), BookingDTO::setStudentId)
+                .addMapping(src -> src.getSlot().getLecturer().getName(), BookingDTO::setLecturerName);
     }
 
-    public BookingDTO convertBookingtoBookingDTO(Booking booking) {
-        return modelMapper.map(booking, BookingDTO.class);
-    }
-
-    public List<BookingDTO> convertListToBookingDto(List<Booking> bookings) {
-        List<BookingDTO> list = new ArrayList<>();
-        bookings.forEach(booking -> list.add(convertBookingtoBookingDTO(booking)));
-        return list;
-    }
-
-    public Booking convertBookingDTOtoBooking(BookingDTO bookingDTO) {
-        return modelMapper.map(bookingDTO, Booking.class);
-    }
-
-    public List<Booking> convertListToLecturer(List<BookingDTO> bookingDTOS) {
-        List<Booking> list = new ArrayList<>();
-        bookingDTOS.forEach(bookingDTO -> list.add(convertBookingDTOtoBooking(bookingDTO)));
-        return list;
-    }
 }

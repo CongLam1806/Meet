@@ -44,7 +44,7 @@ public class LecturerController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO> updateLecturer(@RequestBody @Valid LecturerDTO newLecturer, @PathVariable int id ){
+    public ResponseEntity<ResponseDTO> updateLecturer(@RequestBody @Valid LecturerDTO newLecturer, @PathVariable String id ){
          return lecturerService.updateLecturer(newLecturer, id);
     }
 
