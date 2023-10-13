@@ -13,6 +13,6 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     //List<Slot> findByStartDateBetween(Date startDate, Date endDate);
 
-    @Query(value = "SELECT *  from [dbo].[Slot] u where u.meetingDay between ?1 and ?2", nativeQuery = true)
+    @Query(value = "SELECT * from Slot WHERE meetingDay between ?1 and ?2", nativeQuery = true)
     List<Slot> findByStartDateBetween(Date startDate, Date endDate);
 }

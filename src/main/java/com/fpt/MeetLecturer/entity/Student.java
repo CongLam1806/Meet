@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class Student {
     @Id
-    @Column
+    @Column(name="Id")
     private String Id;
     @Column
     private String code;

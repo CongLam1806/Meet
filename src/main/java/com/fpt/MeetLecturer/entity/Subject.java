@@ -15,9 +15,11 @@ import java.util.List;
 @Entity
 public class Subject {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="Id")
     private int Id;
 
-    @Column(name="")
+    @Column(name="code")
     private String code;
 
     @Column(name="name")

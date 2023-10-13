@@ -18,7 +18,7 @@ public class Lecturer {
     //@Column(unique = true)
     private String Id;
 
-    private String Name;
+    private String name;
 
     private String phone;
 

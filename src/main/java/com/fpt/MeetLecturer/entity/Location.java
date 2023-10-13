@@ -15,6 +15,7 @@ import java.util.List;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="Id")
     private int id;
     private String name;
     private String address;

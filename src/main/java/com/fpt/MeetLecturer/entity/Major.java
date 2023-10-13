@@ -15,7 +15,8 @@ import java.util.List;
 public class Major {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @Column(name="Id")
+    private int Id;
 
     @Column(name = "Name")
     private String name;
