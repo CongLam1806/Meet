@@ -105,9 +105,9 @@ public class AccountService {
             modelMapper.map(accountDTO, lecturer);
             lecturerRepository.save(lecturer);
         } else if(accountDTO.getRole() == 2){
+            modelMapper.map(accountDTO, student);
             String code = utility.extractStudentId(student.getEmail());
             student.setCode(code);
-            modelMapper.map(accountDTO, student);
             studentRepository.save(student);
         }
     }
