@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Integer> {
-    @Query(value = "SELECT * FROM Location WHERE status = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM Location WHERE status = 'true'", nativeQuery = true)
     List<Location> findByStatus();
-    @Query(value = "SELECT * FROM Location WHERE status = true or lecturerId = ?1 and status = false", nativeQuery = true)
+    @Query(value = "SELECT * FROM Location WHERE status = true or lecturerId = ?1 and status = 'false'", nativeQuery = true)
     List<Location> findPersonalLocation(int id);
 
     //Location findOneByCode(int code);
