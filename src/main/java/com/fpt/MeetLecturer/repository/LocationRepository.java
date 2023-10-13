@@ -11,7 +11,7 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
     @Query(value = "SELECT * FROM Location WHERE status = 1", nativeQuery = true)
     List<Location> findPublicLocation();
     @Query(value = "SELECT * FROM Location WHERE lecturerId = ?1", nativeQuery = true)
-    List<Location> findPersonalLocation(int id);
+    List<Location> findPersonalLocation(String id);
 
     //Location findOneByCode(int code);
 }

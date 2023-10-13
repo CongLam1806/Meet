@@ -26,7 +26,7 @@ public class LocationService {
     public ResponseDTO getAllPublicLocation(){
         return new ResponseDTO(HttpStatus.OK,"Get all public Locations:",mapLocation.tolocationDTOList(locationRepository.findPublicLocation()));
     }
-    public ResponseDTO getAllPersonalLocation(int id){
+    public ResponseDTO getAllPersonalLocation(String id){
          return new ResponseDTO(HttpStatus.OK, "Personal locations:", mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id)));
     }
     public ResponseDTO deleteLocation(int id){
