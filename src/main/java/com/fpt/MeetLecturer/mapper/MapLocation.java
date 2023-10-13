@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.mapper;
 import com.fpt.MeetLecturer.business.LocationDTO;
 import com.fpt.MeetLecturer.entity.Location;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,6 +12,12 @@ import java.util.List;
 public class MapLocation {
 
     private static final ModelMapper modelMapper = new ModelMapper();
+
+    static {
+        TypeMap<Location, LocationDTO> toDTO = modelMapper.createTypeMap(Location.class, LocationDTO.class)
+                .addMapping(src -> src.getLecturer().getId(), LocationDTO::setId);
+    }
+
     public LocationDTO toLocationDTO(Location location){
         return modelMapper.map(location, LocationDTO.class);
     }
