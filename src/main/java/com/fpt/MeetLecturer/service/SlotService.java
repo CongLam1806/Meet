@@ -89,7 +89,11 @@ public class SlotService {
 
     public ResponseDTO getSlotByDate(Date startDate, Date endDate){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
-        System.out.println(slotsDTO);
+        slotsDTO.forEach(slotDTO -> {
+            System.out.println(slotDTO.getMeetingDate());
+            System.out.println("OK");
+        });
+
         return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY DATE", slotsDTO);
 
     }

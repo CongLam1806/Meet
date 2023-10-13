@@ -20,6 +20,7 @@ public class Subject_Lecturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="teachingId")
     private int id;
 
 //    @EmbeddedId

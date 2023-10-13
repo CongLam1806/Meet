@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.service;
 
+import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.business.StudentDTO;
 import com.fpt.MeetLecturer.entity.Slot;
@@ -9,6 +10,7 @@ import com.fpt.MeetLecturer.mapper.MapStudent;
 import com.fpt.MeetLecturer.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +26,9 @@ public class StudentService {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public List<StudentDTO> get(){
-
-        return mapStudent.convertListToStudentDTO(studentRepository.findAll());
+    public ResponseDTO get(){
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL STUDENTS", mapStudent.convertListToStudentDTO(studentRepository.findAll()));
+        return responseDTO;
     }
 
     public void createStudent(StudentDTO newStudent){
