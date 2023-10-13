@@ -13,7 +13,7 @@ public class Utility {
         return matcher.find();
 
     }
-    public static String extractStudentId(String Email){
+    public String extractStudentId(String Email){
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(Email);
         if(matcher.find()){
