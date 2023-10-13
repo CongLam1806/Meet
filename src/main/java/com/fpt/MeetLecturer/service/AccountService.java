@@ -88,10 +88,12 @@ public class AccountService {
     public ResponseDTO createUser2(AccountDTO newAccount){
         Account user = new Account();
         boolean checkRole = checkUserRole(newAccount.getEmail());
-        if(checkRole){
-            newAccount.setRole(2);
-        }else {
-            newAccount.setRole(1);
+        if(newAccount.getRole() == -1){
+            if(checkRole){
+                newAccount.setRole(2);
+            }else {
+                newAccount.setRole(1);
+            }
         }
         recordUser(newAccount); // map user based on their role
         modelMapper.map(newAccount, user);
