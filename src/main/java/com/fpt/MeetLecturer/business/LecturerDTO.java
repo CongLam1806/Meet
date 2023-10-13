@@ -34,4 +34,6 @@ public class LecturerDTO {
 //    private List<Subject_LecturerDTO> SubjectName;
 
     private List<Subject_LecturerDTO> subjectList;
+
+    private List<Lecturer_LocationDTO> locationList;
 }
