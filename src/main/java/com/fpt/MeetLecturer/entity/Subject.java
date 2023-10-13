@@ -17,16 +17,16 @@ public class Subject {
     @Id
     private int Id;
 
-    @Column(name="")
+    @Column
     private String code;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name="semester")
+    @Column(name = "semester")
     private int semester;
 
-    @Column(name="status")
+    @Column(name = "status")
     private boolean status = true;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -36,7 +36,7 @@ public class Subject {
     @OneToMany(mappedBy = "subject")
     private List<Slot_Subject> slotSubjects;
 
-//    @OneToMany(mappedBy = "subject")
+    //    @OneToMany(mappedBy = "subject")
 //    private List<Booking> bookingList;
 
     @OneToMany(mappedBy = "subject")

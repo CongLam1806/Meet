@@ -20,13 +20,14 @@ public class SubjectDTO {
 
     private int id;
 
+    private String code;
+
     @NotBlank(message = "Name must not be blank")
     private String name;
 
     private int semester;
 
-    @Value("1")
-    private boolean status;
+    private boolean status = true;
 
     //nếu thay tên Major thành tên khác thì sẽ ko lấy đc info
     private MajorDTO Major;
