@@ -19,7 +19,7 @@ public class LocationController {
     }
     @GetMapping("/public")
     public ResponseEntity<ResponseDTO> getAllPublicLocation(){
-        return ResponseEntity.ok().body(locationService.getAllLocation());
+        return ResponseEntity.ok().body(locationService.getAllPublicLocation());
     }
     @GetMapping("/personal")
     public ResponseEntity<ResponseDTO> getAllPersonalLocation(@RequestParam(value = "Lecturer-id") int id){
