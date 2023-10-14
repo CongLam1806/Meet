@@ -23,7 +23,7 @@ public class Location {
 
 
     //@JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
     //@EqualsAndHashCode.Exclude
     //@ToString.Exclude
