@@ -6,10 +6,11 @@ import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.entity.Student;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class MapStudent {
     private static final ModelMapper modelMapper = new ModelMapper();
 
@@ -17,7 +18,7 @@ public class MapStudent {
 
     public StudentDTO convertStudentToStudentDTO(Student student){
         return  modelMapper.map(student, StudentDTO.class);
-        //slotDTO.setMeetingDate(new SimpleDateFormat("yyyy-MM-dd").format(slotDTO));
+
 
     }
 

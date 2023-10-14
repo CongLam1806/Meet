@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/slot")
+@RequestMapping(path="/api/v1/slot")
 public class SlotController {
     @Autowired
     private SlotService slotService;
@@ -30,9 +30,9 @@ public class SlotController {
         return ResponseEntity.ok().body(slotService.getSlotBySubjectCode(code));
     }
 
-    @GetMapping("/get/ByDateRange?{startDay}&{endDay}")
-    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("startDay") Date startDate,
-                                                        @PathVariable("endDay") Date endDate){
+    @GetMapping("/get/ByDateRange/{startDay}/{endDay}")
+    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("startDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                                        @PathVariable("endDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
         return ResponseEntity.ok().body(slotService.getSlotByDate(startDate, endDate));
     }
 
