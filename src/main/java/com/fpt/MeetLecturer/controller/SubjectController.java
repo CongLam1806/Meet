@@ -25,6 +25,11 @@ public class SubjectController {
         return subjectService.getAllSubject();
     }
 
+    @GetMapping("/{code}")
+    public SubjectDTO getSubjectByCode(@PathVariable String code) {
+        return subjectService.getSubjectByCode(code);
+    }
+
     @GetMapping("/status")
     public List<SubjectDTO> getAvailableSubject() {
         return subjectService.getAvailableSubject();

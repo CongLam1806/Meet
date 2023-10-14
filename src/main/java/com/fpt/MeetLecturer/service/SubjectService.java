@@ -41,6 +41,16 @@ public class SubjectService {
 
     }
 
+    public SubjectDTO getSubjectByCode(String code) {
+        Subject subject = subjectRepository.findByCode(code.toUpperCase());
+        if (subject != null) {
+            return genericMap.ToDTO(subject, SubjectDTO.class);
+        } else {
+            throw new RuntimeException("can't find this subject slot by id");
+        }
+
+    }
+
     public ResponseEntity<ResponseDTO> updateSubjectByStatus(SubjectDTO subjectDTO, int id) {
         Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isPresent()) {
@@ -70,6 +80,7 @@ public class SubjectService {
         Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isPresent()) {
             Subject subject1 = subject.get();
+            subject1.setCode(subjectDTO.getCode());
             subject1.setName(subjectDTO.getName());
             subject1.setSemester(subjectDTO.getSemester());
             subjectRepository.save(subject1);
