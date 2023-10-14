@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class LocationService {
@@ -21,13 +22,16 @@ public class LocationService {
 
     private final ModelMapper modelMapper = new ModelMapper();
      public ResponseDTO getAllLocation(){
-         return new ResponseDTO(HttpStatus.OK, "Get all Locations:",  mapLocation.tolocationDTOList(locationRepository.findAll()));
+         List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findAll());
+         return new ResponseDTO(HttpStatus.OK, "Get all Locations:", output );
      }
     public ResponseDTO getAllPublicLocation(){
-        return new ResponseDTO(HttpStatus.OK,"Get all public Locations:",mapLocation.tolocationDTOList(locationRepository.findPublicLocation()));
+        List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findPublicLocation());
+        return new ResponseDTO(HttpStatus.OK,"Get all public Locations:", output);
     }
     public ResponseDTO getAllPersonalLocation(String id){
-         return new ResponseDTO(HttpStatus.OK, "Personal locations:", mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id)));
+         List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id));
+         return new ResponseDTO(HttpStatus.OK, "Personal locations:", output);
     }
     public ResponseDTO deleteLocation(int id){
         Optional<Location> location = locationRepository.findById(id);
