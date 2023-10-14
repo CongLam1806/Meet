@@ -41,6 +41,20 @@ public class SubjectService {
 
     }
 
+    public ResponseEntity<ResponseDTO> updateSubjectByStatus(SubjectDTO subjectDTO, int id) {
+        Optional<Subject> subject = subjectRepository.findById(id);
+        if (subject.isPresent()) {
+            Subject subject1 = subject.get();
+            subject1.setStatus(subjectDTO.isStatus());
+            subjectRepository.save(subject1);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Update subject status successfully", "")
+            );
+        } else {
+            throw new RuntimeException("Can't find this subject with id: " + id);
+        }
+    }
+
     public ResponseEntity<ResponseDTO> createSubject(SubjectDTO subjectDTO) {
         Optional<Subject> booking1 = subjectRepository.findById(subjectDTO.getId());
         if (booking1.isPresent()) {

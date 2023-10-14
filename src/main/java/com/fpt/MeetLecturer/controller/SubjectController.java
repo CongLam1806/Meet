@@ -40,6 +40,11 @@ public class SubjectController {
         return subjectService.updateSubject(subjectDTO,id);
     }
 
+    @PutMapping("/status/{id}")
+    public ResponseEntity<ResponseDTO> updateSubjectByStatus(@Valid @RequestBody SubjectDTO subjectDTO, @PathVariable int id){
+        return subjectService.updateSubjectByStatus(subjectDTO,id);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteSubject(@Valid @PathVariable int id){
         subjectService.deleteSubject(id);

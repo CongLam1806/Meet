@@ -27,7 +27,7 @@ public class SubjectDTO {
 
     private int semester;
 
-    private boolean status = true;
+    private boolean status;
 
     //nếu thay tên Major thành tên khác thì sẽ ko lấy đc info
     private MajorDTO Major;
