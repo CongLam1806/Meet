@@ -15,7 +15,7 @@ public class MapLocation {
 
     static {
         TypeMap<Location, LocationDTO> toDTO = modelMapper.createTypeMap(Location.class, LocationDTO.class)
-                .addMapping(src -> src.getLecturer().getId(), LocationDTO::setId);
+                .addMapping(src -> src.getLecturer().getId(), LocationDTO::setLecturerId);
     }
 
     public LocationDTO toLocationDTO(Location location){
