@@ -56,19 +56,4 @@ public class LocationService {
          locationRepository.save(location);
          return  new ResponseDTO(HttpStatus.OK, "Created!","");
     }
-
-//    public void updateLocation(LocationDTO newLocation){
-//        Location location;
-//        if (newLocation.getId() == 0) {
-//            location = new Location();
-//        } else {
-//            location = locationRepository.findById(newLocation.getId()).orElseThrow();
-//
-//        }
-//        modelMapper.map(newLocation, location);
-//
-//        locationRepository.save(location);
-//    }
-
-
 }
