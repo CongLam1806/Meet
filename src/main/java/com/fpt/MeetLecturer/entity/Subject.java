@@ -32,10 +32,6 @@ public class Subject {
     @Column(name = "status")
     private boolean status = true;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "majorId", referencedColumnName = "Id")
-    private Major major;
-
     @OneToMany(mappedBy = "subject")
     private List<Slot_Subject> slotSubjects;
 
@@ -44,4 +40,7 @@ public class Subject {
 
     @OneToMany(mappedBy = "subject")
     private List<Subject_Lecturer> LecturerList;
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Subject_Major> majorList;
 }
