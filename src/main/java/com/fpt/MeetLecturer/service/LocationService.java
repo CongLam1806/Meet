@@ -44,12 +44,8 @@ public class LocationService {
         }
     }
     public ResponseDTO updateLocation1(LocationDTO locationDTO){
-            Location location;
-         if(locationDTO.getId() == 0){
-             location = new Location();
-         }else{
-             location = locationRepository.findById(locationDTO.getId()).orElseThrow();
-         }
+         Location location;
+         location = locationRepository.findById(locationDTO.getId()).orElseThrow();
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
          return new ResponseDTO(HttpStatus.OK, "Updated!", "");
