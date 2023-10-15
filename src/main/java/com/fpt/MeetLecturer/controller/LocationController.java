@@ -36,12 +36,10 @@ public class LocationController {
     }
     @PostMapping("/new-location")
     public ResponseEntity<ResponseDTO> createLocation(@Valid @RequestBody LocationDTO locationDTO){
-        /* locationDTO.setId(id); */
        return ResponseEntity.ok().body(locationService.createLocation(locationDTO));
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO> updateLocation1(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
-        /* locationDTO.setId(id); */
+    public  ResponseEntity<ResponseDTO> updateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
         return ResponseEntity.ok().body(locationService.updateLocation1(locationDTO));
     }
 
