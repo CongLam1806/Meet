@@ -38,7 +38,7 @@ public class LocationController {
     public ResponseEntity<ResponseDTO> createLocation(@Valid @RequestBody LocationDTO locationDTO){
        return ResponseEntity.ok().body(locationService.createLocation(locationDTO));
     }
-    @CrossOrigin("*")
+    @CrossOrigin(origins = "*")
     @PutMapping("/update/{id}")
     public  ResponseEntity<ResponseDTO> updateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
         return ResponseEntity.ok().body(locationService.updateLocation1(locationDTO));
