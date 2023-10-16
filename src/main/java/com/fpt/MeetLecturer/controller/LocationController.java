@@ -48,11 +48,6 @@ public class LocationController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDTO> UpdateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "https://meetinglecturers.giakhang3005.com");
-        headers.add("Access-Control-Allow-Methods", "PUT");  // Adjust to include other allowed methods if needed
-        headers.add("Access-Control-Allow-Headers", "Content-Type");  // Adjust to include other allowed headers if needed
-
         return locationService.EditLocation(locationDTO, id);
     }
 
