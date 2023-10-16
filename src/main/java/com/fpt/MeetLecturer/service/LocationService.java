@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.business.LocationDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Location;
+import com.fpt.MeetLecturer.entity.Major;
 import com.fpt.MeetLecturer.mapper.MapLocation;
 import com.fpt.MeetLecturer.repository.LocationRepository;
 import org.modelmapper.ModelMapper;
@@ -48,15 +49,29 @@ public class LocationService {
             return new ResponseDTO(HttpStatus.OK, "Location deleted!", "");
         }
     }
-    public ResponseEntity<ResponseDTO>updateLocation(LocationDTO locationDTO){
+    public ResponseDTO updateLocation(LocationDTO locationDTO){
          Location location;
          location = locationRepository.findById(locationDTO.getId()).orElseThrow();
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseDTO(HttpStatus.OK, "Create major status successfully", "")
-        );
-//         return new ResponseDTO(HttpStatus.OK, "Location updated!", "");
+         return new ResponseDTO(HttpStatus.OK, "Location updated!", "");
+    }
+
+    public ResponseEntity<ResponseDTO> EditLocation(LocationDTO locationDTO, int id){
+        Optional<Location> location = locationRepository.findById(id);
+        if (location.isPresent()){
+            Location existMajor = location.get();
+            existMajor.setName(locationDTO.getName());
+            existMajor.setAddress(locationDTO.getAddress());
+            locationRepository.save(existMajor);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Update major status successfully", "")
+            );
+        }  else {
+            throw new RuntimeException("Can't find this Location with id: " + id);
+        }
+
+
     }
     public ResponseDTO createLocation(LocationDTO locationDTO){
          Location location = new Location();
