@@ -109,7 +109,11 @@ public class AccountService {
         } else if(accountDTO.getRole() == 2){
             modelMapper.map(accountDTO, student);
             String code = utility.extractStudentId(student.getEmail());
+            String curiculum = utility.extractCuriculum(student.getName());
+            String defaultAddress = utility.extractDefaultAddress((student.getAddress()));
             student.setCode(code);
+            student.setCurriculum(curiculum);
+            student.setAddress(defaultAddress);
             studentRepository.save(student);
         }
     }
