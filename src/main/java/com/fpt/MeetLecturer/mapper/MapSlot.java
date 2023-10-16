@@ -41,5 +41,9 @@ public class MapSlot {
     }
 
 
-
+    public List<Slot> toSlotList(List<SlotDTO> slotdtos) {
+        List<Slot> list = new ArrayList<>();
+        slotdtos.forEach(slot -> list.add(convertSlotDTOToSlot(slot)));
+        return list;
+    }
 }
