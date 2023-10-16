@@ -41,7 +41,8 @@ public class LocationController {
     //@CrossOrigin(origins = {"http://localhost:3000", "https://meet-production-52c7.up.railway.app/swagger-ui/index.html","https://meetinglecturers.giakhang3005.com"})
     @PutMapping("/mod/{id}")
     public  ResponseEntity<ResponseDTO> editLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
-        return ResponseEntity.ok().body(locationService.updateLocation(locationDTO));
+        //return ResponseEntity.ok().body(locationService.updateLocation(locationDTO));
+        return ResponseEntity.ok(locationService.updateLocation(locationDTO));
     }
 
 }
