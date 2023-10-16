@@ -23,20 +23,11 @@ public class BookingDTO {
     @Size(max = 200, message = "note maximum should be 200")
     private String note;
 
-    @JsonFormat(pattern = "dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
-    private Date meetingDate;
-
-    private String  StudentName;
-
-    private Time startTime;
-
-    private Time endTime;
+    private Booking_SlotDTO slotDTO;
 
     private int status;
 
-
-
-
+    private String code;
 
 
 }
