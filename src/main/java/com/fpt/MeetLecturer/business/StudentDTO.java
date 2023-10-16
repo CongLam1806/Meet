@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.business;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class StudentDTO {
 
     private String address;
 
+    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
     private String phone;
 
     private String email;
