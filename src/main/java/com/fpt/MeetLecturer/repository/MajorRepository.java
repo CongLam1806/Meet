@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface MajorRepository extends JpaRepository<Major, Integer> {
-    List<Major> findByStatus(boolean status);
 }

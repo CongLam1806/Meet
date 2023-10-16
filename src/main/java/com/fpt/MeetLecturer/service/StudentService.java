@@ -33,7 +33,7 @@ public class StudentService {
     }
 
     public ResponseDTO getActiveStudentEmail(){
-        List<Student> students = studentRepository.findByStudentStatus(true);
+        List<Student> students = studentRepository.findByStatus(true);
         List<String> studentEmails = new ArrayList<>();
         students.forEach(student -> {
             studentEmails.add(student.getEmail());
