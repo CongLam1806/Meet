@@ -34,9 +34,9 @@ public class LocationController {
        return ResponseEntity.ok().body(locationService.createLocation(locationDTO));
     }
     //@CrossOrigin(origins = {"http://localhost:3000", "https://meet-production-52c7.up.railway.app/swagger-ui/index.html","https://meetinglecturers.giakhang3005.com"})
-    @PutMapping("/mod")
+    @PutMapping("/put")
     public  ResponseEntity<ResponseDTO> updateLocation(@Valid @RequestBody LocationDTO locationDTO, @RequestParam(value = "id") int id){
-        return ResponseEntity.ok().body(locationService.updateLocation1(locationDTO));
+        return ResponseEntity.ok().body(locationService.updateLocation(locationDTO));
     }
 
 }

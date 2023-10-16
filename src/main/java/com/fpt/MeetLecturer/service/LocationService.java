@@ -43,12 +43,12 @@ public class LocationService {
             return new ResponseDTO(HttpStatus.OK, "Location deleted!", "");
         }
     }
-    public ResponseDTO updateLocation1(LocationDTO locationDTO){
+    public ResponseDTO updateLocation(LocationDTO locationDTO){
          Location location;
          location = locationRepository.findById(locationDTO.getId()).orElseThrow();
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
-         return new ResponseDTO(HttpStatus.OK, "Updated!", "");
+         return new ResponseDTO(HttpStatus.OK, "Location updated!", "");
     }
     public ResponseDTO createLocation(LocationDTO locationDTO){
          Location location = new Location();
