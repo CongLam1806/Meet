@@ -27,6 +27,8 @@ public class BookingDTO {
 
     private int status;
 
+    private String StudentName;
+
     private String code;
 
 

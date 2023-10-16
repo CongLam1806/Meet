@@ -35,8 +35,8 @@ public class Subject {
     @OneToMany(mappedBy = "subject")
     private List<Slot_Subject> slotSubjects;
 
-    //    @OneToMany(mappedBy = "subject")
-//    private List<Booking> bookingList;
+    @OneToMany(mappedBy = "subject")
+    private List<Booking> bookingList;
 
     @OneToMany(mappedBy = "subject")
     private List<Subject_Lecturer> LecturerList;
