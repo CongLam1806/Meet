@@ -57,6 +57,8 @@ public class BookingService {
             throw new IllegalStateException("this slot has already booked");
         } else {
             Booking booking = new ModelMapper().map(bookingEntity, Booking.class);
+//            Booking booking = new Booking();
+//            booking.setSlot(bookingDTO.);
             bookingRepository.save(booking);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseDTO(HttpStatus.OK, "Booking successfully","")

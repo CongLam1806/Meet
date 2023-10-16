@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,8 @@ public class Student {
     private String code;
     @Column
     private String name;
+
+    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column
     private Date dob;
     @Column

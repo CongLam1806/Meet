@@ -18,8 +18,6 @@ public class Booking_SlotDTO {
     @JsonFormat(pattern = "dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
     private Date meetingDate;
 
-    private String  StudentName;
-
     private Time startTime;
 
     private Time endTime;

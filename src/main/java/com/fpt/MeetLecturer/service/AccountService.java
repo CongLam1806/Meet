@@ -52,13 +52,6 @@ public class AccountService {
         return responseDTO;
     }
 
-//    public ResponseDTO createUser(UserDTO newUser){
-//        User user = new User();
-//        modelMapper.map(newUser, user);
-//        userRepository.save(user);
-//        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
-//        return responseDTO;
-//    }
     public ResponseDTO updateAccount(AccountDTO newAccount) {
         Account account;
         account = accountRepository.findById(newAccount.getId()).orElseThrow();
