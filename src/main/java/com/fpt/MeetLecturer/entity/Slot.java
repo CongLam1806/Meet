@@ -42,7 +42,7 @@ public class Slot {
 
     @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column(name="meetingDay")
-    private Date meetingDate;
+    private Date meetingDay;
 
     @Column(name="mode")
     private int mode;
