@@ -45,7 +45,7 @@ public class StudentService {
 
 
     public ResponseDTO updateStudent(StudentDTO studentDTO, String id){
-        Student student =  studentRepository.findByStudentId(id);
+        Student student =  studentRepository.findById(id).orElseThrow();
         modelMapper.map(studentDTO, student);
         studentRepository.save(student);
         return new ResponseDTO(HttpStatus.OK, "UPDATE STUDENT SUCCESSFULLY", mapStudent.convertStudentToStudentDTO(student));
