@@ -22,7 +22,8 @@ public class MapLecturer {
         TypeMap<Lecturer, LecturerDTO> propertyMapper = modelMapper.createTypeMap(Lecturer.class, LecturerDTO.class);
         propertyMapper
 //                .addMapping(src -> src.getId(), LecturerDTO::setSubjectList);
-                .addMapping(Lecturer::getSubjectList, LecturerDTO::setSubjectList);
+                .addMapping(Lecturer::getSubjectList, LecturerDTO::setSubjectList)
+                .addMapping(Lecturer::getLocationList, LecturerDTO::setLocationList);
     }
 
     public Lecturer convertLecturer(LecturerDTO lecturerDTO) {

@@ -31,12 +31,11 @@ public class LocationController {
     }
     @PostMapping("/new-location")
     public ResponseEntity<ResponseDTO> createLocation(@Valid @RequestBody LocationDTO locationDTO){
-        /* locationDTO.setId(id); */
        return ResponseEntity.ok().body(locationService.createLocation(locationDTO));
     }
+    //@CrossOrigin(origins = {"http://localhost:3000", "https://meet-production-52c7.up.railway.app/swagger-ui/index.html","https://meetinglecturers.giakhang3005.com"})
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO> updateLocation1(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
-        /* locationDTO.setId(id); */
+    public  ResponseEntity<ResponseDTO> updateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
         return ResponseEntity.ok().body(locationService.updateLocation1(locationDTO));
     }
 

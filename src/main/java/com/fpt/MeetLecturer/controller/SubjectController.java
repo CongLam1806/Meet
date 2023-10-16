@@ -25,6 +25,11 @@ public class SubjectController {
         return subjectService.getAllSubject();
     }
 
+    @GetMapping("/{code}")
+    public SubjectDTO getSubjectByCode(@PathVariable String code) {
+        return subjectService.getSubjectByCode(code);
+    }
+
     @GetMapping("/status")
     public List<SubjectDTO> getAvailableSubject() {
         return subjectService.getAvailableSubject();
@@ -38,6 +43,11 @@ public class SubjectController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO> updateSubject(@Valid @RequestBody SubjectDTO subjectDTO, @PathVariable int id){
         return subjectService.updateSubject(subjectDTO,id);
+    }
+
+    @PutMapping("/status/{id}")
+    public ResponseEntity<ResponseDTO> updateSubjectByStatus(@Valid @RequestBody SubjectDTO subjectDTO, @PathVariable int id){
+        return subjectService.updateSubjectByStatus(subjectDTO,id);
     }
 
     @DeleteMapping("/{id}")
