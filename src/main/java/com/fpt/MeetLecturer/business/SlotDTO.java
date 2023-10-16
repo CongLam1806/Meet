@@ -30,11 +30,11 @@ public class SlotDTO {
     @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
     private Date meetingDay;
 
-    @Value("1")
-    private int mode;
+
+    private int mode = 1;
 
     @Value("1")
-    private boolean status;
+    private boolean status = true;
 
 
     private int locationId;
