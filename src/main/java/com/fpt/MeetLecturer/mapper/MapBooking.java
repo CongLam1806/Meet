@@ -20,7 +20,7 @@ public class MapBooking {
     private static final ModelMapper modelMapper = new ModelMapper();
 
 
-    static {
+      static {
         TypeMap<Booking, BookingDTO> propertyMapper = modelMapper.createTypeMap(Booking.class, BookingDTO.class);
         propertyMapper
                 .addMapping(Booking::getSlot, BookingDTO::setSlotDTO)
@@ -28,6 +28,7 @@ public class MapBooking {
                 .addMapping(src -> src.getStudent().getName(), BookingDTO::setStudentName)
                 .addMapping(src -> src.getSlot().getLecturer().getName(), BookingDTO::setLecturerName);
     }
+
 
     public BookingDTO convertBookingToBookingDTO(Booking slot) {
         return modelMapper.map(slot, BookingDTO.class);

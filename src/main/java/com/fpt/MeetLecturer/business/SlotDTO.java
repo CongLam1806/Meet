@@ -28,7 +28,7 @@ public class SlotDTO {
 
     @NotBlank(message = "Meeting Date must not be blank")
     @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
-    private Date meetingDate;
+    private Date meetingDay;
 
     @Value("1")
     private int mode;

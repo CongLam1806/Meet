@@ -110,6 +110,10 @@ public class AccountService {
             modelMapper.map(accountDTO, student);
             String code = utility.extractStudentId(student.getEmail());
             student.setCode(code);
+            String curiculum = utility.extractCuriculum(student.getName());
+            student.setCurriculum(curiculum);
+            String defaultAddress = utility.extractDefaultAddress((student.getName()));
+            student.setAddress(defaultAddress);
             studentRepository.save(student);
         }
     }
