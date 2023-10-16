@@ -35,7 +35,7 @@ public class SubjectController {
         return subjectService.getAvailableSubject();
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createNewSubject(@Valid @RequestBody SubjectDTO subjectDTO){
          return subjectService.createSubject(subjectDTO);
     }
