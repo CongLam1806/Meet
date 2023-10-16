@@ -48,7 +48,7 @@ public class StudentService {
         Student student =  studentRepository.findByStudentId(id);
         modelMapper.map(studentDTO, student);
         studentRepository.save(student);
-        return new ResponseDTO(HttpStatus.OK, "UPDATE STUDENT SUCCESSFULLY", mapStudent.convertStudentToStudentDTO(studen));
+        return new ResponseDTO(HttpStatus.OK, "UPDATE STUDENT SUCCESSFULLY", mapStudent.convertStudentToStudentDTO(student));
     }
 
 }
