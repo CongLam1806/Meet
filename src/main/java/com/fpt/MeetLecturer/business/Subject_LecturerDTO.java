@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class Subject_LecturerDTO {
     @NotBlank(message = "subject should not be empty")
     private int subjectId;
-    private String subjectName;
+    private String subjectCode;
 }

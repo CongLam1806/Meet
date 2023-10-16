@@ -18,5 +18,4 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     Subject findByCode(String code);
 
 
-
 }

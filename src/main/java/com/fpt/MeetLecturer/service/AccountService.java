@@ -88,10 +88,12 @@ public class AccountService {
     public ResponseDTO createUser2(AccountDTO newAccount){
         Account user = new Account();
         boolean checkRole = checkUserRole(newAccount.getEmail());
-        if(checkRole){
-            newAccount.setRole(2);
-        }else {
-            newAccount.setRole(1);
+        if(newAccount.getRole() == -1){
+            if(checkRole){
+                newAccount.setRole(2);
+            }else {
+                newAccount.setRole(1);
+            }
         }
         recordUser(newAccount); // map user based on their role
         modelMapper.map(newAccount, user);
@@ -106,6 +108,8 @@ public class AccountService {
             lecturerRepository.save(lecturer);
         } else if(accountDTO.getRole() == 2){
             modelMapper.map(accountDTO, student);
+            String code = utility.extractStudentId(student.getEmail());
+            student.setCode(code);
             studentRepository.save(student);
         }
     }

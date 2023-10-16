@@ -25,28 +25,25 @@ public class MapLecturer {
                 .addMapping(Lecturer::getSubjectList, LecturerDTO::setSubjectList);
     }
 
-    public Lecturer convertLecturer(LecturerDTO lecturerDTO){
+    public Lecturer convertLecturer(LecturerDTO lecturerDTO) {
         return modelMapper.map(lecturerDTO, Lecturer.class);
     }
 
-    public List<Lecturer> convertListToLecturer(List<LecturerDTO> lecturerDTOS){
+    public List<Lecturer> convertListToLecturer(List<LecturerDTO> lecturerDTOS) {
         List<Lecturer> list = new ArrayList<>();
         lecturerDTOS.forEach(lecturerDTO -> list.add(convertLecturer(lecturerDTO)));
         return list;
     }
 
-    public  LecturerDTO ToLecturerDTO(Lecturer account){
+    public LecturerDTO ToLecturerDTO(Lecturer account) {
         return modelMapper.map(account, LecturerDTO.class);
     }
 
-    public List<LecturerDTO> convertListToLecturerDTO(List<Lecturer> accounts){
+    public List<LecturerDTO> convertListToLecturerDTO(List<Lecturer> accounts) {
         List<LecturerDTO> list = new ArrayList<>();
         accounts.forEach(lecturer -> list.add(ToLecturerDTO(lecturer)));
         return list;
     }
-
-
-
 
 
 }
