@@ -1,0 +1,36 @@
+package com.fpt.MeetLecturer.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "Location")
+@Entity
+public class Location {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="Id")
+    private int id;
+    private String name;
+    private String address;
+    private boolean status;
+
+
+    //@JsonBackReference
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
+    //@EqualsAndHashCode.Exclude
+    //@ToString.Exclude
+    private Lecturer lecturer;
+
+
+    @OneToMany(mappedBy = "location") //cascade = {CascadeType.ALL},
+    private List<Slot> slotList;
+
+}
