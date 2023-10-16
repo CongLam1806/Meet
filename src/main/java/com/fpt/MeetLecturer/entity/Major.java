@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Data
@@ -25,11 +24,7 @@ public class Major {
     private boolean status = true;
 
     @OneToMany(mappedBy = "major")
-    private List<Subject> subjectList;
-
-//    @OneToOne (mappedBy = "")
-//    private Student student;
-
+    private List<Subject_Major> SubjectList;
 
 
 }

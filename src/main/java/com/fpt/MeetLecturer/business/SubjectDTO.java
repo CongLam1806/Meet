@@ -30,5 +30,5 @@ public class SubjectDTO {
     private boolean status;
 
     //nếu thay tên Major thành tên khác thì sẽ ko lấy đc info
-    private MajorDTO Major;
+    private List<Subject_MajorDTO> majorList;
 }
