@@ -45,8 +45,8 @@ public class GlobalExceptionController {
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             errorMap.put(error.getField(), error.getDefaultMessage());
         });
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST, "Invalid some fields", errorMap);
-        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "Invalid some fields", errorMap);
+        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     @ExceptionHandler({NoSuchElementException.class})
