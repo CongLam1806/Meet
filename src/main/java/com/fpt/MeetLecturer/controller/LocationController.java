@@ -25,6 +25,10 @@ public class LocationController {
     public ResponseEntity<ResponseDTO> getAllPersonalLocation(@RequestParam(value = "Lecturer-id") String id){
         return ResponseEntity.ok().body(locationService.getAllPersonalLocation(id));
     }
+    @GetMapping("/my-location")
+    public ResponseEntity<ResponseDTO> getLecturerLocation(@RequestParam(value = "Lecturer-id") String id){
+        return ResponseEntity.ok().body(locationService.getAllPrivateLocation(id));
+    }
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDTO> deleteLocation(@RequestParam(value = "id")int id){
         return ResponseEntity.ok().body(locationService.deleteLocation(id));

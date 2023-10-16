@@ -10,8 +10,8 @@ import java.util.List;
 public interface LocationRepository extends JpaRepository<Location, Integer> {
     @Query(value = "SELECT * FROM Location WHERE status = 1", nativeQuery = true)
     List<Location> findPublicLocation();
-    @Query(value = "SELECT * FROM Location WHERE lecturerId = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM Location WHERE lecturerId = ?1 or status = 1", nativeQuery = true)
     List<Location> findPersonalLocation(String id);
 
-    //Location findOneByCode(int code);
+    List<Location> findByLecturerId(String id);
 }

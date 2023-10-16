@@ -33,6 +33,10 @@ public class LocationService {
          List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id));
          return new ResponseDTO(HttpStatus.OK, "Personal locations:", output);
     }
+    public ResponseDTO getAllPrivateLocation(String id){
+        List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findByLecturerId(id));
+        return new ResponseDTO(HttpStatus.OK, "Private locations:", output);
+    }
     public ResponseDTO deleteLocation(int id){
         Optional<Location> location = locationRepository.findById(id);
         if(location.isEmpty()){
