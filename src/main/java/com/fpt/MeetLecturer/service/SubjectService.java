@@ -51,7 +51,7 @@ public class SubjectService {
             Subject existingBooking = subject.get();
             return genericMap.ToDTO(existingBooking, SubjectDTO.class);
         } else {
-            throw new RuntimeException("can't find this subject slot by id");
+            throw new RuntimeException("can't find this subject with id" + id);
         }
 
     }
@@ -96,7 +96,7 @@ public class SubjectService {
             subject1.setSemester(subjectDTO.getSemester());
             subjectRepository.save(subject1);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Create successfully", "")
+                    new ResponseDTO(HttpStatus.OK, "Update subject successfully", "")
             );
         } else {
             throw new RuntimeException("Can't find this subject with id: " + id);
@@ -112,7 +112,7 @@ public class SubjectService {
                 throw new IllegalStateException("This Subject code already exists");
             }
         } catch (Exception ex) {
-            throw new IllegalStateException("An error occurred while checking for existing Subject");
+            throw new IllegalStateException("This Subject code already exists");
         }
 
         subject.setCode(subjectDTO.getCode());

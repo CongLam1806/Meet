@@ -25,6 +25,7 @@ public class MapBooking {
         propertyMapper
                 .addMapping(Booking::getSlot, BookingDTO::setSlotDTO)
                 .addMapping(src -> src.getSubject().getCode(), BookingDTO::setCode)
+                .addMapping(src -> src.getStudent().getName(), BookingDTO::setStudentName)
                 .addMapping(src -> src.getSlot().getLecturer().getName(), BookingDTO::setLecturerName);
     }
 
