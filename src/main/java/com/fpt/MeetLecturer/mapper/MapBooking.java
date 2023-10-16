@@ -26,7 +26,7 @@ public class MapBooking {
                 .addMapping(src -> src.getStudent().getName(), BookingDTO::setStudentName)
                 .addMapping(src -> src.getSlot().getStartTime(), BookingDTO::setStartTime)
                 .addMapping(src -> src.getSlot().getEndTime(), BookingDTO::setEndTime)
-                .addMapping(src -> src.getSlot().getMeetingDate(), BookingDTO::setMeetingDate)
+                .addMapping(src -> src.getSlot().getMeetingDay(), BookingDTO::setMeetingDate)
                 .addMapping(src -> src.getSlot().getLecturer().getName(), BookingDTO::setLecturerName);
     }
 
