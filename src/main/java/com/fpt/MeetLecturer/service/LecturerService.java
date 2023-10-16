@@ -57,14 +57,14 @@ public class LecturerService {
         return genericMap.ToDTOList(lecturerRepository.findByStatus(true), LecturerDTO.class);
     }
 
-    public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
-        Lecturer lecturer = genericMap.ToEntity(LecturerDTO, Lecturer.class);
-        lecturerRepository.save(lecturer);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseDTO(HttpStatus.OK, "Create successfully", "")
-        );
-
-    }
+//    public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
+//        Lecturer lecturer = genericMap.ToEntity(LecturerDTO, Lecturer.class);
+//        lecturerRepository.save(lecturer);
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseDTO(HttpStatus.OK, "Create successfully", "")
+//        );
+//
+//    }
 
     @Transactional
     public ResponseEntity<ResponseDTO> updateLecturer(LecturerDTO newLecturer, String id) {

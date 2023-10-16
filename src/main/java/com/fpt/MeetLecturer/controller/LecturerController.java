@@ -37,11 +37,11 @@ public class LecturerController {
         return lecturerService.getLecturerByEmail(email);
     }
 
-    @PostMapping("")
-    public ResponseEntity<ResponseDTO> createLecturer(@RequestBody @Valid LecturerDTO lecturerDTO){
-       return lecturerService.createLecturer(lecturerDTO);
-    }
-
+//    @PostMapping("")
+//    public ResponseEntity<ResponseDTO> createLecturer(@RequestBody @Valid LecturerDTO lecturerDTO){
+//       return lecturerService.createLecturer(lecturerDTO);
+//    }
+//
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO> updateLecturer(@RequestBody @Valid LecturerDTO newLecturer, @PathVariable String id ){
