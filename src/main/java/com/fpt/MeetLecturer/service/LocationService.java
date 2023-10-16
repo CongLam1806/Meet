@@ -8,6 +8,7 @@ import com.fpt.MeetLecturer.repository.LocationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,12 +48,15 @@ public class LocationService {
             return new ResponseDTO(HttpStatus.OK, "Location deleted!", "");
         }
     }
-    public ResponseDTO updateLocation(LocationDTO locationDTO){
+    public ResponseEntity<ResponseDTO>updateLocation(LocationDTO locationDTO){
          Location location;
          location = locationRepository.findById(locationDTO.getId()).orElseThrow();
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
-         return new ResponseDTO(HttpStatus.OK, "Location updated!", "");
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseDTO(HttpStatus.OK, "Create major status successfully", "")
+        );
+//         return new ResponseDTO(HttpStatus.OK, "Location updated!", "");
     }
     public ResponseDTO createLocation(LocationDTO locationDTO){
          Location location = new Location();

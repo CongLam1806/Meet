@@ -46,10 +46,16 @@ public class LocationController {
     }
 
     //    @PutMapping("/mod/{id}")
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO> editLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id) {
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ResponseDTO> editLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id) {
+//        //return ResponseEntity.ok().body(locationService.updateLocation(locationDTO));
+//        return ResponseEntity.ok(locationService.updateLocation(locationDTO));
+//    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseDTO> editLocation(@RequestBody @Valid LocationDTO locationDTO, @PathVariable int id) {
         //return ResponseEntity.ok().body(locationService.updateLocation(locationDTO));
-        return ResponseEntity.ok(locationService.updateLocation(locationDTO));
+        return locationService.updateLocation(locationDTO);
     }
 
 }
