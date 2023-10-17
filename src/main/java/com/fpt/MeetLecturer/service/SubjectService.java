@@ -91,12 +91,15 @@ public class SubjectService {
             }
 
             Subject subject1 = subject.get();
-            if (subjectDTO.getCode().trim().equalsIgnoreCase(subject.get().getCode().trim())){
+            if (subjectRepository.existsByCode(subjectDTO.getCode().toUpperCase()))
                 throw new IllegalStateException("This Subject code has already existed");
+            else{
+                if (subjectDTO.getCode().trim().equalsIgnoreCase(subject.get().getCode().trim()))
+                    throw new IllegalStateException("This Subject code has already existed");
+                else
+                    subject1.setCode(subjectDTO.getCode());
             }
-            else {
-                subject1.setCode(subjectDTO.getCode());
-            }
+
             subject1.setName(subjectDTO.getName());
             subject1.setSemester(subjectDTO.getSemester());
             subjectRepository.save(subject1);
