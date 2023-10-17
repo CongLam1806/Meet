@@ -84,6 +84,16 @@ public class SubjectService {
     public ResponseEntity<ResponseDTO> updateSubject(SubjectDTO subjectDTO, int id) {
         Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isPresent()) {
+
+            try {
+                Subject existSubject = subjectRepository.findByCode(subjectDTO.getCode());
+                if (existSubject != null) {
+                    throw new IllegalStateException("This Subject code has already existed");
+                }
+            } catch (Exception ex) {
+                throw new IllegalStateException("This Subject code has already existed");
+            }
+
             subjectMajorRepo.deleteAllBySubjectId(id);
 
             for (Subject_MajorDTO subjectMajorDTO : subjectDTO.getMajorList()) {
@@ -109,10 +119,10 @@ public class SubjectService {
         try {
             Subject existSubject = subjectRepository.findByCode(subjectDTO.getCode());
             if (existSubject != null) {
-                throw new IllegalStateException("This Subject code already exists");
+                throw new IllegalStateException("This Subject code has already existed");
             }
         } catch (Exception ex) {
-            throw new IllegalStateException("This Subject code already exists");
+            throw new IllegalStateException("This Subject code has already existed");
         }
 
         subject.setCode(subjectDTO.getCode());
