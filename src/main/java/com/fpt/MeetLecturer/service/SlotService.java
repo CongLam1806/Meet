@@ -64,7 +64,7 @@ public class SlotService {
 
     Sort sort = Sort.by("meetingDay").descending();
 
-    public List<SlotDTO> getAllSlot(){
+    public ResponseDTO getAllSlot(){
 
         List<SlotDTO> slotList = mapSlot.convertListToSlotDTO(slotRepository.findAll(sort));
 
@@ -83,8 +83,8 @@ public class SlotService {
             slotDTO.setSubjectCode(subjectCode);
         });
 
-        //return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
-        return slotList;
+        return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
+        //return slotList;
 
     }
 

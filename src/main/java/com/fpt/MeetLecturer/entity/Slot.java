@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -27,8 +28,16 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class Slot {
     @Id
-//    @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence-generator")
+    @GenericGenerator(
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "slot_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "4"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
     private int Id;
 
     @Column(name="password")
