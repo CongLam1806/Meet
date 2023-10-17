@@ -18,22 +18,21 @@ public class SlotController {
     @Autowired
     private SlotService slotService;
 
-//    @GetMapping("/get")
-//    public ResponseEntity<ResponseDTO> getSlot(@PathVariable(name="lecturerId", required = false) String id,
-//                                               @PathVariable(name="subjectCode", required = false) String code,
-//                                               @PathVariable(name="startDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-//                                               @PathVariable(name="endDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
-//        //ResponseDTO responseDTO = slotService.getAllSlot();
-//
-//        //return ResponseEntity.ok().body(responseDTO);
-//    }
+    @GetMapping("")
+    public ResponseEntity<ResponseDTO> getSlot(@RequestParam(name="subjectCode", required = false) String code,
+                                               @RequestParam(name="startDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                               @RequestParam(name="endDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+        ResponseDTO responseDTO = slotService.getSlotByStudent(code, startDate, endDate);
 
-//    @GetMapping("/get")
-//    public ResponseEntity<ResponseDTO> getAllSlot(){
-//        ResponseDTO responseDTO = slotService.getAllSlot();
-//
-//        return ResponseEntity.ok().body(responseDTO);
-//    }
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    @GetMapping("/lecturer")
+    public ResponseEntity<ResponseDTO> getSlotLecturer(@RequestParam(name="id", required = false) String id){
+        ResponseDTO responseDTO = slotService.getSlotByLecturerId(id);
+
+        return ResponseEntity.ok().body(responseDTO);
+    }
 
 //    @GetMapping("/get/personal/{lecturerId}")
 //    public ResponseEntity<ResponseDTO> getSlotByLecturerId(@PathVariable("lecturerId") String id){

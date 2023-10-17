@@ -24,7 +24,7 @@ public class Student {
     @Column
     private String name;
 
-    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
+    @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column
     private Date dob;
     @Column
