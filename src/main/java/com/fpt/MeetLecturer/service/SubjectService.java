@@ -91,15 +91,14 @@ public class SubjectService {
             }
 
             Subject subject1 = subject.get();
-            if (subjectRepository.existsByCode(subjectDTO.getCode().toUpperCase()))
-                throw new IllegalStateException("This Subject code has already existed");
-            else{
-                if (subjectDTO.getCode().trim().equalsIgnoreCase(subject.get().getCode().trim()))
-                    throw new IllegalStateException("This Subject code has already existed");
-                else
-                    subject1.setCode(subjectDTO.getCode());
+            String newCode = subjectDTO.getCode().trim();
+            if (!newCode.equalsIgnoreCase(subject1.getCode().trim())) {
+                // If the new code is different, check if it already exists
+                if (subjectRepository.existsByCode(newCode)) {
+                    throw new IllegalStateException("This Subject code already exists");
+                }
             }
-
+            subject1.setCode(newCode);
             subject1.setName(subjectDTO.getName());
             subject1.setSemester(subjectDTO.getSemester());
             subjectRepository.save(subject1);
@@ -148,7 +147,6 @@ public class SubjectService {
                 new ResponseDTO(HttpStatus.OK, "Subject created successfully", "")
         );
     }
-
 
 
     public ResponseEntity<ResponseDTO> deleteSubject(int id) {
