@@ -18,11 +18,12 @@ public class StudentDTO {
 
     private String name;
 
+    @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     private Date dob;
 
     private String address;
 
-    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
+
     private String phone;
 
     private String email;

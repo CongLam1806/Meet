@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -27,7 +28,7 @@ public class SlotDTO {
     private Time endTime;
 
     @NotBlank(message = "Meeting Date must not be blank")
-    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
+    @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     private Date meetingDay;
 
 
@@ -41,6 +42,8 @@ public class SlotDTO {
     private String lecturerName;
     private String studentEmail;
     private List<String> subjectCode;
+//    private Time currentTime;
+//    private Date currentDay;
     //private SubjectResponseDTO subjectResponseDTOS;
     //private Subject subjects;
 
