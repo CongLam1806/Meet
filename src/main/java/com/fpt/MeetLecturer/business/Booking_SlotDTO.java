@@ -15,7 +15,7 @@ public class Booking_SlotDTO {
 
     private int id;
 
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     private Date meetingDate;
 
     private Time startTime;
