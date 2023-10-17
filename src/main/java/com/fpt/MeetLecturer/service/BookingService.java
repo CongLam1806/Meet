@@ -70,19 +70,18 @@ public class BookingService {
         }
     }
 
-    public ResponseEntity<ResponseDTO> updateBooking(BookingDTO booking){
+    public ResponseEntity<ResponseDTO> updateBooking(BookingDTO booking, int id){
         Booking bookingEntity = genericMap.ToEntity(booking, Booking.class);
         Optional<Booking> bookingOptional = bookingRepository.findById(bookingEntity.getId());
         if (bookingOptional.isPresent()){
             Booking existingLecturer = bookingOptional.get();
             existingLecturer.setNote(bookingEntity.getNote());
-            existingLecturer.setStatus(bookingEntity.getStatus());
             bookingRepository.save(existingLecturer);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseDTO(HttpStatus.OK, "Update successfully", "")
             );
         } else {
-            throw new RuntimeException("Can't find this booking slot");
+            throw new RuntimeException("Can't find this booking information");
         }
     }
 

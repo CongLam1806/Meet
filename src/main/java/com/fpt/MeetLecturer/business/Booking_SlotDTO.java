@@ -21,4 +21,10 @@ public class Booking_SlotDTO {
     private Time startTime;
 
     private Time endTime;
+
+    private String lecturerName;
+
+    private String locationName;
+
+    private String locationAddress;
 }

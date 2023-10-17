@@ -39,9 +39,9 @@ public class BookingController {
         return bookingService.createBooking(bookingDTO);
     }
 
-    @PutMapping("")
-    public ResponseEntity<ResponseDTO> updateBooking(@Valid @RequestBody BookingDTO bookingDTO) {
-        return bookingService.updateBooking(bookingDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDTO> updateBooking(@Valid @RequestBody BookingDTO bookingDTO, @PathVariable int id) {
+        return bookingService.updateBooking(bookingDTO, id);
     }
 
     @DeleteMapping("/{id}")
