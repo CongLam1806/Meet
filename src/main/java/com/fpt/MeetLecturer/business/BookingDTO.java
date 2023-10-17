@@ -23,6 +23,8 @@ public class BookingDTO {
 
     private int status;
 
+    private boolean toggle;
+
     private Booking_StudentDTO studentInfo;
 
     private List<Slot_SubjectDTO> subjectSlot;

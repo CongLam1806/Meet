@@ -57,7 +57,7 @@ public class SubjectService {
     }
 
     public SubjectDTO getSubjectByCode(String code) {
-        Subject subject = subjectRepository.findByCode(code.toUpperCase());
+        Subject subject = subjectRepository.findByCode(code);
         if (subject != null) {
             return genericMap.ToDTO(subject, SubjectDTO.class);
         } else {
@@ -143,12 +143,15 @@ public class SubjectService {
 
 
 
-    public void deleteSubject(int id) {
+    public ResponseEntity<ResponseDTO> deleteSubject(int id) {
         Optional<Subject> SubjectOptional = subjectRepository.findById(id);
         if (SubjectOptional.isPresent()) {
             Subject existSubject = SubjectOptional.get();
             existSubject.setStatus(false);
             subjectRepository.save(existSubject);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Delete successfully", "")
+            );
         } else {
             throw new IllegalStateException("student with id " + id + " does not exists");
         }

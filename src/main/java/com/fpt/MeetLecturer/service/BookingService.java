@@ -34,22 +34,7 @@ public class BookingService {
     }
 
     public List<BookingDTO> getAllBookingByStudentId(String id){
-        return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentId(id));
-    }
-
-    public ResponseEntity<ResponseDTO> getBookingBySubjectId(String id){
-        Optional<Booking> booking = bookingRepository.findByStudentId(id);
-        if (booking.isPresent()){
-            Booking existingBooking = booking.get();
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK,
-                            "Get all booking info successfully",
-                            mapBooking.convertBookingToBookingDTO(existingBooking))
-            );
-        } else {
-            throw new RuntimeException("Can't find this booking slot with student's id: " + id);
-        }
-
+        return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentIdAndToggle(id, true));
     }
 
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! cận thẩn slot và booking
@@ -86,13 +71,16 @@ public class BookingService {
     }
 
     public ResponseEntity<ResponseDTO> deleteBooking(int id) {
-        boolean exist = bookingRepository.existsById(id);
-        if (!exist){
-            throw new IllegalStateException("Can't delete with id " + id);
+        Optional<Booking> bookingOptional = bookingRepository.findById(id);
+        if (bookingOptional.isPresent()) {
+            Booking booking  = bookingOptional.get();
+            booking.setToggle(false);
+            bookingRepository.save(booking);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Delete successfully", "")
+            );
+        } else {
+            throw new IllegalStateException("student with id " + id + " does not exists");
         }
-        bookingRepository.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseDTO(HttpStatus.OK, "Delete successfully", "")
-        );
     }
 }

@@ -51,7 +51,7 @@ public class SubjectController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSubject(@Valid @PathVariable int id){
-        subjectService.deleteSubject(id);
+    public ResponseEntity<ResponseDTO> deleteSubject(@Valid @PathVariable int id){
+        return subjectService.deleteSubject(id);
     }
 }
