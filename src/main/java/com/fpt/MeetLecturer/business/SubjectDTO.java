@@ -20,9 +20,11 @@ public class SubjectDTO {
 
     private int id;
 
+    @NotNull(message = "Code can not be null")
+    @NotBlank(message = "Code can not be blank")
     private String code;
 
-    @NotBlank(message = "Name must not be blank")
+    @NotBlank(message = "Name can not blank")
     private String name;
 
     private int semester;

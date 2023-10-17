@@ -14,6 +14,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     Optional<Booking> findByStudentId(String id);
 
-    List<Booking> findAllByStudentId(String studentId);
+    List<Booking> findAllByStudentIdAndToggle(String studentId, boolean toggle);
 
 }

@@ -17,6 +17,8 @@ public class Booking {
 
     private int status; //int
 
+    private boolean toggle = true;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "slotId")
     private Slot slot;
