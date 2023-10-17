@@ -19,6 +19,13 @@ public class SlotController {
     private SlotService slotService;
 
     @GetMapping("")
+    public ResponseEntity<ResponseDTO> getAllSlot(){
+        ResponseDTO responseDTO = slotService.getAllSlot();
+
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    @GetMapping("/student")
     public ResponseEntity<ResponseDTO> getSlot(@RequestParam(name="subjectCode", required = false) String code,
                                                @RequestParam(name="startDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
                                                @RequestParam(name="endDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
@@ -54,7 +61,7 @@ public class SlotController {
 //    }
 
 
-    @PostMapping("/post")
+    @PostMapping("")
     public ResponseEntity<ResponseDTO> createNew(@RequestBody SlotDTO model){
 
         return ResponseEntity.ok().body(slotService.createSlot(model));

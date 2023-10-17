@@ -1,9 +1,14 @@
 package com.fpt.MeetLecturer.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Time;
@@ -16,7 +21,8 @@ import java.util.*;
 @NoArgsConstructor
 @Data
 public class SlotDTO {
-    private int id;
+    @Id
+    private int Id;
 
     @NotBlank(message = "Password must not be blank")
     private String password;
@@ -34,7 +40,6 @@ public class SlotDTO {
 
     private int mode = 1;
 
-    @Value("1")
     private boolean status = true;
 
 
