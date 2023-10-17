@@ -52,13 +52,13 @@ public class GlobalExceptionController {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ResponseError> exceptionHandler(RuntimeException exception){
         ResponseError rep = new ResponseError(HttpStatus.OK, exception.getMessage(), exception.toString());
-        return new ResponseEntity<ResponseError>(rep, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ResponseError>(rep, HttpStatus.OK);
     }
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ResponseError> exceptionHandler(IllegalStateException exception){
         ResponseError rep = new ResponseError(HttpStatus.OK, exception.getMessage(), exception.toString());
-        return new ResponseEntity<ResponseError>(rep, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ResponseError>(rep, HttpStatus.OK);
     }
 
     @ExceptionHandler({NoSuchElementException.class})

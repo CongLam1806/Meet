@@ -33,8 +33,12 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAll());
     }
 
-    public ResponseEntity<ResponseDTO> getBookingById(int id){
-        Optional<Booking> booking = bookingRepository.findById(id);
+    public List<BookingDTO> getAllBookingByStudentId(String id){
+        return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentId(id));
+    }
+
+    public ResponseEntity<ResponseDTO> getBookingBySubjectId(String id){
+        Optional<Booking> booking = bookingRepository.findByStudentId(id);
         if (booking.isPresent()){
             Booking existingBooking = booking.get();
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -43,7 +47,7 @@ public class BookingService {
                             mapBooking.convertBookingToBookingDTO(existingBooking))
             );
         } else {
-            throw new RuntimeException("can't find this booking slot by id");
+            throw new RuntimeException("Can't find this booking slot with student's id: " + id);
         }
 
     }
