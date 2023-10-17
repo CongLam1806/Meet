@@ -15,7 +15,7 @@ public class Booking {
 
     private String note;
 
-    private int status; //int
+    private int status = 1; //int
 
     private boolean toggle = true;
 
