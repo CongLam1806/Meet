@@ -23,10 +23,16 @@ public class BookingController {
         return bookingService.getAllBooking();
     }
 
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ResponseDTO> getBookingBySubjectId(@PathVariable String id) {
+//        return bookingService.getBookingBySubjectId(id);
+//    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getBookingById(@PathVariable int id) {
-        return bookingService.getBookingById(id);
+    public List<BookingDTO> getAllBookingBySubjectId(@PathVariable String id) {
+        return bookingService.getAllBookingByStudentId(id);
     }
+
 
     @PostMapping("")
     public ResponseEntity<ResponseDTO> createBooking(@Valid @RequestBody BookingDTO bookingDTO) {

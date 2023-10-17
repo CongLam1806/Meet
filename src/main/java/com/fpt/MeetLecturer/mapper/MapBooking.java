@@ -7,12 +7,14 @@ import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.entity.Slot;
+import com.fpt.MeetLecturer.entity.Slot_Subject;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MapBooking {
@@ -20,13 +22,13 @@ public class MapBooking {
     private static final ModelMapper modelMapper = new ModelMapper();
 
 
-      static {
+    static {
         TypeMap<Booking, BookingDTO> propertyMapper = modelMapper.createTypeMap(Booking.class, BookingDTO.class);
         propertyMapper
-                .addMapping(Booking::getSlot, BookingDTO::setSlotDTO)
-                .addMapping(src -> src.getSubject().getCode(), BookingDTO::setCode)
-                .addMapping(src -> src.getStudent().getName(), BookingDTO::setStudentName)
-                .addMapping(src -> src.getSlot().getLecturer().getName(), BookingDTO::setLecturerName);
+                .addMapping(Booking::getSlot, BookingDTO::setSlotInfo)
+                .addMapping(Booking::getStudent, BookingDTO::setStudentInfo)
+                .addMapping(src -> src.getSlot().getLecturer().getName(), BookingDTO::setLecturerName)
+                .addMapping(src -> src.getSlot().getSlotSubjects(), BookingDTO::setSubjectSlot);
     }
 
 
