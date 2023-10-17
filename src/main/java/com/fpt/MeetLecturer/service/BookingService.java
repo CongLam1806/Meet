@@ -72,7 +72,7 @@ public class BookingService {
 
     public ResponseEntity<ResponseDTO> updateBooking(BookingDTO booking, int id){
         Booking bookingEntity = genericMap.ToEntity(booking, Booking.class);
-        Optional<Booking> bookingOptional = bookingRepository.findById(bookingEntity.getId());
+        Optional<Booking> bookingOptional = bookingRepository.findById(id);
         if (bookingOptional.isPresent()){
             Booking existingLecturer = bookingOptional.get();
             existingLecturer.setNote(bookingEntity.getNote());
