@@ -36,6 +36,10 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentIdAndToggle(id, true));
     }
 
+    public long countByLecturerId(String id) {
+        return bookingRepository.countByStatusAndSlotLecturerId(1, id);
+    }
+
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! cận thẩn slot và booking
 
     public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO) {

@@ -31,7 +31,6 @@ public class Lecturer {
     private boolean status = true;
 
     //để map entity sang dto thì tên biến của entity và dto trùng nhau
-
     @OneToMany(mappedBy = "lecturer")
     private List<Location> locationList;
 
