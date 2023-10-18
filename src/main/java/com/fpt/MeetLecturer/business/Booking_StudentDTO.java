@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class Booking_StudentDTO {
     private String StudentId;
     private String StudentName;
+    private String StudentEmail;
 }
