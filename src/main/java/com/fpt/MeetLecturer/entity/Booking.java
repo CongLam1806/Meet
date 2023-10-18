@@ -24,15 +24,15 @@ public class Booking {
 
     private String note;
 
-    private int status = 1; //int
+    private int status = 1; //3 loai
 
-    private boolean toggle = true;
+    private boolean toggle = true; //da bi xoa hay chua
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "slotId")
     private Slot slot;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "studentId")
     private Student student;
 
