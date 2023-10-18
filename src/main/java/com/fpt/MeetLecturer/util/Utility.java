@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 @Component
 public class Utility {
     final static String pattern = "[A-Z,a-z]{2}[\\d]{6}"; // 2 characters followed by 6 digits
-    final static String pattern2 = "[A-Z][\\d]{2}"; // 2 characters followed by 6 digits
-    final static String pattern3 = "[A-Z]{3}"; // 2 characters followed by 6 digits
+    final static String pattern2 = "[A-Z][\\d]{2}"; // 1 character followed by 2 digits
+    final static String pattern3 = "[A-Z]{2,3}"; // 2 or 3 uppercase characters
     public boolean isStudent(String Email){
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(Email);
