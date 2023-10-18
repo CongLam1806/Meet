@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/booking")
@@ -33,6 +35,13 @@ public class BookingController {
         return bookingService.getAllBookingByStudentId(id);
     }
 
+    @GetMapping("/count/{id}")
+    public Map<String, Long> countByLecturerId(@PathVariable String id) {
+        Map<String, Long> response = new HashMap<>();
+        long bookingCount = bookingService.countByLecturerId(id);
+        response.put("bookingCount", bookingCount);
+        return response;
+    }
 
     @PostMapping("")
     public ResponseEntity<ResponseDTO> createBooking(@Valid @RequestBody BookingDTO bookingDTO) {
