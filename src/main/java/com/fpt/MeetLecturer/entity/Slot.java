@@ -28,16 +28,9 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class Slot {
     @Id
-//    @GeneratedValue(generator = "sequence-generator")
-//    @GenericGenerator(
-//            name = "sequence-generator",
-//            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-//            parameters = {
-//                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "slot_sequence"),
-//                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "10"),
-//                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
-//            }
-//    )
+    @SequenceGenerator(name = "slotId", sequenceName = "slot_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "slotId")
+    @Column(name="Id")
     private int Id;
 
     @Column(name="password")
@@ -54,10 +47,15 @@ public class Slot {
     private Date meetingDay;
 
     @Column(name="mode")
-    private int mode;
+    private int mode = 0;
 
     @Column(name="status")
     private boolean status = true;
+
+    @Column(name="toggle")
+    private boolean toggle = true;
+
+
 
 //    @JsonManagedReference
 
@@ -65,14 +63,14 @@ public class Slot {
     private List<Booking> bookingList;
 
 
-    @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
+    @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "locationId", referencedColumnName = "Id")
     private Location location;
 
     @OneToMany(mappedBy = "slot")
     private List<Slot_Subject> slotSubjects;
 
-    @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
+    @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
     private Lecturer lecturer;
 

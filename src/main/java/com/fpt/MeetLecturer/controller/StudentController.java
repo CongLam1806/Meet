@@ -18,20 +18,20 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/get/all")
+    @GetMapping("/all")
     public ResponseEntity<ResponseDTO> getAllStudent(){
         ResponseDTO responseDTO = studentService.getAllStudent();
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @GetMapping("/get/emails")
+    @GetMapping("/emails")
     public ResponseEntity<ResponseDTO> getStudentEmails(){
         ResponseDTO responseDTO = studentService.getActiveStudentEmail();
         return ResponseEntity.ok().body(responseDTO);
     }
 
 
-    @PutMapping("/put/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO> updateStudent(@RequestBody @Valid StudentDTO model, @PathVariable("id") String id){
         ResponseDTO responseDTO = studentService.updateStudent(model, id);
         return ResponseEntity.ok().body(responseDTO);

@@ -36,17 +36,21 @@ public class SlotDTO {
     @NotBlank(message = "Meeting Date must not be blank")
     @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     private Date meetingDay;
-
-
     private int mode = 1;
-
     private boolean status = true;
+    private boolean toggle = true;
 
 
     private int locationId;
+
+    private int lecturerId;
     private String lecturerName;
-    private String studentName;
-    private List<String> subjectCode;
+
+    private List<Booking_StudentDTO> bookingStudentDTO;
+    private List<Slot_SubjectDTO> slotSubjectDTOS;
+
+
+    //private List<String> subjectCode;
 //    private Time currentTime;
 //    private Date currentDay;
     //private SubjectResponseDTO subjectResponseDTOS;
