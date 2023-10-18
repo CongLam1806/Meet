@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Id")
     private int Id;
 
