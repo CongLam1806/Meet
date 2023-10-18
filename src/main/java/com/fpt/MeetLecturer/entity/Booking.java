@@ -24,9 +24,9 @@ public class Booking {
 
     private String note;
 
-    private int status = 1; //int
+    private int status = 1; //3 loai
 
-    private boolean toggle = true;
+    private boolean toggle = true; //da bi xoa hay chua
 
     @ManyToOne
     @JoinColumn(name = "slotId")
