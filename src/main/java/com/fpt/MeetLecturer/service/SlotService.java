@@ -72,7 +72,7 @@ public class SlotService {
 
             Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
             if(booking != null){
-                slotDTO.setStudentEmail(booking.getStudent().getName());
+                slotDTO.setStudentName(booking.getStudent().getName());
             }
 
             List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
@@ -89,12 +89,12 @@ public class SlotService {
     }
 
     public ResponseDTO getSlotByLecturerId(String lecturerId){
-        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerId(lecturerId));
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdOrderByMeetingDayDesc(lecturerId));
         slotsDTO.forEach(slotDTO -> {
 
             Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
             if(booking != null){
-                slotDTO.setStudentEmail(booking.getStudent().getName());
+                slotDTO.setStudentName(booking.getStudent().getName());
             }
 
             List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
