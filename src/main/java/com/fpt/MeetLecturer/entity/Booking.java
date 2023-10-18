@@ -28,11 +28,11 @@ public class Booking {
 
     private boolean toggle = true;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "slotId")
     private Slot slot;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "studentId")
     private Student student;
 
