@@ -14,7 +14,8 @@ import java.util.List;
 @Entity
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "locationId", sequenceName = "LocationId", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locationId")
     @Column(name="Id")
     private int id;
     private String name;
