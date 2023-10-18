@@ -10,7 +10,16 @@ import lombok.*;
 @Entity
 public class Booking {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "booking_sequence",
+            sequenceName = "booking_sequence",
+            allocationSize = 1
+    )
+
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "booking_sequence"
+    )
     private int id;
 
     private String note;
