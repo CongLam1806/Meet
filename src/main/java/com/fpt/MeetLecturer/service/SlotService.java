@@ -72,7 +72,7 @@ public class SlotService {
 
             Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
             if(booking != null){
-                slotDTO.setStudentEmail(booking.getStudent().getEmail());
+                slotDTO.setStudentName(booking.getStudent().getName());
             }
 
             List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
@@ -89,17 +89,23 @@ public class SlotService {
     }
 
     public ResponseDTO getSlotByLecturerId(String lecturerId){
-        List<Slot> slotList =slotRepository.findAll(sort);
-        List<Slot> slotResponse = new ArrayList<>();
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdOrderByMeetingDayDesc(lecturerId));
+        slotsDTO.forEach(slotDTO -> {
 
-        Lecturer lecturer = lecturerRepository.findById(lecturerId).orElseThrow();
-        slotList.forEach(slot -> {
-            if(slot.getLecturer().getId().equals(lecturer.getId())){
-                slotResponse.add(slot);
+            Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
+            if(booking != null){
+                slotDTO.setStudentName(booking.getStudent().getName());
             }
+
+            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
+            List<String> subjectCode = new ArrayList<>();
+            slotSubjectList.forEach(slotSubject -> {
+                subjectCode.add(slotSubject.getSubject().getCode());
+            });
+            slotDTO.setSubjectCode(subjectCode);
         });
 
-        return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS FOR LECTURER", mapSlot.convertListToSlotDTO(slotResponse));
+        return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS FOR LECTURER",slotsDTO);
         //return mapSlot.convertListToSlotDTO(slotResponse);
 
     }
@@ -134,7 +140,7 @@ public class SlotService {
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
         slotsDTO.forEach(slotDTO -> {
             System.out.println(slotDTO.getMeetingDay());
-            System.out.println("OK");
+
         });
 
         //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY DATE", slotsDTO);

@@ -45,7 +45,7 @@ public class SlotDTO {
 
     private int locationId;
     private String lecturerName;
-    private String studentEmail;
+    private String studentName;
     private List<String> subjectCode;
 //    private Time currentTime;
 //    private Date currentDay;
