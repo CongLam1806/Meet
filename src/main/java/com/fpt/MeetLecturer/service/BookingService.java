@@ -7,7 +7,6 @@ import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,36 +28,33 @@ public class BookingService {
     private MapBooking mapBooking;
 
 
-    public List<BookingDTO> getAllBooking(){
+    public List<BookingDTO> getAllBooking() {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAll());
     }
 
-    public List<BookingDTO> getAllBookingByStudentId(String id){
+    public List<BookingDTO> getAllBookingByStudentId(String id) {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentIdAndToggle(id, true));
     }
 
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! cận thẩn slot và booking
 
-    public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO){
+    public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO) {
         Booking bookingEntity = genericMap.ToEntity(bookingDTO, Booking.class);
-        Optional<Booking> booking1 = bookingRepository.findById(bookingEntity.getId());
-        if (booking1.isPresent()){
-            throw new IllegalStateException("this slot has already booked");
-        } else {
-            Booking booking = new ModelMapper().map(bookingEntity, Booking.class);
-//            Booking booking = new Booking();
-//            booking.setSlot(bookingDTO.);
-            bookingRepository.save(booking);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Booking successfully","")
-            );
-        }
+        Booking booking = new Booking();
+        booking.setNote(bookingEntity.getNote());
+        booking.setSlot(bookingEntity.getSlot());
+        booking.setStudent(bookingEntity.getStudent());
+        bookingRepository.save(booking);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseDTO(HttpStatus.OK, "Booking successfully", "")
+        );
     }
 
-    public ResponseEntity<ResponseDTO> updateBooking(BookingDTO booking, int id){
+
+    public ResponseEntity<ResponseDTO> updateBooking(BookingDTO booking, int id) {
         Booking bookingEntity = genericMap.ToEntity(booking, Booking.class);
         Optional<Booking> bookingOptional = bookingRepository.findById(id);
-        if (bookingOptional.isPresent()){
+        if (bookingOptional.isPresent()) {
             Booking existingLecturer = bookingOptional.get();
             existingLecturer.setNote(bookingEntity.getNote());
             bookingRepository.save(existingLecturer);
@@ -73,7 +69,7 @@ public class BookingService {
     public ResponseEntity<ResponseDTO> deleteBooking(int id) {
         Optional<Booking> bookingOptional = bookingRepository.findById(id);
         if (bookingOptional.isPresent()) {
-            Booking booking  = bookingOptional.get();
+            Booking booking = bookingOptional.get();
             booking.setToggle(false);
             bookingRepository.save(booking);
             return ResponseEntity.status(HttpStatus.OK).body(
