@@ -2,6 +2,8 @@ package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
+import com.fpt.MeetLecturer.business.Slot_SubjectDTO;
+import com.fpt.MeetLecturer.business.Subject_MajorDTO;
 import com.fpt.MeetLecturer.entity.*;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.mapper.MapSubject;
@@ -148,14 +150,39 @@ public class SlotService {
 
     }
 
-    public ResponseDTO createSlot(SlotDTO newSlot){
-        Slot slot = new Slot();
-        modelMapper.map(newSlot, slot);
+//    public ResponseDTO createSlot(SlotDTO newSlot){
+//        Slot slot = new Slot();
+//        modelMapper.map(newSlot, slot);
+//
+//        slotRepository.save(slot);
+//        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
+//        return responseDTO;
+//    }
 
-        slotRepository.save(slot);
+    public ResponseDTO createSlot(SlotDTO newSlot){
+        Slot slot1 = modelMapper.map(newSlot, Slot.class);
+        Slot slot = new Slot();
+        slot.setPassword(slot1.getPassword());
+        slot.setLecturer(slot1.getLecturer());
+        slot.setLocation(slot1.getLocation());
+        slot.setStartTime(slot1.getStartTime());
+        slot.setEndTime(slot1.getEndTime());
+        slot.setMeetingDay(slot1.getMeetingDay());
+        slot.setMode(slot1.getMode());
+        slot = slotRepository.save(slot);
+        for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
+            Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
+            Slot_Subject slotSubject = new Slot_Subject(slot, subject);
+            slotSubjectRepository.save(slotSubject);
+        }
+
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
         return responseDTO;
     }
+
+
+
+
 
     public ResponseDTO updateSlot(SlotDTO newSlot){
         Slot slot;

@@ -40,7 +40,6 @@ public class BookingService {
         return bookingRepository.countByStatusAndSlotLecturerId(1, id);
     }
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! cận thẩn slot và booking
 
     public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO) {
         Booking bookingEntity = genericMap.ToEntity(bookingDTO, Booking.class);

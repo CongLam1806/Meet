@@ -47,7 +47,7 @@ public class Slot {
     private Date meetingDay;
 
     @Column(name="mode")
-    private int mode = 0;
+    private int mode;
 
     @Column(name="status")
     private boolean status = true;
