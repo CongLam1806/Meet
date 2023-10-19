@@ -190,7 +190,10 @@ public class SlotService {
 
         slot = slotRepository.save(slot);
         Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
-        Booking booking = new Booking(slot.getId(), student.getId());
+        if(student != null){
+            Booking booking = new Booking(slot.getId(), student.getId());
+        }
+
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
             Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
             Slot_Subject slotSubject = new Slot_Subject(slot, subject);

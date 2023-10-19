@@ -43,7 +43,7 @@ public class SlotDTO {
 
     private int locationId;
 
-    private int lecturerId;
+    private String lecturerId;
     private String lecturerName;
     private String studentName;
     private String studentEmail;

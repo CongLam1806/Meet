@@ -42,6 +42,10 @@ public class StudentService {
         return new ResponseDTO(HttpStatus.OK, "FOUND ALL STUDENTS", studentEmails);
     }
 
+    public ResponseDTO getStudentById(String id){
+        return new ResponseDTO(HttpStatus.OK, "FOUND STUDENT", mapStudent.convertStudentToStudentDTO(studentRepository.findById(id).orElseThrow()));
+    }
+
 
 
     public ResponseDTO updateStudent(StudentDTO studentDTO, String id){
