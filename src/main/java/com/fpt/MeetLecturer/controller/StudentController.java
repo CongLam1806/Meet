@@ -6,6 +6,7 @@ import com.fpt.MeetLecturer.business.StudentDTO;
 import com.fpt.MeetLecturer.service.SlotService;
 import com.fpt.MeetLecturer.service.StudentService;
 import jakarta.validation.Valid;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,12 @@ public class StudentController {
     @GetMapping("/emails")
     public ResponseEntity<ResponseDTO> getStudentEmails(){
         ResponseDTO responseDTO = studentService.getActiveStudentEmail();
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<ResponseDTO> getStudentById(@RequestParam(name="id") String id){
+        ResponseDTO responseDTO = studentService.getStudentById(id);
         return ResponseEntity.ok().body(responseDTO);
     }
 
