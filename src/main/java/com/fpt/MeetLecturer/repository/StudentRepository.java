@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, String> {
-    List<Student> findByEmail(String email);
+    //List<Student> findByEmail(String email);
 
     List<Student> findByStatus(boolean status);
 
-
+    Student findByEmail(String email);
 }

@@ -34,20 +34,15 @@ public class SlotController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-//    @GetMapping("/lecturer")
-//    public ResponseEntity<ResponseDTO> getSlotLecturer(@RequestParam(name="id", required = false) String id){
-//        ResponseDTO responseDTO = slotService.getSlotByLecturerId(id);
-//
-//        return ResponseEntity.ok().body(responseDTO);
-//    }
+    @GetMapping("/lecturer")
+    public ResponseEntity<ResponseDTO> getSlotLecturer(@RequestParam(name="id", required = false) String id){
+        ResponseDTO responseDTO = slotService.getSlotByLecturerId(id);
 
-//    @GetMapping("/get/personal/{lecturerId}")
-//    public ResponseEntity<ResponseDTO> getSlotByLecturerId(@PathVariable("lecturerId") String id){
-//        ResponseDTO responseDTO = slotService.getSlotByLecturerId(id);
-//
-//        return ResponseEntity.ok().body(responseDTO);
-//    }
-//
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+
+
 //
 //    @GetMapping("/get/{subjectCode}")
 //    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("subjectCode") String code){

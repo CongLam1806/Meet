@@ -45,8 +45,8 @@ public class SlotDTO {
 
     private int lecturerId;
     private String lecturerName;
-
-    private List<Booking_StudentDTO> bookingStudentDTO;
+    private String studentName;
+    private String studentEmail;
     private List<Slot_SubjectDTO> slotSubjectDTOS;
 
 
