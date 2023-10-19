@@ -41,8 +41,6 @@ public class Booking {
     private Subject subject;
 
 
-
-
-
-
+    public Booking(int id, String id1) {
+    }
 }

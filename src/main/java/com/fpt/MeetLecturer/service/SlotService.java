@@ -65,38 +65,53 @@ public class SlotService {
     private static ModelMapper modelMapper = new ModelMapper();
 
     Sort sort = Sort.by("meetingDay").descending();
+    @Autowired
+    private StudentRepository studentRepository;
 
     public ResponseDTO getAllSlot(){
 
         List<SlotDTO> slotList = mapSlot.convertListToSlotDTO(slotRepository.findAll(sort));
+        slotList.forEach(slotDTO -> {
 
+            Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
+            if(booking != null){
+                slotDTO.setStudentName(booking.getStudent().getName());
+            }
+
+//            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
+//            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
+//            slotSubjectList.forEach(slotSubject -> {
+//                slotSubjectDTOS.add(slotSubject.getSubject().getCode());
+//            });
+//            slotDTO.setSlotSubjectDTOS(subjectCode);
+        });
 
         return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
         //return slotList;
 
     }
 
-//    public ResponseDTO getSlotByLecturerId(String lecturerId){
-//        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdOrderByMeetingDayDesc(lecturerId));
-//        slotsDTO.forEach(slotDTO -> {
-//
-//            Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
-//            if(booking != null){
-//                slotDTO.setStudentName(booking.getStudent().getName());
-//            }
-//
+    public ResponseDTO getSlotByLecturerId(String lecturerId){
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdOrderByMeetingDayDesc(lecturerId));
+        slotsDTO.forEach(slotDTO -> {
+
+            Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
+            if(booking != null){
+                slotDTO.setStudentName(booking.getStudent().getName());
+            }
+
 //            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
-//            List<String> subjectCode = new ArrayList<>();
+//            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
 //            slotSubjectList.forEach(slotSubject -> {
-//                subjectCode.add(slotSubject.getSubject().getCode());
+//                slotSubjectDTOS.add(slotSubject.getSubject().getCode());
 //            });
-//            slotDTO.setSubjectCode(subjectCode);
-//        });
-//
-//        return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS FOR LECTURER",slotsDTO);
-//        //return mapSlot.convertListToSlotDTO(slotResponse);
-//
-//    }
+//            slotDTO.setSlotSubjectDTOS(subjectCode);
+        });
+
+        return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS FOR LECTURER",slotsDTO);
+        //return mapSlot.convertListToSlotDTO(slotResponse);
+
+    }
 
     public List<SlotDTO> getSlotAvaiNow(){
         //LocalTime currentTime = LocalTime.now();
@@ -160,6 +175,8 @@ public class SlotService {
 //    }
 
     public ResponseDTO createSlot(SlotDTO newSlot){
+
+
         Slot slot1 = modelMapper.map(newSlot, Slot.class);
         Slot slot = new Slot();
         slot.setPassword(slot1.getPassword());
@@ -169,7 +186,11 @@ public class SlotService {
         slot.setEndTime(slot1.getEndTime());
         slot.setMeetingDay(slot1.getMeetingDay());
         slot.setMode(slot1.getMode());
+
+
         slot = slotRepository.save(slot);
+        Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
+        Booking booking = new Booking(slot.getId(), student.getId());
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
             Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
             Slot_Subject slotSubject = new Slot_Subject(slot, subject);
