@@ -34,12 +34,12 @@ public class SlotDTO {
     private Time endTime;
 
     @NotBlank(message = "Meeting Date must not be blank")
-    @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private Date meetingDay;
     private int mode = 1;
     private boolean status = true;
-    private boolean toggle = true;
-
+    //    private boolean toggle = true;
+    private boolean toggle;
 
     private int locationId;
 
@@ -55,7 +55,6 @@ public class SlotDTO {
 //    private Date currentDay;
     //private SubjectResponseDTO subjectResponseDTOS;
     //private Subject subjects;
-
 
 
 }
