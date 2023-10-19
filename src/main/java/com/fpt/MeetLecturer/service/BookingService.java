@@ -32,6 +32,10 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAll());
     }
 
+    public List<BookingDTO> getAvailableBooking() {
+        return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatus(true, 1));
+    }
+
     public List<BookingDTO> getAllBookingByStudentId(String id) {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentIdAndToggle(id, true));
     }
@@ -51,6 +55,38 @@ public class BookingService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseDTO(HttpStatus.OK, "Booking successfully", "")
         );
+    }
+
+    public ResponseEntity<ResponseDTO> setStatusWhenBooking(BookingDTO booking, int id) {
+        Booking bookingEntity = genericMap.ToEntity(booking, Booking.class);
+        Optional<Booking> bookingOptional = bookingRepository.findById(id);
+        if (bookingOptional.isPresent()) {
+            Booking existingBooking = bookingOptional.get();
+            if (booking.getStatus() == 2) {
+                existingBooking.setStatus(bookingEntity.getStatus());
+                bookingRepository.save(existingBooking);
+                List<Booking> bookingList = bookingRepository.findBySlotIdAndToggleAndStatus(booking.getSlotInfo().getId(), true, 1);
+                for (Booking eachOfBookingList : bookingList) {
+                    eachOfBookingList.setStatus(0);
+                    bookingRepository.save(eachOfBookingList);
+                }
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseDTO(HttpStatus.OK, "Accept successfully", "")
+                );
+            }
+            if (booking.getStatus() == 0){
+                existingBooking.setStatus(0);
+                bookingRepository.save(existingBooking);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseDTO(HttpStatus.OK, "Decline successfully", "")
+                );
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "No change", "")
+            );
+        } else {
+            throw new RuntimeException("Can't find this booking information");
+        }
     }
 
 

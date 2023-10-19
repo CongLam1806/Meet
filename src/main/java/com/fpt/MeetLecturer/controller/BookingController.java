@@ -53,6 +53,11 @@ public class BookingController {
         return bookingService.updateBooking(bookingDTO, id);
     }
 
+    @PutMapping("/status/{id}")
+    public ResponseEntity<ResponseDTO> setStatusBooking(@RequestBody BookingDTO bookingDTO, @PathVariable int id) {
+        return bookingService.setStatusWhenBooking(bookingDTO, id);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deleteBooking(@PathVariable int id) {
         return bookingService.deleteBooking(id);
