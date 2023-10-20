@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping(path="/api/v1/location")
+@RequestMapping(path="/api/location")
 public class LocationController {
     @Autowired
     private LocationService locationService;
