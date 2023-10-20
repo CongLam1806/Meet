@@ -59,16 +59,19 @@ public class MajorService {
 
     public ResponseEntity<ResponseDTO> deleteMajor(int id){
         Optional<Major> major = majorRepository.findById(id);
-        if(major.isEmpty()){
-            throw new RuntimeException("Can't find this major with id: " + id);
-        }
-        else {
-            majorRepository.delete(major.get());
+        if(major.isPresent()){
+            Major existMajor = major.get();
+            existMajor.setStatus(false);
+            majorRepository.save(existMajor);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Delete major successfully", "")
+                    new ResponseDTO(HttpStatus.OK, "Delete successfully", "")
             );
         }
+        else {
+            throw new IllegalStateException("Major with id " + id + " does not exists");
+        }
     }
+
 
 
 

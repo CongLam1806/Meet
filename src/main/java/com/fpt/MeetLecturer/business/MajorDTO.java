@@ -20,5 +20,6 @@ public class MajorDTO {
     @NotBlank(message = "Major's name should be included")
     private String name;
 
+    private boolean status;
 //    private List<SubjectDTO> subject;
 }
