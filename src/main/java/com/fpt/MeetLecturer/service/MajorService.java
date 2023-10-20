@@ -30,6 +30,10 @@ public class MajorService {
         return genericMap.ToDTOList(majorRepository.findAll(),MajorDTO.class);
     }
 
+    public List<MajorDTO> getAllAvalableMajor(){
+        return genericMap.ToDTOList(majorRepository.findByStatus(true), MajorDTO.class);
+    }
+
     public ResponseEntity<ResponseDTO> createMajor(MajorDTO subjectDTO){
         Optional<Major> major = majorRepository.findById(subjectDTO.getId());
         if (major.isPresent()){
