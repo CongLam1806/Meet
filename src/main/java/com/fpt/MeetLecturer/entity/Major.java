@@ -29,6 +29,9 @@ public class Major {
     @Column(name = "Name")
     private String name;
 
+    @Column(name = "status")
+    private boolean status = true;
+
     @OneToMany(mappedBy = "major")
     private List<Subject_Major> SubjectList;
 
