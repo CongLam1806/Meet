@@ -53,7 +53,7 @@ public class Utility {
     }
 
     public boolean checkValidTime(SlotDTO newSlot){
-        List<Slot> workingList = slotRepository.findAll();
+        List<Slot> workingList = slotRepository.findByLecturerIdOrderByMeetingDayDesc(newSlot.getLecturerId());
         for(Slot ex: workingList){
             Date temp = ex.getMeetingDay();
             Date newSlotDate = newSlot.getMeetingDay();
