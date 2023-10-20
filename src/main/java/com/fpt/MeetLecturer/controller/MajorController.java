@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/major")
+@RequestMapping(path = "/api/v1/major")
 public class MajorController {
 
     @Autowired
@@ -19,6 +19,11 @@ public class MajorController {
     @GetMapping("")
     public List<MajorDTO> getAllMajor(){
         return majorService.getAllMajor();
+    }
+
+    @GetMapping("/status")
+    public List<MajorDTO> getAllAvailableMajor(){
+        return majorService.getAllAvalableMajor();
     }
 
 

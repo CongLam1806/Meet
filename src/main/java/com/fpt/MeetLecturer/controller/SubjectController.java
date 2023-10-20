@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/subject")
+@RequestMapping(path = "/api/v1/subject")
 public class SubjectController {
 
     @Autowired
