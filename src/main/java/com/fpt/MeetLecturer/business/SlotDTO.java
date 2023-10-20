@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -24,13 +25,12 @@ public class SlotDTO {
     @Id
     private int Id;
 
-    @NotBlank(message = "Password must not be blank")
     private String password;
 
-    @NotBlank(message = "Start Time must not be blank")
+    @NotEmpty(message = "Start Time must not be blank")
     private Time startTime;
 
-    @NotBlank(message = "End Time must not be blank")
+    @NotEmpty(message = "End Time must not be blank")
     private Time endTime;
 
     @NotBlank(message = "Meeting Date must not be blank")
@@ -39,7 +39,9 @@ public class SlotDTO {
     private int mode = 1;
     private boolean status = true;
     //    private boolean toggle = true;
-    private boolean toggle;
+
+    @NotEmpty(message = "Toggle must not be blank")
+    private boolean toggle = true;
 
     private int locationId;
 
@@ -50,11 +52,7 @@ public class SlotDTO {
     private List<Slot_SubjectDTO> slotSubjectDTOS;
 
 
-    //private List<String> subjectCode;
-//    private Time currentTime;
-//    private Date currentDay;
-    //private SubjectResponseDTO subjectResponseDTOS;
-    //private Subject subjects;
+
 
 
 }

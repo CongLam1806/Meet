@@ -113,25 +113,22 @@ public class SlotService {
 
     }
 
-    public List<SlotDTO> getSlotAvaiNow(){
-        //LocalTime currentTime = LocalTime.now();
-        //LocalDate currentDay = LocalDate.now();
-        java.sql.Date currentDay = new java.sql.Date(System.currentTimeMillis()); //ham nay qua xin
-        java.sql.Time currentTime = new java.sql.Time(System.currentTimeMillis());
+    public List<SlotDTO> getAllSlotAvaiNow(){
 
-        System.out.println(currentDay + "," + currentTime);
-        List<Slot> slots = slotRepository.findByMeetingDayIsGreaterThanOrStartTimeIsGreaterThanAndStatus(currentDay, currentTime, true);
-        return mapSlot.convertListToSlotDTO(slots);
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStatusOrderByMeetingDayDesc(true));
+        slotsDTO.forEach(slotDTO -> {
+            slotDTO.setLecturerName(slotDTO.getLecturerName());
+        });
+        return slotsDTO;
     }
 
     public List<SlotDTO> getSlotBySubjectCode(String code){
-        Subject subject = subjectRepository.findByCode(code);
         List<Slot> slots = new ArrayList<>();
 
         List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeOrderBySlotMeetingDayDesc(code);
 
         slotSubjects.forEach(slotSubject -> {
-            if(slotSubject.getSubject().equals(subject)){
+            if(slotSubject.getSubject().getCode().equals(code)){
                 slots.add(slotSubject.getSlot());
             }
         });
@@ -141,11 +138,6 @@ public class SlotService {
 
     public List<SlotDTO> getSlotByDate(Date startDate, Date endDate){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
-        slotsDTO.forEach(slotDTO -> {
-            System.out.println(slotDTO.getMeetingDay());
-
-        });
-
         //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY DATE", slotsDTO);
         return slotsDTO;
     }
@@ -154,25 +146,17 @@ public class SlotService {
         List<SlotDTO> slotsDTOList = new ArrayList<>();
         if(code != null && startDate == null && endDate == null){
             slotsDTOList = getSlotBySubjectCode(code);
-//        } else if (code == null && startDate != null && endDate != null) {
-//            slotsDTOList = getSlotByDate(startDate, endDate);
+        } else if (code == null && startDate != null && endDate != null) {
+            slotsDTOList = getSlotByDate(startDate, endDate);
         } else if (code != null && startDate != null && endDate != null){
             slotsDTOList = mapSlot.convertListToSlotDTO(slotRepository.findBySubjectCodeAndDate(code, startDate, endDate));
         } else if(code == null && startDate == null && endDate == null){
-            slotsDTOList = getSlotAvaiNow();
+            slotsDTOList = getAllSlotAvaiNow();
         }
         return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOT", slotsDTOList);
 
     }
 
-//    public ResponseDTO createSlot(SlotDTO newSlot){
-//        Slot slot = new Slot();
-//        modelMapper.map(newSlot, slot);
-//
-//        slotRepository.save(slot);
-//        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
-//        return responseDTO;
-//    }
 
     public ResponseDTO createSlot(SlotDTO newSlot){
 
@@ -205,37 +189,34 @@ public class SlotService {
     }
 
 
-
-
-
-    public ResponseDTO updateSlot(SlotDTO newSlot){
+    public ResponseDTO updateSlot(SlotDTO newSlot, int id){
         Slot slot;
-        slot = slotRepository.findById(newSlot.getId()).orElseThrow();
+        slot = slotRepository.findById(id).orElseThrow();
         modelMapper.map(newSlot, slot);
         slotRepository.save(slot);
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
         return responseDTO;
     }
 
-    public ResponseDTO deleteSlot(int id) {
-        boolean bool;
-        Slot slot = slotRepository.findById(id).orElseThrow();
-        if (slot.getId() == 0) {
-            bool = false;
-        } else {
-            //User delUser = user1.get();
-            //userRepository.delete(user1.get());
-            if (!slot.isStatus()) {
-                bool = false;
-            }
-            slot.setStatus(false);
-            slotRepository.save(slot);
-            //mapUser.mapUserToUserDTO(delUser);
-            bool = true;
-        }
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", bool);
-        return responseDTO;
-    }
+//    public ResponseDTO deleteSlot(int id) {
+//        boolean bool;
+//        Slot slot = slotRepository.findById(id).orElseThrow();
+//        if (slot.getId() == 0) {
+//            bool = false;
+//        } else {
+//            //User delUser = user1.get();
+//            //userRepository.delete(user1.get());
+//            if (!slot.isStatus()) {
+//                bool = false;
+//            }
+//            slot.setStatus(false);
+//            slotRepository.save(slot);
+//            //mapUser.mapUserToUserDTO(delUser);
+//            bool = true;
+//        }
+//        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", bool);
+//        return responseDTO;
+//    }
 //    public ResponseDTO importFromExcel(File file) {
 //        try (FileInputStream fis = new FileInputStream(file);
 //             Workbook workbook = new XSSFWorkbook(fis)) {
