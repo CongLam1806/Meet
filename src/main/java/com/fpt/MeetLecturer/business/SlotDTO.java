@@ -1,20 +1,12 @@
 package com.fpt.MeetLecturer.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -44,7 +36,8 @@ public class SlotDTO {
     private boolean toggle = true;
 
     private int locationId;
-
+    private String locationName;
+    private String locationAddress;
     private String lecturerId;
     private String lecturerName;
     private String studentName;

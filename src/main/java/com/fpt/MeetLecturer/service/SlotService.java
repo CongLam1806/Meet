@@ -50,6 +50,9 @@ public class SlotService {
     @Autowired
     private LecturerRepository lecturerRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
     @Autowired(required = false)
     private SlotSubjectRepository slotSubjectRepository;
 
@@ -77,6 +80,9 @@ public class SlotService {
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
+            Location location = locationRepository.findById(slotDTO.getLocationId()).orElseThrow();
+            slotDTO.setLocationName(location.getName());
+            slotDTO.setLocationAddress(location.getAddress());
 
 //            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
 //            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
@@ -99,6 +105,9 @@ public class SlotService {
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
+            Location location = locationRepository.findById(slotDTO.getLocationId()).orElseThrow();
+            slotDTO.setLocationName(location.getName());
+            slotDTO.setLocationAddress(location.getAddress());
 
 //            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
 //            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
@@ -171,11 +180,16 @@ public class SlotService {
         slot.setMeetingDay(slot1.getMeetingDay());
         slot.setMode(slot1.getMode());
 
+//        Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
+//        if(booking != null){
+//            slotDTO.setStudentName(booking.getStudent().getName());
+//        }
 
         slot = slotRepository.save(slot);
         Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
         if(student != null){
-            Booking booking = new Booking(slot.getId(), student.getId());
+            Booking booking = new Booking(slot, student);
+            bookingRepository.save(booking);
         }
 
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
