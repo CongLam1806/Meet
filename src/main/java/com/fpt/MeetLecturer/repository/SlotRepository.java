@@ -30,4 +30,6 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
 
 
+
+
 }

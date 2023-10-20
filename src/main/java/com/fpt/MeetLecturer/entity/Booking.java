@@ -41,6 +41,9 @@ public class Booking {
     private Subject subject;
 
 
-    public Booking(int id, String id1) {
+
+    public Booking(Slot slot, Student student) {
+        this.slot = slot;
+        this.student = student;
     }
 }
