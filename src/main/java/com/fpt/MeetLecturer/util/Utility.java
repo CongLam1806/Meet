@@ -1,11 +1,23 @@
 package com.fpt.MeetLecturer.util;
 
+import com.fpt.MeetLecturer.business.SlotDTO;
+import com.fpt.MeetLecturer.entity.Slot;
+import com.fpt.MeetLecturer.mapper.MapSlot;
+import com.fpt.MeetLecturer.repository.SlotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Component
 public class Utility {
+    @Autowired(required = false)
+    private MapSlot mapSlot;
+    @Autowired(required = false)
+    private SlotRepository slotRepository;
     final static String pattern = "[A-Z,a-z]{2}[\\d]{6}"; // 2 characters followed by 6 digits
     final static String pattern2 = "[A-Z][\\d]{2}"; // 1 character followed by 2 digits
     final static String pattern3 = "[A-Z]{2,3}"; // 2 or 3 uppercase characters
@@ -38,6 +50,23 @@ public class Utility {
             return matcher.group().toUpperCase();
         }
         return null;
+    }
+
+    public boolean checkValidTime(SlotDTO newSlot){
+        List<Slot> workingList = slotRepository.findAll();
+        for(Slot ex: workingList){
+            Date temp = ex.getMeetingDay();
+            Date newSlotDate = newSlot.getMeetingDay();
+            if(newSlotDate.before(temp)){
+                return false;
+            }
+            Time tmp = ex.getEndTime();
+            Time newSlotStartTime = newSlot.getStartTime();
+            if(newSlotDate.equals(temp) && newSlotStartTime.before(tmp)){
+               return false;
+            }
+        }
+        return true;
     }
 //    public static void main(String[] args){
 //        String[] demo = {"mimndse173605@fpt.edu.vn", "lamtcse173602@fpt.edu.vn", "chiltq01@fe.edu.vn",

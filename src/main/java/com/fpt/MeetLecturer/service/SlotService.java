@@ -22,7 +22,9 @@ import java.util.List;
 //import org.apache.poi.ss.usermodel.Workbook;
 //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.apache.poi.ss.usermodel.Cell;
+import com.fpt.MeetLecturer.util.Utility;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -58,6 +60,8 @@ public class SlotService {
 
     @Autowired(required = false)
     private MapSlot mapSlot;
+    @Autowired(required = false)
+    private Utility utility;
 
 
 
@@ -168,7 +172,11 @@ public class SlotService {
 
 
     public ResponseDTO createSlot(SlotDTO newSlot){
-
+//        boolean flag = utility.checkValidTime(newSlot);
+//        if(!flag){
+//            return new ResponseDTO(HttpStatus.OK,
+//                    "Slot start time must not overlapped existing slot meeting time", "");
+//        }
 
         Slot slot1 = modelMapper.map(newSlot, Slot.class);
         Slot slot = new Slot();
