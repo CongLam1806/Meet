@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/booking")
+@RequestMapping(path = "/api/v1/booking")
 public class BookingController {
 
     @Autowired
@@ -25,12 +25,8 @@ public class BookingController {
         return bookingService.getAllBooking();
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ResponseDTO> getBookingBySubjectId(@PathVariable String id) {
-//        return bookingService.getBookingBySubjectId(id);
-//    }
 
-    @GetMapping("/{id}")
+    @GetMapping("/status/{id}")
     public List<BookingDTO> getAllBookingBySubjectId(@PathVariable String id) {
         return bookingService.getAllBookingByStudentId(id);
     }
