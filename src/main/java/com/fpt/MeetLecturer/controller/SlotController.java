@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.controller;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.service.SlotService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -42,20 +43,6 @@ public class SlotController {
     }
 
 
-
-//
-//    @GetMapping("/get/{subjectCode}")
-//    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("subjectCode") String code){
-//        return ResponseEntity.ok().body(slotService.getSlotBySubjectCode(code));
-//    }
-//
-//    @GetMapping("/get/ByDateRange/{startDay}/{endDay}")
-//    public ResponseEntity<ResponseDTO> getSlotBySubject(@PathVariable("startDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-//                                                        @PathVariable("endDay") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
-//        return ResponseEntity.ok().body(slotService.getSlotByDate(startDate, endDate));
-//    }
-
-
     @PostMapping("")
     public ResponseEntity<ResponseDTO> createNew(@RequestBody SlotDTO model){
 
@@ -64,14 +51,14 @@ public class SlotController {
 
 
     @PutMapping("/put/{id}")
-    public ResponseEntity<ResponseDTO> updateSlot(@RequestBody SlotDTO model, @PathVariable("id") int id){
+    public ResponseEntity<ResponseDTO> updateSlot(@Valid  @RequestBody SlotDTO model, @PathVariable("id") int id){
 
-        return ResponseEntity.ok().body(slotService.updateSlot(model));
+        return ResponseEntity.ok().body(slotService.updateSlot(model, id));
         //System.out.println("OK");
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("id") int id) {
-        return ResponseEntity.ok().body(slotService.deleteSlot(id)) ;
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("id") int id) {
+//        return ResponseEntity.ok().body(slotService.deleteSlot(id)) ;
+//    }
 }
