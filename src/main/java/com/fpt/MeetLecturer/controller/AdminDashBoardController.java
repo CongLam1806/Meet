@@ -58,5 +58,5 @@ public class AdminDashBoardController {
         }
 
         return response;
-    }//http://localhost:8080/swagger-ui/index.html#/admin-dash-board-controller/dashboardIndicatorDisplay
+    }
 }
