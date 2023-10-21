@@ -23,22 +23,31 @@ public class ScheduledTask {
     private SlotRepository slotRepository;
     @Autowired(required = false)
     private MapSlot mapSlot;
-    @Scheduled(fixedRate = 600000)//600000 = 10mins
+    @Scheduled(fixedRate = 600000)//600000 = 10 minutes
     private void runTask(){
         System.out.println("autoUpdateSlotStatus");
+        //get current date at Ho_Chi_Minh - Vietnam
         LocalDate current = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        //get current time at Ho_Chi_Minh - Vietnam
         LocalTime currentTime = LocalTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+
         List<Slot> workingList = slotRepository.findAll();//mapSlot.convertListToSlotDTO(slotRepository.findAll());
         for(Slot ex: workingList){
-            Date temp = ex.getMeetingDay();
+            Date temp = ex.getMeetingDay();//slot meeting date
+            //converted to LocalDate type:
             LocalDate convertedDate = temp.toInstant().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+
+            //current date is after meeting date == true
             if(convertedDate.isBefore(current)){
-                ex.setStatus(false);
+                ex.setStatus(false); //unavailable status
             }
+
             Time tmp = ex.getStartTime();
-            LocalTime converteTime = tmp.toLocalTime();
-            if(convertedDate.equals(current) && converteTime.isBefore(currentTime)){
-                ex.setStatus(false);
+            LocalTime convertedTime = tmp.toLocalTime();
+
+            ////current date equals meeting date AND meeting time is before current time
+            if(convertedDate.equals(current) && convertedTime.isBefore(currentTime)){
+                ex.setStatus(false);//unavailable status
             }
         }
         slotRepository.saveAll(workingList);
