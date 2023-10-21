@@ -31,9 +31,9 @@ public class BookingController {
         return bookingService.getAllBookingByStudentId(id);
     }
 
-    @GetMapping("/pending")
-    public List<BookingDTO> getPendingBooking() {
-        return bookingService.getAvailableBooking();
+    @GetMapping("/pending/{id}")
+    public List<BookingDTO> getPendingBooking(@PathVariable String id) {
+        return bookingService.getAvailableBooking(id);
     }
 
     @GetMapping("/count/{id}")
