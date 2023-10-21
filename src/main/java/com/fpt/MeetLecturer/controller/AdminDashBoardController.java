@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/api/admin/dashboard")
+@RequestMapping(path="/api/dashboard/admin")
 public class AdminDashBoardController {
     @Autowired(required = false)
     private SlotRepository slotRepository;
