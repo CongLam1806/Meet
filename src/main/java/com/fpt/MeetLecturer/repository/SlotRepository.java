@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
+import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
 
@@ -28,8 +29,7 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     List<Slot> findByLecturerIdOrderByMeetingDayDesc(String id);
 
-
-
-
-
+    Long countByToggle(boolean toggle);
+    @Query(value = "SELECT　COUNT(*) AS Count　FROM [dbo].[Slot] WHERE　meetingDay = ?1", nativeQuery = true)
+    Long countByToggleAndMeetingDay(YearMonth input);
 }
