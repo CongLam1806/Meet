@@ -32,8 +32,8 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAll());
     }
 
-    public List<BookingDTO> getAvailableBooking() {
-        return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatus(true, 1));
+    public List<BookingDTO> getAvailableBooking(String id) {
+        return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatusAndSlotLecturerId(true, 1, id));
     }
 
     public List<BookingDTO> getAllBookingByStudentId(String id) {
