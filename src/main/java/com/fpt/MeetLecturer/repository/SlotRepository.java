@@ -30,6 +30,7 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     List<Slot> findByLecturerIdOrderByMeetingDayDesc(String id);
 
     Long countByToggle(boolean toggle);
-    @Query(value = "SELECT　COUNT(*) AS Count　FROM [dbo].[Slot] WHERE　meetingDay = ?1", nativeQuery = true)
-    Long countByToggleAndMeetingDay(YearMonth input);
+    @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Slot]\n" +
+            "WHERE YEAR(meetingDay) = ?1 AND MONTH(meetingDay) = ?2", nativeQuery = true)
+    Long countByToggleAndMeetingDay(int year, int month);
 }

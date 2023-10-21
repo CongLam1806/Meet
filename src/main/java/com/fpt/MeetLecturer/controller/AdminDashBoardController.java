@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/api/dashboard")
+@RequestMapping(path="/api/admin/dashboard")
 public class AdminDashBoardController {
     @Autowired(required = false)
     private SlotRepository slotRepository;
@@ -47,7 +47,7 @@ public class AdminDashBoardController {
         YearMonth currentMonth = YearMonth.from(today);
         for (int i = 6; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
-            long value = slotRepository.countByToggleAndMeetingDay(currentMonth);
+            long value = slotRepository.countByToggleAndMeetingDay(currentMonth.getYear(), currentMonth.getMonthValue());
             response.put(key, value);
 
             if (currentMonth.getMonthValue() == 1) {
