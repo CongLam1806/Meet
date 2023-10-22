@@ -21,6 +21,10 @@ public class Utility {
     final static String pattern = "[A-Z,a-z]{2}[\\d]{6}"; // 2 characters followed by 6 digits
     final static String pattern2 = "[A-Z][\\d]{2}"; // 1 character followed by 2 digits
     final static String pattern3 = "[A-Z]{2,3}"; // 2 or 3 uppercase characters
+
+    final static String patternIT = "[SHDC]E\\d{6}";
+    final static String patternBA = "[SHDC]S\\d{6}";
+    final static String patternES = "[SHDC]A\\d{6}";
     public boolean isStudent(String Email){
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(Email);
@@ -34,6 +38,18 @@ public class Utility {
             return matcher.group().toUpperCase();
         }
         return null;
+    }
+
+    public int addMajorToStudent(String code){
+        int majorId = 1;
+        if(code.equals(patternIT)){
+            majorId = 1;
+        } else if (code.equals(patternBA)){
+            majorId = 2;
+        } else if(code.equals(patternES)){
+            majorId = 3;
+        }
+        return majorId;
     }
     public  String extractCuriculum(String studentName){
         Pattern regex = Pattern.compile(pattern2);
