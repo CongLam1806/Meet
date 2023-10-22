@@ -48,7 +48,7 @@ public class LecturerService {
     public ResponseEntity<ResponseDTO> getLecturerByEmail(String email) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseDTO(HttpStatus.OK,
-                        "Create successfully",
+                        "Get successfully",
                         genericMap.ToDTO(lecturerRepository.findByEmail(email), LecturerDTO.class))
         );
     }
