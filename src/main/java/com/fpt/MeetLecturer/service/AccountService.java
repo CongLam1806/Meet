@@ -107,6 +107,7 @@ public class AccountService {
             student.setCurriculum(curiculum);
             String defaultAddress = utility.extractDefaultAddress((student.getName()));
             student.setAddress(defaultAddress);
+            student.getMajor().setId(utility.addMajorToStudent(code));
             studentRepository.save(student);
         }
     }

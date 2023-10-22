@@ -34,5 +34,7 @@ public class StudentDTO {
 
     private boolean status;
 
+    private String majorName;
+
 
 }
