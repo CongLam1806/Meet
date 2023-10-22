@@ -15,8 +15,8 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     //List<Slot> findByStartDateBetween(Date startDate, Date endDate);
 
-    @Query(value = "Select A.*\n" +
-            "from (Slot A left join SlotSubject B on A.Id=B.slotId) full join Subject C on B.slotSubjectId=C.Id\n" +
+    @Query(value = "Select DISTINCT A.*\n" +
+            "from (Slot A left join SlotSubject B on A.Id=B.slotId) full join Subject C on B.subjectId=C.Id\n" +
             "where C.code = ?1 and A.meetingDay between ?2 and ?3 and A.status = 1" +
             "ORDER BY meetingDay DESC", nativeQuery = true)
     List<Slot> findBySubjectCodeAndDate(String code, Date startDate, Date endDate);
@@ -27,7 +27,6 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     List<Slot> findByStatusOrderByMeetingDayDesc(boolean status);
 
     List<Slot> findByLecturerIdOrderByMeetingDayDesc(String id);
-
 
 
 
