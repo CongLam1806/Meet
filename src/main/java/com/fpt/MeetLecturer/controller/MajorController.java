@@ -21,6 +21,11 @@ public class MajorController {
         return majorService.getAllMajor();
     }
 
+    @GetMapping("/status")
+    public List<MajorDTO> getAllAvailableMajor(){
+        return majorService.getAllAvalableMajor();
+    }
+
 
     @PostMapping("")
     public ResponseEntity<ResponseDTO> CreateNewMajor(@RequestBody MajorDTO dto){

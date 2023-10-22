@@ -25,6 +25,9 @@ public class BookingService {
     private GenericMap genericMap;
 
     @Autowired
+    private EmailSenderService emailSenderService;
+
+    @Autowired
     private MapBooking mapBooking;
 
 
@@ -32,8 +35,8 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAll());
     }
 
-    public List<BookingDTO> getAvailableBooking() {
-        return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatus(true, 1));
+    public List<BookingDTO> getAvailableBooking(String id) {
+        return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatusAndSlotLecturerId(true, 1, id));
     }
 
     public List<BookingDTO> getAllBookingByStudentId(String id) {
@@ -65,10 +68,14 @@ public class BookingService {
             if (booking.getStatus() == 2) {
                 existingBooking.setStatus(bookingEntity.getStatus());
                 bookingRepository.save(existingBooking);
+                BookingDTO accept = mapBooking.convertBookingToBookingDTO(existingBooking);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), accept, 1);
                 List<Booking> bookingList = bookingRepository.findBySlotIdAndToggleAndStatus(booking.getSlotInfo().getId(), true, 1);
                 for (Booking eachOfBookingList : bookingList) {
                     eachOfBookingList.setStatus(0);
                     bookingRepository.save(eachOfBookingList);
+                    BookingDTO eachOfDecline = mapBooking.convertBookingToBookingDTO(eachOfBookingList);
+                    emailSenderService.sendHtmlEmail(eachOfBookingList.getStudent().getEmail(), eachOfDecline, 2);
                 }
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Accept successfully", "")
@@ -77,6 +84,8 @@ public class BookingService {
             if (booking.getStatus() == 0){
                 existingBooking.setStatus(0);
                 bookingRepository.save(existingBooking);
+                BookingDTO Decline = mapBooking.convertBookingToBookingDTO(existingBooking);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), Decline, 2);
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Decline successfully", "")
                 );

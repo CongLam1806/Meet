@@ -173,10 +173,12 @@ public class SlotService {
 
     public ResponseDTO createSlot(SlotDTO newSlot){
         boolean flag = utility.checkValidTime(newSlot);
-        if(!flag){
-            return new ResponseDTO(HttpStatus.OK,
-                    "Slot start time must not overlapped existing slot meeting time", "");
-        }
+
+//        if(!flag){
+//            return new ResponseDTO(HttpStatus.OK,
+//                    "New slot start time must after existing slot end time at least 15 minutes", "error");
+//        }
+
 
         Slot slot1 = modelMapper.map(newSlot, Slot.class);
         Slot slot = new Slot();
