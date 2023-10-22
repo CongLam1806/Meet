@@ -138,12 +138,11 @@ public class SlotService {
     public List<SlotDTO> getSlotBySubjectCode(String code){
         List<Slot> slots = new ArrayList<>();
 
-        List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeOrderBySlotMeetingDayDesc(code);
+        List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeAndSlotStatusOrderBySlotMeetingDayDesc(code, true);
 
         slotSubjects.forEach(slotSubject -> {
-            if(slotSubject.getSubject().getCode().equals(code) && slotSubject.getSlot().isStatus()){
-                slots.add(slotSubject.getSlot());
-            }
+            slots.add(slotSubject.getSlot());
+
         });
         //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT CODE ", mapSlot.convertListToSlotDTO(slots));
         return mapSlot.convertListToSlotDTO(slots);
@@ -161,8 +160,9 @@ public class SlotService {
             slotsDTOList = getSlotBySubjectCode(code);
         } else if (code == null && startDate != null && endDate != null) {
             slotsDTOList = getSlotByDate(startDate, endDate);
-        } else if (code != null && startDate != null && endDate != null){
+        } else if (code != null && startDate != null && endDate != null) {
             slotsDTOList = mapSlot.convertListToSlotDTO(slotRepository.findBySubjectCodeAndDate(code, startDate, endDate));
+//        } else if (code != null && startDate != null and End)
         } else if(code == null && startDate == null && endDate == null){
             slotsDTOList = getAllSlotAvaiNow();
         }
