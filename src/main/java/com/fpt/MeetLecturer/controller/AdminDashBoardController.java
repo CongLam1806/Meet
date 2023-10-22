@@ -23,8 +23,6 @@ public class AdminDashBoardController {
     private StudentRepository studentRepository;
     @Autowired(required = false)
     private BookingRepository bookingRepository;
-    @Autowired(required = false)
-    private AccountRepository accountRepository;
 
 
     @GetMapping("/indicator")
