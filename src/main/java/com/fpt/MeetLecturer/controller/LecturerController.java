@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
+import com.fpt.MeetLecturer.business.DashBoardChart;
 import com.fpt.MeetLecturer.business.LecturerDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.repository.LocationRepository;
@@ -59,22 +60,23 @@ public class LecturerController {
         return lecturerService.deleteLecturer(id);
     }
     @GetMapping("/graph/{id}")
-    public Map<String, Long> dashboardGraphDisplay(@PathVariable String id) {
-        Map<String, Long> response = new HashMap<>();
+    public DashBoardChart[] dashboardGraphDisplay(@PathVariable String id) {
+        DashBoardChart[] response = new DashBoardChart[6];
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         YearMonth currentMonth = YearMonth.from(today);
         for (int i = 6; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
             long value = slotRepository.countByToggleAndMeetingDayForLecturer(currentMonth.getYear(), currentMonth.getMonthValue(), id);
-            response.put(key, value);
-
+            DashBoardChart dashBoardChart = new DashBoardChart();
+            dashBoardChart.setMonth(key);
+            dashBoardChart.setSlotCount(value);
+            response[6-i] = dashBoardChart;
             if (currentMonth.getMonthValue() == 1) {
                 currentMonth = currentMonth.minusYears(1).plusMonths(11);
             } else {
                 currentMonth = currentMonth.minusMonths(1);
             }
         }
-
         return response;
     }
 }

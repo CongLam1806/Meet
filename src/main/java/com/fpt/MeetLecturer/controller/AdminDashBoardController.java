@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
+import com.fpt.MeetLecturer.business.DashBoardChart;
 import com.fpt.MeetLecturer.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(path="/api/dashboard/admin")
@@ -27,6 +26,7 @@ public class AdminDashBoardController {
     @Autowired(required = false)
     private AccountRepository accountRepository;
 
+
     @GetMapping("/indicator")
     public Map<String, Long> dashboardIndicatorDisplay() {
         Map<String, Long> response = new HashMap<>();
@@ -40,23 +40,25 @@ public class AdminDashBoardController {
         response.put("totalMeeting",totalMeeting);
         return response;
     }
+    //http://localhost:8080/swagger-ui/index.html#/admin-dash-board-controller/dashboardIndicatorDisplay
     @GetMapping("/graph")
-    public Map<String, Long> dashboardGraphDisplay() {
-        Map<String, Long> response = new HashMap<>();
+    public DashBoardChart[] dashboardGraphDisplay2() {
+        DashBoardChart[] response = new DashBoardChart[6];
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         YearMonth currentMonth = YearMonth.from(today);
         for (int i = 6; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
             long value = slotRepository.countByToggleAndMeetingDay(currentMonth.getYear(), currentMonth.getMonthValue());
-            response.put(key, value);
-
+            DashBoardChart dashBoardChart = new DashBoardChart();
+            dashBoardChart.setMonth(key);
+            dashBoardChart.setSlotCount(value);
+            response[6-i] = dashBoardChart;
             if (currentMonth.getMonthValue() == 1) {
                 currentMonth = currentMonth.minusYears(1).plusMonths(11);
             } else {
                 currentMonth = currentMonth.minusMonths(1);
             }
         }
-
         return response;
-    }//http://localhost:8080/swagger-ui/index.html#/admin-dash-board-controller/dashboardIndicatorDisplay
+    }
 }
