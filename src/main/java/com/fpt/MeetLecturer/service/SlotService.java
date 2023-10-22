@@ -141,7 +141,7 @@ public class SlotService {
         List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeOrderBySlotMeetingDayDesc(code);
 
         slotSubjects.forEach(slotSubject -> {
-            if(slotSubject.getSubject().getCode().equals(code)){
+            if(slotSubject.getSubject().getCode().equals(code) && slotSubject.getSlot().isStatus()){
                 slots.add(slotSubject.getSlot());
             }
         });
@@ -173,10 +173,12 @@ public class SlotService {
 
     public ResponseDTO createSlot(SlotDTO newSlot){
         boolean flag = utility.checkValidTime(newSlot);
+
 //        if(!flag){
 //            return new ResponseDTO(HttpStatus.OK,
 //                    "New slot start time must after existing slot end time at least 15 minutes", "error");
 //        }
+
 
         Slot slot1 = modelMapper.map(newSlot, Slot.class);
         Slot slot = new Slot();
@@ -220,25 +222,15 @@ public class SlotService {
         return responseDTO;
     }
 
-//    public ResponseDTO deleteSlot(int id) {
-//        boolean bool;
-//        Slot slot = slotRepository.findById(id).orElseThrow();
-//        if (slot.getId() == 0) {
-//            bool = false;
-//        } else {
-//            //User delUser = user1.get();
-//            //userRepository.delete(user1.get());
-//            if (!slot.isStatus()) {
-//                bool = false;
-//            }
-//            slot.setStatus(false);
-//            slotRepository.save(slot);
-//            //mapUser.mapUserToUserDTO(delUser);
-//            bool = true;
-//        }
-//        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", bool);
-//        return responseDTO;
-//    }
+    public ResponseDTO deleteSlot(int id) {
+        Slot slot = slotRepository.findById(id).orElseThrow();
+        if(slot.isToggle()){
+            slot.setToggle(false);
+            slot.setStatus(false);
+            slotRepository.save(slot);
+        }
+        return new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", "");
+    }
 //    public ResponseDTO importFromExcel(File file) {
 //        try (FileInputStream fis = new FileInputStream(file);
 //             Workbook workbook = new XSSFWorkbook(fis)) {

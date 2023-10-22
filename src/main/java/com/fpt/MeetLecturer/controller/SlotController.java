@@ -57,8 +57,8 @@ public class SlotController {
         //System.out.println("OK");
     }
 
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("id") int id) {
-//        return ResponseEntity.ok().body(slotService.deleteSlot(id)) ;
-//    }
+    @DeleteMapping("")
+    public ResponseEntity<ResponseDTO> deleteUser(@RequestParam("id") int id) {
+        return ResponseEntity.ok().body(slotService.deleteSlot(id)) ;
+    }
 }

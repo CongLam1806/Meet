@@ -43,4 +43,8 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private List<Booking> bookingList;
+
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name = "majorId", referencedColumnName = "Id")
+    private Major major;
 }
