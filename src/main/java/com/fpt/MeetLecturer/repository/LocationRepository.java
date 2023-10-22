@@ -14,4 +14,6 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
     List<Location> findPersonalLocation(String id);
 
     List<Location> findByLecturerId(String id);
+
+    Long countByLecturerId(String id);
 }

@@ -19,7 +19,7 @@ public interface LecturerRepository extends JpaRepository<Lecturer, String> {
 
     Optional<Lecturer> findById(String id);
 
-
+    Long countByStatus(boolean status);
 //    boolean existsByUserEmail(String email);
 
 

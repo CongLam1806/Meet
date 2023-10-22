@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -69,7 +70,7 @@ public class Utility {
     }
 
     public boolean checkValidTime(SlotDTO newSlot){
-        List<Slot> workingList = slotRepository.findAll();
+        List<Slot> workingList = slotRepository.findByLecturerIdOrderByMeetingDayDesc(newSlot.getLecturerId());
         for(Slot ex: workingList){
             Date temp = ex.getMeetingDay();
             Date newSlotDate = newSlot.getMeetingDay();
@@ -78,9 +79,13 @@ public class Utility {
             }
             Time tmp = ex.getEndTime();
             Time newSlotStartTime = newSlot.getStartTime();
-            if(newSlotDate.equals(temp) && newSlotStartTime.before(tmp)){
-               return false;
-            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(tmp);
+            calendar.add(Calendar.MINUTE, 15);
+            Time newTmp = new Time(calendar.getTimeInMillis());
+            if (newSlotDate.equals(temp) && newSlotStartTime.before(newTmp)){
+                    return false;
+                }
         }
         return true;
     }
