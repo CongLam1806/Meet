@@ -48,7 +48,7 @@ public class BookingController {
     public Map<String, Boolean> countByLecturerId(@RequestParam String studentId,@RequestParam  int slotId) {
         Map<String, Boolean> response = new HashMap<>();
         boolean bookingCount = bookingService.checkStudentBooking(studentId,slotId);
-        response.put("bookingCount", bookingCount);
+        response.put("exists", bookingCount);
         return response;
     }
 
