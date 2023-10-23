@@ -142,7 +142,6 @@ public class SlotService {
 
         slotSubjects.forEach(slotSubject -> {
             slots.add(slotSubject.getSlot());
-
         });
         //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT CODE ", mapSlot.convertListToSlotDTO(slots));
         return mapSlot.convertListToSlotDTO(slots);
