@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.controller;
 import com.fpt.MeetLecturer.business.DashBoardChart;
 import com.fpt.MeetLecturer.business.LecturerDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
+import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.repository.LocationRepository;
 import com.fpt.MeetLecturer.repository.SlotRepository;
 import com.fpt.MeetLecturer.service.LecturerService;
@@ -39,9 +40,9 @@ public class LecturerController {
         return lecturerService.getAllLecturerByStatus();
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<ResponseDTO> getAllLecturerByEmail(@PathVariable String email){
-        return lecturerService.getLecturerByEmail(email);
+    @GetMapping("/{id}")
+    public LecturerDTO getAllLecturerByEmail(@PathVariable String id){
+        return lecturerService.getLecturerById(id);
     }
 
 //    @PostMapping("")
