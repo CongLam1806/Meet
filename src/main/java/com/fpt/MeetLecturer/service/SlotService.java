@@ -174,10 +174,10 @@ public class SlotService {
     public ResponseDTO createSlot(SlotDTO newSlot){
         boolean flag = utility.checkValidTime(newSlot);
 
-//        if(!flag){
-//            return new ResponseDTO(HttpStatus.OK,
-//                    "New slot start time must after existing slot end time at least 15 minutes", "error");
-//        }
+        if(!flag){
+            return new ResponseDTO(HttpStatus.OK,
+                    "New slot start time must after existing slot end time at least 15 minutes", "error");
+        }
 
 
         Slot slot1 = modelMapper.map(newSlot, Slot.class);

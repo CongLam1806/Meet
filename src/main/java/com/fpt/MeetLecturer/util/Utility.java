@@ -74,18 +74,17 @@ public class Utility {
         for(Slot ex: workingList){
             Date temp = ex.getMeetingDay();
             Date newSlotDate = newSlot.getMeetingDay();
-            if(newSlotDate.before(temp)){
-                return false;
-            }
             Time tmp = ex.getEndTime();
             Time newSlotStartTime = newSlot.getStartTime();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(tmp);
             calendar.add(Calendar.MINUTE, 15);
             Time newTmp = new Time(calendar.getTimeInMillis());
-            if (newSlotDate.equals(temp) && newSlotStartTime.before(newTmp)){
+            if (newSlotDate.equals(temp) ){
+                if(newSlotStartTime.before(newTmp) || newSlotStartTime.equals(newTmp)){
                     return false;
                 }
+            }
         }
         return true;
     }
