@@ -1,9 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
-import com.fpt.MeetLecturer.business.DashBoardIndicatorDTO;
-import com.fpt.MeetLecturer.business.ResponseDTO;
-import com.fpt.MeetLecturer.business.SlotDTO;
-import com.fpt.MeetLecturer.business.StudentDTO;
+import com.fpt.MeetLecturer.business.*;
 import com.fpt.MeetLecturer.repository.BookingRepository;
 import com.fpt.MeetLecturer.repository.SlotRepository;
 import com.fpt.MeetLecturer.service.SlotService;
@@ -15,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.List;
 
 @RestController
@@ -63,5 +63,25 @@ public class StudentController {
         String mostDiscussSubject = bookingRepository.mostDiscussSubject(id);
         dashBoardIndicatorDTO.setMostDiscussSubject(mostDiscussSubject);
         return ResponseEntity.ok().body(dashBoardIndicatorDTO);
+    }
+    @GetMapping("/graph/{id}")
+    public DashBoardChart[] dashboardGraphDisplay2(@PathVariable("id") String id){
+        DashBoardChart[] response = new DashBoardChart[6];
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        YearMonth currentMonth = YearMonth.from(today);
+        for (int i = 6; i > 0; i--) {
+            String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
+            long value = bookingRepository.countMeetingByDate(currentMonth.getYear(), currentMonth.getMonthValue(), id);
+            DashBoardChart dashBoardChart = new DashBoardChart();
+            dashBoardChart.setMonth(key);
+            dashBoardChart.setSlotCount(value);
+            response[6-i] = dashBoardChart;
+            if (currentMonth.getMonthValue() == 1) {
+                currentMonth = currentMonth.minusYears(1).plusMonths(11);
+            } else {
+                currentMonth = currentMonth.minusMonths(1);
+            }
+        }
+        return response;
     }
 }
