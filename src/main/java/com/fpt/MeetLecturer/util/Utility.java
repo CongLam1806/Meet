@@ -72,16 +72,16 @@ public class Utility {
     public boolean checkValidTime(SlotDTO newSlot){
         List<Slot> workingList = slotRepository.findByLecturerIdOrderByMeetingDayDesc(newSlot.getLecturerId());
         for(Slot ex: workingList){
-            Date temp = ex.getMeetingDay();
-            Date newSlotDate = newSlot.getMeetingDay();
-            Time tmp = ex.getEndTime();
-            Time newSlotStartTime = newSlot.getStartTime();
+            Date temp = ex.getMeetingDay();//get existing slot date
+            Date newSlotDate = newSlot.getMeetingDay();//new slot date
+            Time tmp = ex.getEndTime();//get existing slot end time
+            Time newSlotStartTime = newSlot.getStartTime();//get new slot start time
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(tmp);
-            calendar.add(Calendar.MINUTE, 15);
-            Time newTmp = new Time(calendar.getTimeInMillis());
-            if (newSlotDate.equals(temp) ){
-                if(newSlotStartTime.before(newTmp) || newSlotStartTime.equals(newTmp)){
+            calendar.setTime(tmp);//convert to calendar
+            calendar.add(Calendar.MINUTE, 15);//existing slot end time + 15 minutes
+            Time newTmp = new Time(calendar.getTimeInMillis());//convert back to time.
+            if (newSlotDate.equals(temp) ){//date comparison
+                if(newSlotStartTime.before(newTmp) || newSlotStartTime.equals(newTmp)){//time comparison
                     return false;
                 }
             }
