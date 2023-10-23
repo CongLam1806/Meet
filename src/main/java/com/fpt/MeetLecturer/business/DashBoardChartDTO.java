@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @Getter
 @Data
-public class DashBoardChart {
+public class DashBoardChartDTO {
     private String month;
     private long slotCount;
 }

@@ -1,6 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
-import com.fpt.MeetLecturer.business.DashBoardChart;
+import com.fpt.MeetLecturer.business.DashBoardChartDTO;
 import com.fpt.MeetLecturer.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,17 +40,17 @@ public class AdminDashBoardController {
     }
     //http://localhost:8080/swagger-ui/index.html#/admin-dash-board-controller/dashboardIndicatorDisplay
     @GetMapping("/graph")
-    public DashBoardChart[] dashboardGraphDisplay2() {
-        DashBoardChart[] response = new DashBoardChart[6];
+    public DashBoardChartDTO[] dashboardGraphDisplay2() {
+        DashBoardChartDTO[] response = new DashBoardChartDTO[6];
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         YearMonth currentMonth = YearMonth.from(today);
         for (int i = 6; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
             long value = slotRepository.countByToggleAndMeetingDay(currentMonth.getYear(), currentMonth.getMonthValue());
-            DashBoardChart dashBoardChart = new DashBoardChart();
-            dashBoardChart.setMonth(key);
-            dashBoardChart.setSlotCount(value);
-            response[6-i] = dashBoardChart;
+            DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
+            dashBoardChartDTO.setMonth(key);
+            dashBoardChartDTO.setSlotCount(value);
+            response[6-i] = dashBoardChartDTO;
             if (currentMonth.getMonthValue() == 1) {
                 currentMonth = currentMonth.minusYears(1).plusMonths(11);
             } else {
