@@ -27,7 +27,7 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     List<Slot> findByStatusOrderByMeetingDayDesc(boolean status);
 
-    List<Slot> findByLecturerIdOrderByMeetingDayDesc(String id);
+    List<Slot> findByLecturerIdAndStatusOrderByMeetingDayDesc(String id, boolean status);
 
     Long countByToggle(boolean toggle);
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Slot]\n" +

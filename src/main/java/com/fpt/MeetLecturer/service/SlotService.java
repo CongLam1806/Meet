@@ -102,7 +102,7 @@ public class SlotService {
     }
 
     public ResponseDTO getSlotByLecturerId(String lecturerId){
-        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdOrderByMeetingDayDesc(lecturerId));
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdAndStatusOrderByMeetingDayDesc(lecturerId, true));
         slotsDTO.forEach(slotDTO -> {
 
             Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
