@@ -45,12 +45,9 @@ public class LecturerService {
         return mapLecturer.convertListToLecturerDTO(lecturerRepository.findAll());
     }
 
-    public ResponseEntity<ResponseDTO> getLecturerByEmail(String email) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseDTO(HttpStatus.OK,
-                        "Get successfully",
-                        genericMap.ToDTO(lecturerRepository.findByEmail(email), LecturerDTO.class))
-        );
+    public LecturerDTO getLecturerById(String id) {
+
+        return mapLecturer.ToLecturerDTO(lecturerRepository.findById(id).orElseThrow());
     }
 
     public List<LecturerDTO> getAllLecturerByStatus() {
