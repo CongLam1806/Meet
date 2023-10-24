@@ -36,6 +36,16 @@ public class BookingController {
         return bookingService.getAvailableBooking(id);
     }
 
+    @GetMapping("/upmeeting")
+    public List<BookingDTO> getUpCommingMeeting(@RequestParam String id) {
+        return bookingService.getUpCommingMeeting(id);
+    }
+
+    @GetMapping("/pastmeeting")
+    public List<BookingDTO> getPastMeeting(@RequestParam String id) {
+        return bookingService.getPastMeeting(id);
+    }
+
     @GetMapping("/count/{id}")
     public Map<String, Long> countByLecturerId(@PathVariable String id) {
         Map<String, Long> response = new HashMap<>();
@@ -71,4 +81,6 @@ public class BookingController {
     public ResponseEntity<ResponseDTO> deleteBooking(@PathVariable int id) {
         return bookingService.deleteBooking(id);
     }
+
+
 }

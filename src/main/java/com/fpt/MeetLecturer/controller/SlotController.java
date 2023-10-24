@@ -40,7 +40,7 @@ public class SlotController {
     }
 
     @GetMapping("/lecturer")
-    public ResponseEntity<ResponseDTO> getSlotLecturer(@RequestParam(name="id", required = false) String id){
+    public ResponseEntity<ResponseDTO> getSlotLecturer(@RequestParam(name="id") String id){
         ResponseDTO responseDTO = slotService.getSlotByLecturerId(id);
 
         return ResponseEntity.ok().body(responseDTO);

@@ -40,8 +40,11 @@ public class SlotDTO {
     private String locationAddress;
     private String lecturerId;
     private String lecturerName;
+
     private String studentName;
     private String studentEmail;
+
+
     private List<Slot_SubjectDTO> slotSubjectDTOS;
 
 

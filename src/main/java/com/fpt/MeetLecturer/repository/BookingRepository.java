@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
-    Booking findBySlotId(int slotId);
+    Booking findBySlotIdAndStatus(int slotId, int status);
 
     Optional<Booking> findByStudentId(String id);
 
@@ -25,10 +25,16 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByToggleAndStatusAndSlotLecturerId(boolean toggle, int status, String id);
 
+    List<Booking> findByToggleAndStatusAndStudentId(boolean toggle, int status, String id);
+
     List<Booking> findAllByStudentIdAndToggle(String studentId, boolean toggle);
 
     Long countByStatusAndSlotLecturerId(int status,String lecturerId);
     Long countByToggleAndStatus(boolean toggle, int status);
+
+
+    List<Booking> findBySlotStatusAndStudentId(boolean status, String id);
+
 
     Long countByStatusAndStudentId(int status, String id);
     Long countByStudentId(String id);
@@ -40,4 +46,5 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
             "WHERE YEAR(b.meetingDay) = ?1 AND MONTH(b.meetingDay) = ?2 AND a.studentId = ?3 AND a.status = 2", nativeQuery = true)
     Long countMeetingByDate(int year, int month, String id);
+
 }
