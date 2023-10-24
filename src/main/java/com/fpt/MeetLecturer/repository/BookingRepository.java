@@ -21,6 +21,8 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findBySlotIdAndToggleAndStatus(int id, boolean toggle, int status);
 
+    List<Booking> findAllByToggleAndStatus(boolean toggle, int status);
+
     List<Booking> findByToggleAndStatusAndSlotLecturerId(boolean toggle, int status, String id);
 
     List<Booking> findAllByStudentIdAndToggle(String studentId, boolean toggle);
