@@ -65,6 +65,7 @@ public class SlotController {
     public ResponseEntity<ResponseDTO> deleteUser(@RequestParam("id") int id) {
         return ResponseEntity.ok().body(slotService.deleteSlot(id)) ;
     }
+    @PostMapping("/import")
     public ResponseEntity<ResponseDTO> importSlotsFromExcel(@RequestParam("file") MultipartFile file) {
         try {
             File convertedFile = convertMultipartFileToFile(file);
