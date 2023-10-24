@@ -51,6 +51,6 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     //Student:
     @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
             "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
-            "WHERE [studentId] = ?1 AND a.status = 0", nativeQuery = true)
+            "WHERE [studentId] = ?1 AND b.status = 2", nativeQuery = true)
     Time totalMeetingTimeStudent(String id);
 }
