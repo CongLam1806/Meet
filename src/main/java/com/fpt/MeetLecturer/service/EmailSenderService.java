@@ -18,7 +18,7 @@ public class EmailSenderService {
     private static final String UTF_8_ENCODING = "UTF-8";
     private static final String EMAIL_ACCEPT_TEMPLATE = "sendEmailAccept.html";
     private static final String EMAIL_DECLINE_TEMPLATE = "sendEmailDecline.html";
-    private static final String SUBJECT = "About your booking request";
+    private static final String SUBJECT = "[MML] BOOKING CONFIRMATION MAIL";
     private static final String fromEmail = "Meeting My Lecturer <MeetLecturer@gmail.com>";
 
 

@@ -130,6 +130,7 @@ public class SlotService {
     }
 
     public List<SlotDTO> getSlotBySubjectCode(String code){
+
 //        List<Slot> slots = new ArrayList<>();
 //
 //        List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeAndSlotStatusOrderBySlotMeetingDayDesc(code, true);
@@ -137,6 +138,7 @@ public class SlotService {
 //        slotSubjects.forEach(slotSubject -> {
 //            slots.add(slotSubject.getSlot());
 //        });
+
         //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT CODE ", mapSlot.convertListToSlotDTO(slots));
 
         List<Slot> slots = slotRepository.findBySlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(code, true);
@@ -169,10 +171,10 @@ public class SlotService {
     public ResponseDTO createSlot(SlotDTO newSlot){
         boolean flag = utility.checkValidTime(newSlot);
 
-//        if(!flag){
-//            return new ResponseDTO(HttpStatus.OK,
-//                    "New slot start time must after existing slot end time at least 15 minutes", "error");
-//        }
+        if(!flag){
+            return new ResponseDTO(HttpStatus.OK,
+                    "New slot start time must after existing slot end time at least 15 minutes", "error");
+        }
 
 
         Slot slot1 = modelMapper.map(newSlot, Slot.class);
@@ -209,6 +211,11 @@ public class SlotService {
 
 
     public ResponseDTO updateSlot(SlotDTO newSlot, int id){
+        boolean flag = utility.checkValidTime(newSlot);
+//        if(!flag) {
+//            return new ResponseDTO(HttpStatus.OK,
+//                    "Slot start time must after existing slot end time at least 15 minutes", "error");
+//        }
         Slot slot;
         slot = slotRepository.findById(id).orElseThrow();
         modelMapper.map(newSlot, slot);

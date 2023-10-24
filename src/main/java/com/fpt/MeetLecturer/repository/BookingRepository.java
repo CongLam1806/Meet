@@ -3,6 +3,7 @@ package com.fpt.MeetLecturer.repository;
 import com.fpt.MeetLecturer.entity.Booking;
 import org.hibernate.sql.model.internal.OptionalTableUpdate;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +17,11 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     Booking findByStudentEmail(String email);
 
+    Boolean existsByStudentIdAndSlotId(String Id, int id);
+
     List<Booking> findBySlotIdAndToggleAndStatus(int id, boolean toggle, int status);
+
+    List<Booking> findAllByToggleAndStatus(boolean toggle, int status);
 
     List<Booking> findByToggleAndStatusAndSlotLecturerId(boolean toggle, int status, String id);
 
@@ -27,6 +32,19 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     Long countByStatusAndSlotLecturerId(int status,String lecturerId);
     Long countByToggleAndStatus(boolean toggle, int status);
 
+
     List<Booking> findBySlotStatusAndStudentId(boolean status, String id);
+
+
+    Long countByStatusAndStudentId(int status, String id);
+    Long countByStudentId(String id);
+    @Query(value = "SELECT TOP 1 c.code as mostDiscuss FROM (Booking a FULL JOIN Slot b ON a.slotId = b.Id)" +
+            "full join  (Subject c full join SlotSubject d on c.Id = d.subjectId) on b.Id = d.slotId\n" +
+            "WHERE a.studentId = ?1", nativeQuery = true)
+    String mostDiscussSubject(String id);
+
+    @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
+            "WHERE YEAR(b.meetingDay) = ?1 AND MONTH(b.meetingDay) = ?2 AND a.studentId = ?3 AND a.status = 2", nativeQuery = true)
+    Long countMeetingByDate(int year, int month, String id);
 
 }

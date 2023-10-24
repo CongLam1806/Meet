@@ -54,6 +54,14 @@ public class BookingController {
         return response;
     }
 
+    @GetMapping("/exists")
+    public Map<String, Boolean> countByLecturerId(@RequestParam String studentId,@RequestParam  int slotId) {
+        Map<String, Boolean> response = new HashMap<>();
+        boolean bookingCount = bookingService.checkStudentBooking(studentId,slotId);
+        response.put("exists", bookingCount);
+        return response;
+    }
+
     @PostMapping("")
     public ResponseEntity<ResponseDTO> createBooking(@Valid @RequestBody BookingDTO bookingDTO) {
         return bookingService.createBooking(bookingDTO);

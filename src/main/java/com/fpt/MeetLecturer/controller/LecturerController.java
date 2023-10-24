@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.controller;
 
-import com.fpt.MeetLecturer.business.DashBoardChart;
+import com.fpt.MeetLecturer.business.DashBoardChartDTO;
+import com.fpt.MeetLecturer.business.DashBoardIndicatorLecturerDTO;
 import com.fpt.MeetLecturer.business.LecturerDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.repository.LocationRepository;
@@ -15,10 +16,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(path="/api/lecturer")
@@ -28,6 +26,8 @@ public class LecturerController {
     private LecturerService lecturerService;
     @Autowired(required = false)
     private SlotRepository slotRepository;
+    @Autowired(required = false)
+    private LocationRepository locationRepository;
 
     @GetMapping("")
     public List<LecturerDTO> getAllLecturer(){
@@ -39,9 +39,9 @@ public class LecturerController {
         return lecturerService.getAllLecturerByStatus();
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<ResponseDTO> getAllLecturerByEmail(@PathVariable String email){
-        return lecturerService.getLecturerByEmail(email);
+    @GetMapping("/{id}")
+    public LecturerDTO getAllLecturerByEmail(@PathVariable String id){
+        return lecturerService.getLecturerById(id);
     }
 
 //    @PostMapping("")
@@ -59,24 +59,37 @@ public class LecturerController {
     public ResponseEntity<ResponseDTO> deleteLecturer(@PathVariable String id ){
         return lecturerService.deleteLecturer(id);
     }
+    @GetMapping("/indicator/{id}")
+    public ResponseEntity<DashBoardIndicatorLecturerDTO> dashboardIndicatorDisplay(@PathVariable String id) {
+        DashBoardIndicatorLecturerDTO indicator = new DashBoardIndicatorLecturerDTO();
+        long totalSlot = slotRepository.countByLecturerIdAndToggle(id, true);
+        indicator.setTotalSlot(totalSlot);
+        Time totalHours = slotRepository.totalMeetingTime(id);
+        indicator.setTotalHours(totalHours);
+        long totalLocation = locationRepository.countByLecturerId(id);
+        indicator.setTotalLocation(totalLocation);
+        String mostDiscussSubject = slotRepository.mostDiscussSubjectLecturer(id);
+        indicator.setMostDiscussSubject(mostDiscussSubject);
+        return  ResponseEntity.ok().body(indicator);
+    }
     @GetMapping("/graph/{id}")
-    public DashBoardChart[] dashboardGraphDisplay(@PathVariable String id) {
-        DashBoardChart[] response = new DashBoardChart[6];
+    public ResponseEntity<DashBoardChartDTO[]> dashboardGraphDisplay(@PathVariable String id) {
+        DashBoardChartDTO[] response = new DashBoardChartDTO[6];
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         YearMonth currentMonth = YearMonth.from(today);
         for (int i = 6; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
             long value = slotRepository.countByToggleAndMeetingDayForLecturer(currentMonth.getYear(), currentMonth.getMonthValue(), id);
-            DashBoardChart dashBoardChart = new DashBoardChart();
-            dashBoardChart.setMonth(key);
-            dashBoardChart.setSlotCount(value);
-            response[6-i] = dashBoardChart;
+            DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
+            dashBoardChartDTO.setMonth(key);
+            dashBoardChartDTO.setSlotCount(value);
+            response[6-i] = dashBoardChartDTO;
             if (currentMonth.getMonthValue() == 1) {
                 currentMonth = currentMonth.minusYears(1).plusMonths(11);
             } else {
                 currentMonth = currentMonth.minusMonths(1);
             }
         }
-        return response;
+        return  ResponseEntity.ok().body(response);
     }
 }

@@ -45,9 +45,20 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
             "WHERE [lecturerId] = ?1", nativeQuery = true)
     Time totalMeetingTime(String id);
 
+    @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
+            "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
+            "WHERE [studentId] = ?1", nativeQuery = true)
+    Time totalMeetingTimeStudent(String id);
+
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Slot] " +
             "WHERE YEAR(meetingDay) = ?1 AND MONTH(meetingDay) = ?2 AND [lecturerId] = ?3 AND [toggle] = 1", nativeQuery = true)
     Long countByToggleAndMeetingDayForLecturer(int year, int month, String id);
 
+
+
+
+    @Query(value = "SELECT TOP 1 d.code as mostDiscuss FROM Slot a left JOIN  (SlotSubject c full join Subject d on d.Id = c.subjectId) on a.Id = c.slotId\n" +
+            "WHERE a.lecturerId = ?1", nativeQuery = true)
+    String mostDiscussSubjectLecturer(String id);
 
 }

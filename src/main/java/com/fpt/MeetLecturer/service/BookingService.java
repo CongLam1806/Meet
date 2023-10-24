@@ -60,6 +60,9 @@ public class BookingService {
         return bookingRepository.countByStatusAndSlotLecturerId(1, id);
     }
 
+    public boolean checkStudentBooking(String studentId, int slotId) {
+        return bookingRepository.existsByStudentIdAndSlotId(studentId, slotId);
+    }
 
     public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO) {
         Booking bookingEntity = genericMap.ToEntity(bookingDTO, Booking.class);
@@ -97,8 +100,8 @@ public class BookingService {
             if (booking.getStatus() == 0){
                 existingBooking.setStatus(0);
                 bookingRepository.save(existingBooking);
-                BookingDTO Decline = mapBooking.convertBookingToBookingDTO(existingBooking);
-                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), Decline, 2);
+                BookingDTO decline = mapBooking.convertBookingToBookingDTO(existingBooking);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), decline, 2);
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Decline successfully", "")
                 );
