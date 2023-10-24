@@ -17,9 +17,11 @@ public class MapSlot {
     static {
         //Define the mapping configuration for Slot to SlotDTO
         TypeMap<Slot, SlotDTO> slotToDTOTypeMap = modelMapper.createTypeMap(Slot.class, SlotDTO.class)
+
                 .addMapping(src -> src.getSlotSubjects(), SlotDTO::setSlotSubjectDTOS)
                 .addMapping(src -> src.getLecturer().getName(), SlotDTO::setLecturerName)
                 .addMapping(src -> src.getLocation().getName(), SlotDTO::setLocationName);
+
 
     }
 
