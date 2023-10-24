@@ -26,7 +26,7 @@ public class BookingController {
     }
 
 
-    @GetMapping("/status/{id}")
+    @GetMapping("/{id}")
     public List<BookingDTO> getAllBookingBySubjectId(@PathVariable String id) {
         return bookingService.getAllBookingByStudentId(id);
     }
@@ -41,6 +41,14 @@ public class BookingController {
         Map<String, Long> response = new HashMap<>();
         long bookingCount = bookingService.countByLecturerId(id);
         response.put("bookingCount", bookingCount);
+        return response;
+    }
+
+    @GetMapping("/exists")
+    public Map<String, Boolean> countByLecturerId(@RequestParam String studentId,@RequestParam  int slotId) {
+        Map<String, Boolean> response = new HashMap<>();
+        boolean bookingCount = bookingService.checkStudentBooking(studentId,slotId);
+        response.put("exists", bookingCount);
         return response;
     }
 

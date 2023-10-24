@@ -47,6 +47,9 @@ public class BookingService {
         return bookingRepository.countByStatusAndSlotLecturerId(1, id);
     }
 
+    public boolean checkStudentBooking(String studentId, int slotId) {
+        return bookingRepository.existsByStudentIdAndSlotId(studentId, slotId);
+    }
 
     public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO) {
         Booking bookingEntity = genericMap.ToEntity(bookingDTO, Booking.class);

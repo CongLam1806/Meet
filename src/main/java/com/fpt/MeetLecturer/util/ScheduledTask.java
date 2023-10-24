@@ -1,9 +1,14 @@
 package com.fpt.MeetLecturer.util;
 
+import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
+import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Slot;
+import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.mapper.MapSlot;
+import com.fpt.MeetLecturer.repository.BookingRepository;
 import com.fpt.MeetLecturer.repository.SlotRepository;
+import com.fpt.MeetLecturer.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,6 +28,13 @@ public class ScheduledTask {
     private SlotRepository slotRepository;
     @Autowired(required = false)
     private MapSlot mapSlot;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private MapBooking mapBooking;
+    @Autowired
+    private EmailSenderService emailSenderService;
+
     @Scheduled(fixedRate = 600000)//600000 = 10 minutes
     private void runTask(){
         System.out.println("autoUpdateSlotStatus");
@@ -52,5 +64,16 @@ public class ScheduledTask {
         }
         slotRepository.saveAll(workingList);
         //slotRepository.saveAll(mapSlot.toSlotList(workingList));
+
+        List<Booking> bookingList = bookingRepository.findAllByToggleAndStatus(true, 1);
+        for (Booking inProgress : bookingList){
+            if (!inProgress.getSlot().isStatus()) {
+                inProgress.setStatus(0);
+                bookingRepository.save(inProgress);
+                BookingDTO decline = mapBooking.convertBookingToBookingDTO(inProgress);
+                emailSenderService.sendHtmlEmail(inProgress.getStudent().getEmail(), decline, 2);
+            }
+        }
+
     }
 }
