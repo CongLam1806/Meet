@@ -26,7 +26,7 @@ public class BookingController {
     }
 
 
-    @GetMapping("/status/{id}")
+    @GetMapping("/{id}")
     public List<BookingDTO> getAllBookingBySubjectId(@PathVariable String id) {
         return bookingService.getAllBookingByStudentId(id);
     }

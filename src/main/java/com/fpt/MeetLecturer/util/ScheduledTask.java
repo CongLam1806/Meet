@@ -40,6 +40,7 @@ public class ScheduledTask {
         System.out.println("autoUpdateSlotStatus");
         //get current date at Ho_Chi_Minh - Vietnam
         LocalDate current = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        Date Current = Date.from(current.atStartOfDay(ZoneId.of("Asia/Ho_Chi_Minh")).toInstant());
         //get current time at Ho_Chi_Minh - Vietnam
         LocalTime currentTime = LocalTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
 
@@ -50,7 +51,7 @@ public class ScheduledTask {
             LocalDate convertedDate = temp.toInstant().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
 
             //current date is after meeting date == true
-            if(convertedDate.isBefore(current)){
+            if(temp.before(Current)){
                 ex.setStatus(false); //unavailable status
             }
 
@@ -58,7 +59,7 @@ public class ScheduledTask {
             LocalTime convertedTime = tmp.toLocalTime();
 
             ////current date equals meeting date AND meeting time is before current time
-            if(convertedDate.equals(current) && convertedTime.isBefore(currentTime)){
+            if(temp.equals(Current) && convertedTime.isBefore(currentTime)){
                 ex.setStatus(false);//unavailable status
             }
         }
