@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.ss.usermodel.Sheet;
-//import org.apache.poi.ss.usermodel.Workbook;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import com.fpt.MeetLecturer.util.Utility;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.ValidationException;
@@ -235,65 +235,84 @@ public class SlotService {
         }
         return new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", "");
     }
-//    public ResponseDTO importFromExcel(File file) {
-//        try (FileInputStream fis = new FileInputStream(file);
-//             Workbook workbook = new XSSFWorkbook(fis)) {
-//            Sheet sheet = workbook.getSheetAt(0);
-//            Iterator<Row> rowIterator = sheet.iterator();
-//            List<SlotDTO> slotdtos = new ArrayList<>();
-//            while (rowIterator.hasNext()) {
-//                Row row = rowIterator.next();
-//                if (row.getRowNum() == 0) {
-//                    continue;
-//                }
-//                SlotDTO slot = new SlotDTO();
-//                Cell idCell = row.getCell(0);
-//                slot.setPassword((String) idCell.getStringCellValue());
-//                Cell startTimeCell = row.getCell(1);
-//                slot.setStartTime(Time.valueOf(LocalTime.parse(startTimeCell.getStringCellValue())));
-//
-//                Cell endTimeCell = row.getCell(2);
-//                slot.setEndTime(Time.valueOf(LocalTime.parse(endTimeCell.getStringCellValue())));
-//
-//                Cell startDateCell = row.getCell(3);
-//                slot.setMeetingDay(startDateCell.getDateCellValue());
-//
-//                Cell Mode = row.getCell(4);
-//                slot.setMode((int) Mode.getNumericCellValue());
-//
-//                Cell Locations = row.getCell(5);
-//                Location location = new Location();
-//                int id = -1;
-//                if(location.getName().equals(Locations.getStringCellValue())){
-//                    id = location.getId();
-//                }
-//                slot.setLocationId(id);
-//
-//                Cell LecturerName = row.getCell(6);
-//                Lecturer lecturer = new Lecturer();
-//                String name = "";
-//                if(lecturer.getName().equals(LecturerName.getStringCellValue())){
-//                    name = lecturer.getName();
-//                }
-//                slot.setLecturerName(name);
-//
-//                Cell Subjects = row.getCell(7);
-//                Subject subject = new Subject();
-//                List<String> subjectList = new ArrayList<>();
-//                String [] data = Subjects.getStringCellValue().split(",");
-//                for(String pt: data){
-//                    if(subject.getCode().equals(pt.trim().toUpperCase())){
-//                        subjectList.add(subject.getName());
-//                    }
-//                }
-//                slot.setSubjectCode(subjectList);
-//
-//                slotdtos.add(slot);
-//            }
-//            slotRepository.saveAll(mapSlot.toSlotList(slotdtos));
-//        } catch (IOException e) {
-//            e.getMessage();
-//        }
-//        return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "");
-//    }
+    public ResponseDTO importFromExcel(File file) {
+        try (FileInputStream fis = new FileInputStream(file);
+             Workbook workbook = new XSSFWorkbook(fis)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+                // khởi tạo slotDTO để lấy gia trị từ file excel
+                SlotDTO slotdto = new SlotDTO();
+                //MeetingDay
+                Cell meetingDay = row.getCell(0);
+                slotdto.setMeetingDay(meetingDay.getDateCellValue());
+                //StartTime
+                Cell startTime = row.getCell(1);
+                slotdto.setStartTime(Time.valueOf(LocalTime.parse(startTime.getStringCellValue())));
+                //EndTime
+                Cell endTime = row.getCell(2);
+                slotdto.setEndTime(Time.valueOf(LocalTime.parse(endTime.getStringCellValue())));
+                //LocationId
+                Cell locationId = row.getCell(3);
+                Location location = new Location();
+                int id = -1;
+                if (location.getId() == locationId.getNumericCellValue()) {
+                    id = location.getId();
+                }
+                slotdto.setLocationId(id);
+                //SubjectList
+                Cell subjects = row.getCell(4);
+                List<Slot_SubjectDTO> subjectList = new ArrayList<>();
+                String[] data = subjects.getStringCellValue().split(",");
+                for (String pt : data) {
+                    Subject subject = subjectRepository.findByCode(pt.trim());
+                    if (subject.getCode() != null) {
+                        Slot_SubjectDTO slotSubjectDTO = new Slot_SubjectDTO();
+                        slotSubjectDTO.setSubjectCode(subject.getCode());
+                        subjectList.add(slotSubjectDTO);
+                    }
+                }
+                slotdto.setSlotSubjectDTOS(subjectList);
+                //SlotMode
+                Cell mode = row.getCell(5);
+                slotdto.setMode((int) mode.getNumericCellValue());
+                //StudentName
+                Cell studentEmail = row.getCell(6);
+                Student student = studentRepository.findByEmail(studentEmail.getStringCellValue());
+                if (!student.getEmail().isBlank()) {
+                    slotdto.setStudentEmail(student.getEmail());
+                }
+                //SlotPassword
+                Cell password = row.getCell(7);
+                if (password != null) slotdto.setPassword(password.getStringCellValue());
+                //Map DTO vào Entity, tiến hành lưu thông tin vào DB
+                Slot slot1 = modelMapper.map(slotdto, Slot.class);
+                Slot slot = new Slot();
+                slot.setPassword(slot1.getPassword());
+                slot.setLecturer(slot1.getLecturer());
+                slot.setLocation(slot1.getLocation());
+                slot.setStartTime(slot1.getStartTime());
+                slot.setEndTime(slot1.getEndTime());
+                slot.setMeetingDay(slot1.getMeetingDay());
+                slot.setMode(slot1.getMode());
+                slot = slotRepository.save(slot);
+                if (student != null) {
+                    Booking booking = new Booking(slot, student);
+                    bookingRepository.save(booking);
+                }
+                for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
+                    Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
+                    Slot_Subject slotSubject = new Slot_Subject(slot, subject);
+                    slotSubjectRepository.save(slotSubject);
+                }
+            }
+        } catch (IOException e) {
+            String errorMessage = e.getMessage();
+            return new ResponseDTO(HttpStatus.OK,
+                    "Error occurred during file processing", errorMessage);
+        }
+        return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "");
+    }
 }

@@ -6,9 +6,13 @@ import com.fpt.MeetLecturer.service.SlotService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -60,5 +64,19 @@ public class SlotController {
     @DeleteMapping("")
     public ResponseEntity<ResponseDTO> deleteUser(@RequestParam("id") int id) {
         return ResponseEntity.ok().body(slotService.deleteSlot(id)) ;
+    }
+    public ResponseEntity<ResponseDTO> importSlotsFromExcel(@RequestParam("file") MultipartFile file) {
+        try {
+            File convertedFile = convertMultipartFileToFile(file);
+            return ResponseEntity.ok().body(slotService.importFromExcel(convertedFile));
+        } catch (IOException e) {
+            return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,
+                    "Error occurred during file processing", e.getMessage()));
+        }
+    }
+    private File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
+        File convertedFile = File.createTempFile("temp", null);
+        multipartFile.transferTo(convertedFile);
+        return convertedFile;
     }
 }
