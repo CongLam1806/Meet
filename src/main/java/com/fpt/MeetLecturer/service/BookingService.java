@@ -7,6 +7,7 @@ import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
+import com.fpt.MeetLecturer.repository.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,8 @@ public class BookingService {
 
     @Autowired
     private MapBooking mapBooking;
+    @Autowired
+    private SlotRepository slotRepository;
 
 
     public List<BookingDTO> getAllBooking() {
@@ -37,6 +40,16 @@ public class BookingService {
 
     public List<BookingDTO> getAvailableBooking(String id) {
         return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatusAndSlotLecturerId(true, 1, id));
+    }
+
+    public List<BookingDTO> getUpCommingMeeting(String id) {
+        List<Booking> bookingList = bookingRepository.findBySlotStatusAndStudentId(true, id);
+        return mapBooking.convertListToBookingDTO(bookingList);
+    }
+
+    public List<BookingDTO> getPastMeeting(String id) {
+        List<Booking> bookingList = bookingRepository.findBySlotStatusAndStudentId(false, id);
+        return mapBooking.convertListToBookingDTO(bookingList);
     }
 
     public List<BookingDTO> getAllBookingByStudentId(String id) {

@@ -17,7 +17,7 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     //List<Slot> findByStartDateBetween(Date startDate, Date endDate);
 
     @Query(value = "Select A.*\n" +
-            "from (Slot A left join SlotSubject B on A.Id=B.slotId) full join Subject C on B.slotSubjectId=C.Id\n" +
+            "from (Slot A left join SlotSubject B on A.Id=B.slotId) full join Subject C on B.subjectId=C.Id\n" +
             "where C.code = ?1 and A.meetingDay between ?2 and ?3 and A.status = 1" +
             "ORDER BY meetingDay DESC", nativeQuery = true)
     List<Slot> findBySubjectCodeAndDate(String code, Date startDate, Date endDate);
@@ -27,7 +27,12 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     List<Slot> findByStatusOrderByMeetingDayDesc(boolean status);
 
-    List<Slot> findByLecturerIdAndStatusOrderByMeetingDayDesc(String id, boolean status);
+
+    List<Slot> findByLecturerIdAndToggleOrderByMeetingDayDesc(String id, boolean toggle);
+
+    List<Slot> findByLecturerIdOrderByMeetingDayDesc(String id);
+
+    List<Slot> findBySlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(String code, boolean status);
 
     Long countByToggle(boolean toggle);
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Slot]\n" +
@@ -44,4 +49,6 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Slot] " +
             "WHERE YEAR(meetingDay) = ?1 AND MONTH(meetingDay) = ?2 AND [lecturerId] = ?3 AND [toggle] = 1", nativeQuery = true)
     Long countByToggleAndMeetingDayForLecturer(int year, int month, String id);
+
+
 }

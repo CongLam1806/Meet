@@ -84,9 +84,7 @@ public class SlotService {
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
-            Location location = locationRepository.findById(slotDTO.getLocationId()).orElseThrow();
-            slotDTO.setLocationName(location.getName());
-            slotDTO.setLocationAddress(location.getAddress());
+
 
 //            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
 //            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
@@ -102,16 +100,14 @@ public class SlotService {
     }
 
     public ResponseDTO getSlotByLecturerId(String lecturerId){
-        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdAndStatusOrderByMeetingDayDesc(lecturerId, true));
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdAndToggleOrderByMeetingDayDesc(lecturerId, true));
         slotsDTO.forEach(slotDTO -> {
 
             Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
-            Location location = locationRepository.findById(slotDTO.getLocationId()).orElseThrow();
-            slotDTO.setLocationName(location.getName());
-            slotDTO.setLocationAddress(location.getAddress());
+
 
 //            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
 //            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
@@ -129,22 +125,20 @@ public class SlotService {
     public List<SlotDTO> getAllSlotAvaiNow(){
 
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStatusOrderByMeetingDayDesc(true));
-        slotsDTO.forEach(slotDTO -> {
-            slotDTO.setLecturerName(slotDTO.getLecturerName());
-        });
         return slotsDTO;
     }
 
     public List<SlotDTO> getSlotBySubjectCode(String code){
-        List<Slot> slots = new ArrayList<>();
-
-        List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeAndSlotStatusOrderBySlotMeetingDayDesc(code, true);
-
-        slotSubjects.forEach(slotSubject -> {
-            slots.add(slotSubject.getSlot());
-
-        });
+//        List<Slot> slots = new ArrayList<>();
+//
+//        List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeAndSlotStatusOrderBySlotMeetingDayDesc(code, true);
+//
+//        slotSubjects.forEach(slotSubject -> {
+//            slots.add(slotSubject.getSlot());
+//        });
         //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT CODE ", mapSlot.convertListToSlotDTO(slots));
+
+        List<Slot> slots = slotRepository.findBySlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(code, true);
         return mapSlot.convertListToSlotDTO(slots);
     }
 
