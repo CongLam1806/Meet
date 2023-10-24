@@ -79,19 +79,19 @@ public class SlotService {
 
         List<SlotDTO> slotList = mapSlot.convertListToSlotDTO(slotRepository.findAll(sort));
         slotList.forEach(slotDTO -> {
-
-            Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
+            System.out.println(slotDTO.getId());
+            Booking booking = bookingRepository.findBySlotIdAndStatus(slotDTO.getId(), 2);
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
-
-
-//            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
-//            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
-//            slotSubjectList.forEach(slotSubject -> {
-//                slotSubjectDTOS.add(slotSubject.getSubject().getCode());
-//            });
-//            slotDTO.setSlotSubjectDTOS(subjectCode);
+//
+//
+////            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
+////            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
+////            slotSubjectList.forEach(slotSubject -> {
+////                slotSubjectDTOS.add(slotSubject.getSubject().getCode());
+////            });
+////            slotDTO.setSlotSubjectDTOS(subjectCode);
         });
 
         return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
@@ -102,8 +102,8 @@ public class SlotService {
     public ResponseDTO getSlotByLecturerId(String lecturerId){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByLecturerIdAndToggleOrderByMeetingDayDesc(lecturerId, true));
         slotsDTO.forEach(slotDTO -> {
-
-            Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
+            System.out.println(slotDTO.getId());
+            Booking booking = bookingRepository.findBySlotIdAndStatus(slotDTO.getId(), 2);
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
@@ -115,6 +115,7 @@ public class SlotService {
 //                slotSubjectDTOS.add(slotSubject.getSubject().getCode());
 //            });
 //            slotDTO.setSlotSubjectDTOS(subjectCode);
+
         });
 
         return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS FOR LECTURER",slotsDTO);
@@ -190,11 +191,11 @@ public class SlotService {
 //        }
 
         slot = slotRepository.save(slot);
-        Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
-        if(student != null){
-            Booking booking = new Booking(slot, student);
-            bookingRepository.save(booking);
-        }
+//        Student student = studentRepository.findByEmail(newSlot.getStudentEmailDTOS());
+//        if(student != null){
+//            Booking booking = new Booking(slot, student);
+//            bookingRepository.save(booking);
+//        }
 
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
             Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
