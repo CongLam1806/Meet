@@ -176,6 +176,11 @@ public class SlotService {
 
         Slot slot1 = modelMapper.map(newSlot, Slot.class);
         Slot slot = new Slot();
+        if(slot1.getMode() == 0 || slot1.getMode() == 1){
+            slot.setStatus(true);
+        } else if (slot1.getMode() == 2){
+            slot.setStatus(false);
+        }
         slot.setPassword(slot1.getPassword());
         slot.setLecturer(slot1.getLecturer());
         slot.setLocation(slot1.getLocation());
