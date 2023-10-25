@@ -60,8 +60,7 @@ public class ScheduledTask {
             if (!inProgress.getSlot().isStatus()) {
                 inProgress.setStatus(0);
                 bookingRepository.save(inProgress);
-                BookingDTO decline = mapBooking.convertBookingToBookingDTO(inProgress);
-                emailSenderService.sendHtmlEmail(inProgress.getStudent().getEmail(), decline, 2);
+                emailSenderService.sendHtmlEmail(inProgress.getStudent().getEmail(), inProgress, 2);
             }
         }
 
