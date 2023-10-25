@@ -305,7 +305,7 @@ public class SlotService {
                 slot.setMode(slot1.getMode());
                 slot = slotRepository.save(slot);
                 if (student != null) {
-                    Booking booking = new Booking(slot, student);
+                    Booking booking = new Booking(slot, student, 2);
                     bookingRepository.save(booking);
                 }
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
