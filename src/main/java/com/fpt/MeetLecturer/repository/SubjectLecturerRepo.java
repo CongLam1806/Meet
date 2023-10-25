@@ -14,4 +14,6 @@ public interface SubjectLecturerRepo extends JpaRepository<Subject_Lecturer, Sub
     @Query(value = "DELETE FROM Teaching WHERE lecturerId = ?1", nativeQuery = true)
     void deleteAllByLecturerId(String id);
 
+    @Query(value = "SELECT TOP 1 teachId FROM Teaching ORDER BY teachId DESC", nativeQuery = true)
+    Long findTopTeachId();
 }

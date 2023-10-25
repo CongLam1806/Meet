@@ -10,7 +10,9 @@ import com.fpt.MeetLecturer.mapper.MapSubject;
 import com.fpt.MeetLecturer.repository.*;
 
 import java.sql.Timestamp;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -242,7 +245,7 @@ public class SlotService {
                 SlotDTO slotdto = new SlotDTO();
                 //MeetingDay
                 Cell meetingDay = row.getCell(0);
-                slotdto.setMeetingDay(meetingDay.getDateCellValue());
+                slotdto.setMeetingDay(LocalDate.from(meetingDay.getLocalDateTimeCellValue()));
                 //StartTime
                 Cell startTime = row.getCell(1);
                 slotdto.setStartTime(Time.valueOf(LocalTime.parse(startTime.getStringCellValue())));
