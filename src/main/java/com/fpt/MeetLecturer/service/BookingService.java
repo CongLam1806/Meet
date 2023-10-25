@@ -4,6 +4,7 @@ import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
@@ -86,6 +87,14 @@ public class BookingService {
                 bookingRepository.save(existingBooking);
                 BookingDTO accept = mapBooking.convertBookingToBookingDTO(existingBooking);
                 emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), accept, 1);
+
+                Optional<Slot> slot = slotRepository.findById(booking.getSlotInfo().getId());
+                if (slot.isPresent()){
+                    Slot existingSlot = slot.get();
+                    existingSlot.setStatus(false);
+                    slotRepository.save(existingSlot);
+                }
+
                 List<Booking> bookingList = bookingRepository.findBySlotIdAndToggleAndStatus(booking.getSlotInfo().getId(), true, 1);
                 for (Booking eachOfBookingList : bookingList) {
                     eachOfBookingList.setStatus(0);
