@@ -13,9 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +43,8 @@ public class Slot {
 
     @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column(name="meetingDay")
-    private Date meetingDay;
+    private LocalDate meetingDay;
+    
 
     @Column(name="mode")
     private int mode;

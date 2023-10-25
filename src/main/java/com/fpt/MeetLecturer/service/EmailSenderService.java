@@ -32,7 +32,7 @@ public class EmailSenderService {
             context.setVariable("location", body.getSlotInfo().getLocationName());
             context.setVariable("startTime", body.getSlotInfo().getStartTime());
             context.setVariable("endTime", body.getSlotInfo().getEndTime());
-            context.setVariable("meetingDate", body.getSlotInfo().getMeetingDate().toInstant().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate());
+            context.setVariable("meetingDate", body.getSlotInfo().getMeetingDate());
             context.setVariable("lecturerName", body.getSlotInfo().getLecturerName());
             context.setVariable("address", body.getSlotInfo().getLocationAddress());
             MimeMessage message = getMimeMessage();

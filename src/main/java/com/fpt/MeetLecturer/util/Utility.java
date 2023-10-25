@@ -5,9 +5,11 @@ import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.repository.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -72,8 +74,8 @@ public class Utility {
     public boolean checkValidTime(SlotDTO newSlot){
         List<Slot> workingList = slotRepository.findByLecturerIdOrderByMeetingDayDesc(newSlot.getLecturerId());
         for(Slot ex: workingList){
-            Date temp = ex.getMeetingDay();//get existing slot date
-            Date newSlotDate = newSlot.getMeetingDay();//new slot date
+            LocalDate temp = ex.getMeetingDay();//get existing slot date
+            LocalDate newSlotDate = newSlot.getMeetingDay();//new slot date
             Time tmp = ex.getEndTime();//get existing slot end time
             Time newSlotStartTime = newSlot.getStartTime();//get new slot start time
             Calendar calendar = Calendar.getInstance();
