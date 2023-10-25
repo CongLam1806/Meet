@@ -85,8 +85,7 @@ public class BookingService {
             if (booking.getStatus() == 2) {
                 existingBooking.setStatus(bookingEntity.getStatus());
                 bookingRepository.save(existingBooking);
-                BookingDTO accept = mapBooking.convertBookingToBookingDTO(existingBooking);
-                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), accept, 1);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 1);
 
                 Optional<Slot> slot = slotRepository.findById(booking.getSlotInfo().getId());
                 if (slot.isPresent()){
@@ -99,8 +98,7 @@ public class BookingService {
                 for (Booking eachOfBookingList : bookingList) {
                     eachOfBookingList.setStatus(0);
                     bookingRepository.save(eachOfBookingList);
-                    BookingDTO eachOfDecline = mapBooking.convertBookingToBookingDTO(eachOfBookingList);
-                    emailSenderService.sendHtmlEmail(eachOfBookingList.getStudent().getEmail(), eachOfDecline, 2);
+                    emailSenderService.sendHtmlEmail(eachOfBookingList.getStudent().getEmail(), eachOfBookingList, 2);
                 }
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Accept successfully", "")
@@ -109,8 +107,7 @@ public class BookingService {
             if (booking.getStatus() == 0){
                 existingBooking.setStatus(0);
                 bookingRepository.save(existingBooking);
-                BookingDTO decline = mapBooking.convertBookingToBookingDTO(existingBooking);
-                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), decline, 2);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 2);
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Decline successfully", "")
                 );
@@ -122,6 +119,7 @@ public class BookingService {
             throw new RuntimeException("Can't find this booking information");
         }
     }
+
 
 
     public ResponseEntity<ResponseDTO> updateBooking(BookingDTO booking, int id) {

@@ -63,7 +63,7 @@ public class Slot {
     private List<Booking> bookingList;
 
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "locationId", referencedColumnName = "Id")
     private Location location;
 
