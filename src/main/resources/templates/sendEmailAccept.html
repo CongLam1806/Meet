@@ -88,7 +88,7 @@
                             <div class="content-block">
                                 Your scheduled meeting will commence on
                                 <strong
-                                        th:text="${#dates.format(meetingDate, 'E, MMM dd yyyy')}"
+                                        th:text="${#temporals.format(meetingDate, 'E, MMM dd yyyy')}"
                                 ></strong>
                                 from <strong th:text="${startTime}"></strong> to
                                 <strong th:text="${endTime}"></strong>.

@@ -82,7 +82,7 @@
                             </div>
                             <div class="content-block">
                                 We regret to inform you that your meeting request for <strong
-                                    th:text="${#dates.format(meetingDate, 'E, MMM dd yyyy')}"
+                                    th:text="${#temporals.format(meetingDate, 'E, MMM dd yyyy')}"
                             ></strong> from <strong th:text="${startTime}"></strong> to <strong
                                     th:text="${endTime}"></strong> has been declined by Lecturer <strong th:text="${lecturerName}"></strong>.
                             </div>
