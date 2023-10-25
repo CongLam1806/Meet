@@ -29,7 +29,7 @@ public class LecturerDTO {
 
     private String note;
 
-    private String password;
+//    private String password;
 
 //    private List<Subject_LecturerDTO> SubjectName;
 
