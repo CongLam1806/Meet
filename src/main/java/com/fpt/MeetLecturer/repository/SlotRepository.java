@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,9 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
             "WHERE YEAR(meetingDay) = ?1 AND MONTH(meetingDay) = ?2 AND [lecturerId] = ?3 AND [toggle] = 1", nativeQuery = true)
     Long countByToggleAndMeetingDayForLecturer(int year, int month, String id);
 
-
+    @Query(value = "SELECT COUNT(*) FROM [dbo].[Slot] " +
+    "WHERE meetingDay between ?1 and ?2 AND toggle = 1", nativeQuery = true)
+    Long countByWeekForLecturer(LocalDate start, LocalDate end);
 
 
     @Query(value = "SELECT TOP 1 d.code as mostDiscuss FROM Slot a left JOIN  (SlotSubject c full join Subject d on d.Id = c.subjectId) on a.Id = c.slotId\n" +

@@ -13,10 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(path="/api/lecturer")
@@ -66,7 +70,7 @@ public class LecturerController {
         indicator.setTotalSlot(totalSlot);
         Time totalHours = slotRepository.totalMeetingTime(id);
         indicator.setTotalHours(totalHours);
-        long totalLocation = locationRepository.countByLecturerId(id);
+        long totalLocation = locationRepository.countByLecturerIdAndToggle(id, true);
         indicator.setTotalLocation(totalLocation);
         String mostDiscussSubject = slotRepository.mostDiscussSubjectLecturer(id);
         indicator.setMostDiscussSubject(mostDiscussSubject);
@@ -77,6 +81,7 @@ public class LecturerController {
         DashBoardChartDTO[] response = new DashBoardChartDTO[6];
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         YearMonth currentMonth = YearMonth.from(today);
+        YearMonth currentWeek = YearMonth.from(today);
         for (int i = 6; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
             long value = slotRepository.countByToggleAndMeetingDayForLecturer(currentMonth.getYear(), currentMonth.getMonthValue(), id);
@@ -91,5 +96,22 @@ public class LecturerController {
             }
         }
         return  ResponseEntity.ok().body(response);
+    }
+    @GetMapping("/graph/week/{id}")
+    public ResponseEntity<DashBoardChartDTO[]>dashboardGraphDisplay2(@PathVariable String id) {
+        DashBoardChartDTO[] response = new DashBoardChartDTO[4];
+        LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        for (int i = 0; i < 4; i++) {
+            LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+            LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+            long value = slotRepository.countByWeekForLecturer(weekStart,weekEnd);
+            String key = weekStart + "/" + weekEnd;
+            DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
+            dashBoardChartDTO.setMonth(key);
+            dashBoardChartDTO.setSlotCount(value);
+            response[i] = dashBoardChartDTO;
+        }
+
+        return ResponseEntity.ok().body(response);
     }
 }

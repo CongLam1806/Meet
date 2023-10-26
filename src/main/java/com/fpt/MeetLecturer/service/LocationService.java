@@ -24,7 +24,7 @@ public class LocationService {
 
     private final ModelMapper modelMapper = new ModelMapper();
      public ResponseDTO getAllLocation(){
-         List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findAll());
+         List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findByToggle(true));
          return new ResponseDTO(HttpStatus.OK, "Get all Locations:", output );
      }
     public ResponseDTO getAllPublicLocation(){
@@ -32,11 +32,11 @@ public class LocationService {
         return new ResponseDTO(HttpStatus.OK,"Get all public Locations:", output);
     }
     public ResponseDTO getAllPersonalLocation(String id){
-         List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findPersonalLocation(id));
+         List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findByLecturerIdAndToggleAndStatus(id));
          return new ResponseDTO(HttpStatus.OK, "Personal locations:", output);
     }
     public ResponseDTO getAllPrivateLocation(String id){
-        List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findByLecturerId(id));
+        List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findByLecturerIdAndToggle(id, true));
         return new ResponseDTO(HttpStatus.OK, "Private locations:", output);
     }
     public ResponseDTO deleteLocation(int id){
@@ -45,10 +45,13 @@ public class LocationService {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Location not found!", "");
         }
         else {
-            locationRepository.delete(location.get());
+            Location updated = location.get();
+            updated.setToggle(false);
+            locationRepository.save(updated);
             return new ResponseDTO(HttpStatus.OK, "Location deleted!", "");
         }
     }
+
     public ResponseDTO updateLocation(LocationDTO locationDTO){
          Location location;
          location = locationRepository.findById(locationDTO.getId()).orElseThrow();
@@ -78,5 +81,9 @@ public class LocationService {
          modelMapper.map(locationDTO, location);
          locationRepository.save(location);
          return  new ResponseDTO(HttpStatus.OK, "Created!","");
+    }
+    public ResponseDTO lecLocationRecovery(String id){
+         List<Location> deletedLocation = locationRepository.findByLecturerIdAndToggle(id, false);
+         return new ResponseDTO(HttpStatus.OK, "recovered", deletedLocation);
     }
 }

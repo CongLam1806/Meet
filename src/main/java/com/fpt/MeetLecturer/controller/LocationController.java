@@ -5,7 +5,6 @@ import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.service.LocationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +49,8 @@ public class LocationController {
     public ResponseEntity<ResponseDTO> UpdateLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
         return locationService.EditLocation(locationDTO, id);
     }
-
+    @GetMapping("/recovery")
+    public ResponseEntity<ResponseDTO> locationRecovery(@RequestParam(value = "Lecturer-id") String id){
+        return ResponseEntity.ok().body(locationService.lecLocationRecovery(id));
+    }
 }

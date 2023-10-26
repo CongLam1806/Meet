@@ -20,7 +20,8 @@ public class Location {
     private int id;
     private String name;
     private String address;
-    private boolean status;
+    private boolean status;//private == false, public == true
+    private boolean toggle;//delete == false, available == true
 
 
     //@JsonBackReference
