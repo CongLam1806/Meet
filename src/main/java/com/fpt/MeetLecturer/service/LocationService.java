@@ -68,7 +68,7 @@ public class LocationService {
             existMajor.setAddress(locationDTO.getAddress());
             locationRepository.save(existMajor);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Update major status successfully", "")
+                    new ResponseDTO(HttpStatus.OK, "Update location successfully", "")
             );
         }  else {
             throw new RuntimeException("Can't find this Location with id: " + id);
