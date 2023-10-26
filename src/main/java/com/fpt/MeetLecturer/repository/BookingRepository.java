@@ -17,7 +17,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     Booking findByStudentEmail(String email);
 
-    Boolean existsByStudentIdAndSlotId(String Id, int id);
+    Boolean existsByStudentIdAndSlotIdAndToggle(String Id, int id, boolean toggle);
 
     List<Booking> findBySlotIdAndToggleAndStatus(int id, boolean toggle, int status);
 
@@ -25,7 +25,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByToggleAndStatusAndSlotLecturerId(boolean toggle, int status, String id);
 
-    List<Booking> findByToggleAndStatusAndStudentId(boolean toggle, int status, String id);
+    List<Booking> findBySlotStatusAndToggleAndStudentId(boolean slotStatus, boolean status, String id);
 
     List<Booking> findAllByStudentIdAndToggle(String studentId, boolean toggle);
 
@@ -33,7 +33,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     Long countByToggleAndStatus(boolean toggle, int status);
 
 
-    List<Booking> findBySlotStatusAndStudentId(boolean status, String id);
+//    List<Booking> findByToggleAndStudentId(boolean status, boolean toggle, String id);
 
 
     Long countByStatusAndStudentId(int status, String id);

@@ -4,6 +4,7 @@ import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
@@ -42,15 +43,15 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatusAndSlotLecturerId(true, 1, id));
     }
 
-    public List<BookingDTO> getUpCommingMeeting(String id) {
-        List<Booking> bookingList = bookingRepository.findBySlotStatusAndStudentId(true, id);
-        return mapBooking.convertListToBookingDTO(bookingList);
-    }
-
-    public List<BookingDTO> getPastMeeting(String id) {
-        List<Booking> bookingList = bookingRepository.findBySlotStatusAndStudentId(false, id);
-        return mapBooking.convertListToBookingDTO(bookingList);
-    }
+//    public List<BookingDTO> getUpCommingMeeting(String id) {
+//        List<Booking> bookingList = bookingRepository.findBySlotStatusAndToggleAndStudentId(false, true, id);
+//        return mapBooking.convertListToBookingDTO(bookingList);
+//    }
+//
+//    public List<BookingDTO> getPastMeeting(String id) {
+//        List<Booking> bookingList = bookingRepository.findBySlotStatusAndSlotToggleAndToggleAndStudentId(false, true, id);
+//        return mapBooking.convertListToBookingDTO(bookingList);
+//    }
 
     public List<BookingDTO> getAllBookingByStudentId(String id) {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentIdAndToggle(id, true));
@@ -61,7 +62,7 @@ public class BookingService {
     }
 
     public boolean checkStudentBooking(String studentId, int slotId) {
-        return bookingRepository.existsByStudentIdAndSlotId(studentId, slotId);
+        return bookingRepository.existsByStudentIdAndSlotIdAndToggle(studentId, slotId, true);
     }
 
     public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO) {
@@ -71,6 +72,17 @@ public class BookingService {
         booking.setSlot(bookingEntity.getSlot());
         booking.setStudent(bookingEntity.getStudent());
         bookingRepository.save(booking);
+        Optional<Slot> slot = slotRepository.findById(bookingEntity.getSlot().getId());
+        if (slot.isPresent()) {
+            Slot existingSlot = slot.get();
+            if (existingSlot.getMode() == 1){
+                booking.setStatus(2);
+                bookingRepository.save(booking);
+                existingSlot.setStatus(false);
+                slotRepository.save(existingSlot);
+            }
+        };
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseDTO(HttpStatus.OK, "Booking successfully", "")
         );
@@ -84,24 +96,29 @@ public class BookingService {
             if (booking.getStatus() == 2) {
                 existingBooking.setStatus(bookingEntity.getStatus());
                 bookingRepository.save(existingBooking);
-                BookingDTO accept = mapBooking.convertBookingToBookingDTO(existingBooking);
-                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), accept, 1);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 1);
+
+                Optional<Slot> slot = slotRepository.findById(booking.getSlotInfo().getId());
+                if (slot.isPresent()) {
+                    Slot existingSlot = slot.get();
+                    existingSlot.setStatus(false);
+                    slotRepository.save(existingSlot);
+                }
+
                 List<Booking> bookingList = bookingRepository.findBySlotIdAndToggleAndStatus(booking.getSlotInfo().getId(), true, 1);
                 for (Booking eachOfBookingList : bookingList) {
                     eachOfBookingList.setStatus(0);
                     bookingRepository.save(eachOfBookingList);
-                    BookingDTO eachOfDecline = mapBooking.convertBookingToBookingDTO(eachOfBookingList);
-                    emailSenderService.sendHtmlEmail(eachOfBookingList.getStudent().getEmail(), eachOfDecline, 2);
+                    emailSenderService.sendHtmlEmail(eachOfBookingList.getStudent().getEmail(), eachOfBookingList, 2);
                 }
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Accept successfully", "")
                 );
             }
-            if (booking.getStatus() == 0){
+            if (booking.getStatus() == 0) {
                 existingBooking.setStatus(0);
                 bookingRepository.save(existingBooking);
-                BookingDTO decline = mapBooking.convertBookingToBookingDTO(existingBooking);
-                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), decline, 2);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 2);
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Decline successfully", "")
                 );

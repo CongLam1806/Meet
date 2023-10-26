@@ -1,6 +1,7 @@
 package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.BookingDTO;
+import com.fpt.MeetLecturer.entity.Booking;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,16 +26,16 @@ public class EmailSenderService {
 
 
 
-    public void sendHtmlEmail(String toEmail, BookingDTO body, int Switch){
+    public void sendHtmlEmail(String toEmail, Booking body, int Switch){
         try {
             Context context = new Context();
-            context.setVariable("studentName", body.getStudentInfo().getStudentName());
-            context.setVariable("location", body.getSlotInfo().getLocationName());
-            context.setVariable("startTime", body.getSlotInfo().getStartTime());
-            context.setVariable("endTime", body.getSlotInfo().getEndTime());
-            context.setVariable("meetingDate", body.getSlotInfo().getMeetingDate());
-            context.setVariable("lecturerName", body.getSlotInfo().getLecturerName());
-            context.setVariable("address", body.getSlotInfo().getLocationAddress());
+            context.setVariable("studentName", body.getStudent().getName());
+            context.setVariable("location", body.getSlot().getLocation().getName());
+            context.setVariable("startTime", body.getSlot().getStartTime());
+            context.setVariable("endTime", body.getSlot().getEndTime());
+            context.setVariable("meetingDate", body.getSlot().getMeetingDay());
+            context.setVariable("lecturerName", body.getSlot().getLecturer().getName());
+            context.setVariable("address", body.getSlot().getLocation().getAddress());
             MimeMessage message = getMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8_ENCODING);
             helper.setPriority(1);
