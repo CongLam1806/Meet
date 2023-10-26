@@ -33,7 +33,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     Long countByToggleAndStatus(boolean toggle, int status);
 
 
-    List<Booking> findBySlotStatusAndToggleAndStudentId(boolean status, boolean toggle, String id);
+    List<Booking> findByToggleAndStudentId(boolean toggle, String id);
 
 
     Long countByStatusAndStudentId(int status, String id);
