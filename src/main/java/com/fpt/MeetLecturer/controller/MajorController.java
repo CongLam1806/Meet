@@ -39,8 +39,8 @@ public class MajorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> DeleteMajor(@PathVariable int id){
-        return  majorService.deleteMajor(id);
+    public ResponseEntity<ResponseDTO> DeleteMajor(@PathVariable int id, @RequestParam boolean status){
+        return  majorService.deleteMajor(id, status);
     }
 
 }

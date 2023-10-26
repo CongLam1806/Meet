@@ -61,11 +61,11 @@ public class MajorService {
         }
     }
 
-    public ResponseEntity<ResponseDTO> deleteMajor(int id){
+    public ResponseEntity<ResponseDTO> deleteMajor(int id, boolean status){
         Optional<Major> major = majorRepository.findById(id);
         if(major.isPresent()){
             Major existMajor = major.get();
-            existMajor.setStatus(false);
+            existMajor.setStatus(status);
             majorRepository.save(existMajor);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseDTO(HttpStatus.OK, "Delete successfully", "")
