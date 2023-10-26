@@ -62,7 +62,7 @@ public class BookingService {
     }
 
     public boolean checkStudentBooking(String studentId, int slotId) {
-        return bookingRepository.existsByStudentIdAndSlotId(studentId, slotId);
+        return bookingRepository.existsByStudentIdAndSlotIdAndToggle(studentId, slotId, true);
     }
 
     public ResponseEntity<ResponseDTO> createBooking(BookingDTO bookingDTO) {
