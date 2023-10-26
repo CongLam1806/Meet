@@ -66,6 +66,8 @@ public class LocationService {
             Location existMajor = location.get();
             existMajor.setName(locationDTO.getName());
             existMajor.setAddress(locationDTO.getAddress());
+            existMajor.setStatus(locationDTO.isStatus());
+            existMajor.setToggle(locationDTO.isToggle());
             locationRepository.save(existMajor);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseDTO(HttpStatus.OK, "Update location successfully", "")
