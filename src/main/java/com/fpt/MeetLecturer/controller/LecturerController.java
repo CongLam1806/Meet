@@ -78,6 +78,21 @@ public class LecturerController {
         indicator.setMostDiscussSubject(mostDiscussSubject);
         return  ResponseEntity.ok().body(indicator);
     }
+    @GetMapping("/indicator/month/{id}")
+    public ResponseEntity<DashBoardIndicatorLecturerDTO> dashboardIndicatorDisplay2(@PathVariable String id) {
+        DashBoardIndicatorLecturerDTO indicator = new DashBoardIndicatorLecturerDTO();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        YearMonth currentMonth = YearMonth.from(today);
+        long totalSlot = slotRepository.countByToggleAndMeetingDayForLecturer(currentMonth.getYear(), currentMonth.getMonthValue(), id);
+        indicator.setTotalSlot(totalSlot);
+        Time totalHours = slotRepository.totalMeetingTimeMonth(id, currentMonth.getYear(), currentMonth.getMonthValue());
+        indicator.setTotalHours(totalHours);
+        long totalLocation = locationRepository.countByLecturerIdAndToggle(id, true);
+        indicator.setTotalLocation(totalLocation);
+        String mostDiscussSubject = slotRepository.mostDiscussSubjectLecturerMonth(id, currentMonth.getYear(), currentMonth.getMonthValue());
+        indicator.setMostDiscussSubject(mostDiscussSubject);
+        return  ResponseEntity.ok().body(indicator);
+    }
     @GetMapping("/graph/{id}")
     public ResponseEntity<DashBoardChartDTO[]> dashboardGraphDisplay(@PathVariable String id) {
         DashBoardChartDTO[] response = new DashBoardChartDTO[6];
