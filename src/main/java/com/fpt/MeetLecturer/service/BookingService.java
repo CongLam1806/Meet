@@ -49,7 +49,7 @@ public class BookingService {
     }
 
     public List<BookingDTO> getPastMeeting(String id) {
-        List<Booking> bookingList = bookingRepository.findBySlotStatusAndToggleAndStudentId(true, true, id);
+        List<Booking> bookingList = bookingRepository.findBySlotStatusAndToggleAndStudentId(false, true, id);
         return mapBooking.convertListToBookingDTO(bookingList);
     }
 
