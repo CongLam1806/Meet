@@ -43,15 +43,15 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatusAndSlotLecturerId(true, 1, id));
     }
 
-    public List<BookingDTO> getUpCommingMeeting(String id) {
-        List<Booking> bookingList = bookingRepository.findByToggleAndStudentId(true, id);
-        return mapBooking.convertListToBookingDTO(bookingList);
-    }
-
-    public List<BookingDTO> getPastMeeting(String id) {
-        List<Booking> bookingList = bookingRepository.findByToggleAndStudentId(true, id);
-        return mapBooking.convertListToBookingDTO(bookingList);
-    }
+//    public List<BookingDTO> getUpCommingMeeting(String id) {
+//        List<Booking> bookingList = bookingRepository.findBySlotStatusAndToggleAndStudentId(false, true, id);
+//        return mapBooking.convertListToBookingDTO(bookingList);
+//    }
+//
+//    public List<BookingDTO> getPastMeeting(String id) {
+//        List<Booking> bookingList = bookingRepository.findBySlotStatusAndSlotToggleAndToggleAndStudentId(false, true, id);
+//        return mapBooking.convertListToBookingDTO(bookingList);
+//    }
 
     public List<BookingDTO> getAllBookingByStudentId(String id) {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentIdAndToggle(id, true));
@@ -72,6 +72,17 @@ public class BookingService {
         booking.setSlot(bookingEntity.getSlot());
         booking.setStudent(bookingEntity.getStudent());
         bookingRepository.save(booking);
+        Optional<Slot> slot = slotRepository.findById(bookingEntity.getSlot().getId());
+        if (slot.isPresent()) {
+            Slot existingSlot = slot.get();
+            if (existingSlot.getMode() == 1){
+                booking.setStatus(2);
+                bookingRepository.save(booking);
+                existingSlot.setStatus(false);
+                slotRepository.save(existingSlot);
+            }
+        };
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseDTO(HttpStatus.OK, "Booking successfully", "")
         );
@@ -88,7 +99,7 @@ public class BookingService {
                 emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 1);
 
                 Optional<Slot> slot = slotRepository.findById(booking.getSlotInfo().getId());
-                if (slot.isPresent()){
+                if (slot.isPresent()) {
                     Slot existingSlot = slot.get();
                     existingSlot.setStatus(false);
                     slotRepository.save(existingSlot);
@@ -104,7 +115,7 @@ public class BookingService {
                         new ResponseDTO(HttpStatus.OK, "Accept successfully", "")
                 );
             }
-            if (booking.getStatus() == 0){
+            if (booking.getStatus() == 0) {
                 existingBooking.setStatus(0);
                 bookingRepository.save(existingBooking);
                 emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 2);
@@ -119,7 +130,6 @@ public class BookingService {
             throw new RuntimeException("Can't find this booking information");
         }
     }
-
 
 
     public ResponseEntity<ResponseDTO> updateBooking(BookingDTO booking, int id) {
