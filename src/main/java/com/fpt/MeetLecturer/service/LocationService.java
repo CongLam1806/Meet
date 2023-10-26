@@ -83,7 +83,7 @@ public class LocationService {
          return  new ResponseDTO(HttpStatus.OK, "Created!","");
     }
     public ResponseDTO lecLocationRecovery(String id){
-         List<Location> deletedLocation = locationRepository.findByLecturerIdAndToggle(id, false);
+         List<LocationDTO> deletedLocation = mapLocation.tolocationDTOList(locationRepository.findByLecturerIdAndToggle(id, false));
          return new ResponseDTO(HttpStatus.OK, "recovered", deletedLocation);
     }
 }

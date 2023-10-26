@@ -39,8 +39,8 @@ public class LocationController {
        return ResponseEntity.ok().body(locationService.createLocation(locationDTO));
     }
 
-    @PutMapping("/mod/{id}")
-    public  ResponseEntity<ResponseDTO> editLocation(@Valid @RequestBody LocationDTO locationDTO, @PathVariable("id") int id){
+    @PutMapping("/mod")
+    public  ResponseEntity<ResponseDTO> editLocation(@Valid @RequestBody LocationDTO locationDTO){
         //return ResponseEntity.ok().body(locationService.updateLocation(locationDTO));
         return ResponseEntity.ok(locationService.updateLocation(locationDTO));
     }

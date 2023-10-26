@@ -25,7 +25,7 @@ public class LocationDTO {
     private String address;
 
     private boolean status;
-    private boolean toggle;
+    private boolean toggle = true;
     private String lecturerId;
 
 }
