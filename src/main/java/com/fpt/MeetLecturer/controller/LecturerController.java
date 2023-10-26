@@ -13,10 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.text.DateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.List;
@@ -101,11 +103,12 @@ public class LecturerController {
     public ResponseEntity<DashBoardChartDTO[]>dashboardGraphDisplay2(@PathVariable String id) {
         DashBoardChartDTO[] response = new DashBoardChartDTO[4];
         LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         for (int i = 0; i < 4; i++) {
             LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
             LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
             long value = slotRepository.countByWeekForLecturer(weekStart,weekEnd);
-            String key = weekStart + "/" + weekEnd;
+            String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
             DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
             dashBoardChartDTO.setMonth(key);
             dashBoardChartDTO.setSlotCount(value);

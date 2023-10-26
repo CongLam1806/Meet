@@ -55,7 +55,7 @@ public class StudentController {
         dashBoardIndicatorDTO.setTotalMeeting(totalMeeting);
         Time totalHours = slotRepository.totalMeetingTimeStudent(id);
         dashBoardIndicatorDTO.setTotalHours(totalHours);
-        long totalBooking = bookingRepository.countByStudentId(id);
+        long totalBooking = bookingRepository.countByStudentIdAndToggle(id, true);
         dashBoardIndicatorDTO.setTotalBooking(totalBooking);
         String mostDiscussSubject = bookingRepository.mostDiscussSubject(id);
         dashBoardIndicatorDTO.setMostDiscussSubject(mostDiscussSubject);

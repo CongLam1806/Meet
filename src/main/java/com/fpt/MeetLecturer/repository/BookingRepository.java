@@ -37,7 +37,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
 
     Long countByStatusAndStudentId(int status, String id);
-    Long countByStudentId(String id);
+    Long countByStudentIdAndToggle(String id,boolean toggle);
     @Query(value = "SELECT TOP 1 c.code as mostDiscuss FROM (Booking a FULL JOIN Slot b ON a.slotId = b.Id)" +
             "full join  (Subject c full join SlotSubject d on c.Id = d.subjectId) on b.Id = d.slotId\n" +
             "WHERE a.studentId = ?1 AND a.status = 2", nativeQuery = true)
