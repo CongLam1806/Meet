@@ -45,7 +45,6 @@ public class Slot {
     @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column(name="meetingDay")
     private LocalDate meetingDay;
-    
 
     @Column(name="mode")
     private int mode;
@@ -60,13 +59,10 @@ public class Slot {
     @Column(name="toggle")
     private boolean toggle = true;
 
-
-
 //    @JsonManagedReference
 
     @OneToMany(mappedBy = "slot")
     private List<Booking> bookingList;
-
 
     @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "locationId", referencedColumnName = "Id")
