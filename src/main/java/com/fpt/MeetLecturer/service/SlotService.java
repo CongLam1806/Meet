@@ -44,6 +44,9 @@ public class SlotService {
     private SubjectRepository subjectRepository;
 
     @Autowired
+    private LecturerRepository lecturerRepository;
+
+    @Autowired
     private BookingRepository bookingRepository;
 
     @Autowired
