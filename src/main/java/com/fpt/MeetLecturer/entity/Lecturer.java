@@ -25,6 +25,8 @@ public class Lecturer {
     private String note;
 
     private String email;
+    @Column(name="linkMeet")
+    private String linkMeet;
 
 //    private String password;
 
