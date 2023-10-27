@@ -50,13 +50,13 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "from Booking b1_0 left join Slot s1_0 on s1_0.Id=b1_0.slotId \n" +
             "where  (s1_0.meetingDay > ?1 or (s1_0.startTime> ?2 and s1_0.meetingDay = ?1)) and b1_0.toggle = ?3\n" +
             "and studentId = ?4 and b1_0.status !=  0", nativeQuery = true)
-    List<Booking> findUpComingSlot(LocalDate meetingDay, LocalTime startTime, boolean toggle, String stuId);
+    List<Booking> findUpComingSlot(LocalDate meetingDay, LocalTime startTime, boolean toggle, String studentId);
 
     @Query(value = "select b1_0.*\n" +
             "from Booking b1_0 left join Slot s1_0 on s1_0.Id=b1_0.slotId \n" +
             "where  (s1_0.meetingDay < ?1 or (s1_0.startTime < ?2 and s1_0.meetingDay = ?1)) and b1_0.toggle = ?3\n" +
             "and studentId = ?4", nativeQuery = true)
-    List<Booking> findPastSlot(LocalDate meetingDay, LocalTime startTime, boolean toggle, String stuId);
+    List<Booking> findPastSlot(LocalDate meetingDay, LocalTime startTime, boolean toggle, String studentId);
 
 
 }
