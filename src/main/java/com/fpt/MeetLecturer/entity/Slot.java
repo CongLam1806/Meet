@@ -5,6 +5,7 @@ package com.fpt.MeetLecturer.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -44,10 +45,13 @@ public class Slot {
     @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column(name="meetingDay")
     private LocalDate meetingDay;
-    
 
     @Column(name="mode")
     private int mode;
+
+    @NotEmpty
+    @Column(name="isOnline")
+    private boolean isOnline = false;
 
     @Column(name="status")
     private boolean status = true;
@@ -55,13 +59,10 @@ public class Slot {
     @Column(name="toggle")
     private boolean toggle = true;
 
-
-
 //    @JsonManagedReference
 
     @OneToMany(mappedBy = "slot")
     private List<Booking> bookingList;
-
 
     @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "locationId", referencedColumnName = "Id")

@@ -21,6 +21,7 @@ public class EmailSenderService {
     private static final String UTF_8_ENCODING = "UTF-8";
     private static final String EMAIL_ACCEPT_TEMPLATE = "sendEmailAccept.html";
     private static final String EMAIL_DECLINE_TEMPLATE = "sendEmailDecline.html";
+    private static final String EMAIL_ASSIGN_TEMPLATE = "sendEmailAssignStudent.html";
     private static final String SUBJECT = "[MML] BOOKING CONFIRMATION MAIL";
     private static final String fromEmail = "Meeting My Lecturer <MeetLecturer@gmail.com>";
 
@@ -46,9 +47,13 @@ public class EmailSenderService {
                 String accept = templateEngine.process(EMAIL_ACCEPT_TEMPLATE, context);
                 helper.setText(accept, true);
             }
-            else {
+            else if (Switch == 2){
                 String decline = templateEngine.process(EMAIL_DECLINE_TEMPLATE, context);
                 helper.setText(decline, true);
+            }
+            else {
+                String assign = templateEngine.process(EMAIL_ASSIGN_TEMPLATE, context);
+                helper.setText(assign, true);
             }
             mailSender.send(message);
         } catch (Exception exception) {

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Title</title>
+    <style>
+        body {
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-size: 14px;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+        }
+
+        .container {
+          max-width: 600px;
+          display: block !important;
+          clear: both !important;
+        }
+
+        .content {
+          max-width: 600px;
+          display: block;
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+        .main {
+          border-radius: 3px;
+          background-color: white;
+          border: 1px solid #e9e9e9;
+          margin: 0;
+          width: 504px;
+        }
+
+        .header {
+          font-size: 16px;
+          color: #fff;
+          font-weight: 500;
+          text-align: center;
+          border-radius: 3px 3px 0 0;
+          background: linear-gradient(
+            58deg,
+            rgba(2, 0, 36, 1) 0%,
+            rgba(217, 133, 5, 1) 0%,
+            rgba(215, 164, 39, 1) 38%,
+            rgba(187, 143, 29, 1) 75%,
+            rgba(45, 212, 85, 1) 100%
+          );
+          margin: 0;
+          padding: 20px;
+        }
+
+        .content-block {
+          margin-bottom: 25px;
+        }
+
+        .content-wrap {
+          margin: 0;
+          padding: 20px;
+          font-size: 16px;
+        }
+
+    </style>
+</head>
+
+<body>
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center">
+            <table width="600" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <div class="header">
+                            <h1 style="margin: 0; color: #fff; font-weight: 600;">Meeting My Lecturer</h1>
+                        </div>
+                        <div class="content-wrap">
+                            <div class="content-block">
+                                Dear <span th:text="${studentName}"></span>,
+                            </div>
+                            <div class="content-block">
+                                We are writing to inform you that you have been <strong>assigned</strong> a meeting with lecturer
+                                <strong th:text="${lecturerName}"></strong>.
+                            </div>
+                            <div class="content-block">
+                                Your scheduled meeting will commence on
+                                <strong
+                                        th:text="${#temporals.format(meetingDate, 'E, MMM dd yyyy')}"
+                                ></strong>
+                                from <strong th:text="${startTime}"></strong> to
+                                <strong th:text="${endTime}"></strong>.
+                            </div>
+                            <div class="content-block">
+                                The meeting is set to take place at
+                                <strong th:text="${location}"></strong>, located at
+                                <strong th:text="${address}"></strong>.
+                            </div>
+                            <div class="content-block">
+                                Kindly take note that this email is generated automatically, we
+                                advise you not to respond to it.
+                            </div>
+                            <div class="content-block">
+                                Warm regards, <br />
+                                The Meeting My Lecturers team
+                            </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
