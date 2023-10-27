@@ -3,7 +3,6 @@ package com.fpt.MeetLecturer.service;
 import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Booking;
-import com.fpt.MeetLecturer.entity.Lecturer;
 import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.mapper.MapBooking;
@@ -14,6 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,15 +46,23 @@ public class BookingService {
         return mapBooking.convertListToBookingDTO(bookingRepository.findByToggleAndStatusAndSlotLecturerId(true, 1, id));
     }
 
-//    public List<BookingDTO> getUpCommingMeeting(String id) {
-//        List<Booking> bookingList = bookingRepository.findBySlotStatusAndToggleAndStudentId(false, true, id);
-//        return mapBooking.convertListToBookingDTO(bookingList);
-//    }
-//
-//    public List<BookingDTO> getPastMeeting(String id) {
-//        List<Booking> bookingList = bookingRepository.findBySlotStatusAndSlotToggleAndToggleAndStudentId(false, true, id);
-//        return mapBooking.convertListToBookingDTO(bookingList);
-//    }
+
+    public List<BookingDTO> getUpcomingMeeting(String id) {
+        List<Booking> bookingList = bookingRepository
+                .findBySlotMeetingDayGreaterThanEqualAndSlotStartTimeGreaterThanAndToggleAndStudentId(
+                        LocalDate.now(), Time.valueOf(LocalTime.now()), true, id);
+        return mapBooking.convertListToBookingDTO(bookingList);
+    }
+
+    public List<BookingDTO> getPastMeeting(String id) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDate localDate = localDateTime.toLocalDate();
+        List<Booking> bookingList = bookingRepository
+                .findBySlotMeetingDayLessThanEqualAndSlotStartTimeLessThanAndToggleAndStudentId(
+                        LocalDate.now(), Time.valueOf(LocalTime.now()) ,true, id);
+        return mapBooking.convertListToBookingDTO(bookingList);
+    }
+
 
     public List<BookingDTO> getAllBookingByStudentId(String id) {
         return mapBooking.convertListToBookingDTO(bookingRepository.findAllByStudentIdAndToggle(id, true));
