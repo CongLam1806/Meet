@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -49,17 +47,13 @@ public class BookingService {
 
     public List<BookingDTO> getUpcomingMeeting(String id) {
         List<Booking> bookingList = bookingRepository
-                .findBySlotMeetingDayGreaterThanEqualAndSlotStartTimeGreaterThanAndToggleAndStudentId(
-                        LocalDate.now(), Time.valueOf(LocalTime.now()), true, id);
+                .findUpComingSlot(LocalDate.now(), LocalTime.now(), true, id);
         return mapBooking.convertListToBookingDTO(bookingList);
     }
 
     public List<BookingDTO> getPastMeeting(String id) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDate localDate = localDateTime.toLocalDate();
         List<Booking> bookingList = bookingRepository
-                .findBySlotMeetingDayLessThanEqualAndSlotStartTimeLessThanAndToggleAndStudentId(
-                        LocalDate.now(), Time.valueOf(LocalTime.now()) ,true, id);
+                .findPastSlot(LocalDate.now(), LocalTime.now(),true, id);
         return mapBooking.convertListToBookingDTO(bookingList);
     }
 
@@ -86,7 +80,7 @@ public class BookingService {
         Optional<Slot> slot = slotRepository.findById(bookingEntity.getSlot().getId());
         if (slot.isPresent()) {
             Slot existingSlot = slot.get();
-            if (existingSlot.getMode() == 1){
+            if (existingSlot.getMode() == 1) {
                 booking.setStatus(2);
                 bookingRepository.save(booking);
                 existingSlot.setStatus(false);
