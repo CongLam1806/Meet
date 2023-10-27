@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -47,13 +48,13 @@ public class BookingService {
 
     public List<BookingDTO> getUpcomingMeeting(String id) {
         List<Booking> bookingList = bookingRepository
-                .findUpComingSlot(LocalDate.now(), LocalTime.now(), true, id);
+                .findUpComingSlot(LocalDate.now(), Time.valueOf(LocalTime.now()), true, id);
         return mapBooking.convertListToBookingDTO(bookingList);
     }
 
     public List<BookingDTO> getPastMeeting(String id) {
         List<Booking> bookingList = bookingRepository
-                .findPastSlot(LocalDate.now(), LocalTime.now(),true, id);
+                .findPastSlot(LocalDate.now(), Time.valueOf(LocalTime.now()),true, id);
         return mapBooking.convertListToBookingDTO(bookingList);
     }
 
