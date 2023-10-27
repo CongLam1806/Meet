@@ -5,6 +5,7 @@ package com.fpt.MeetLecturer.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -48,6 +49,10 @@ public class Slot {
 
     @Column(name="mode")
     private int mode;
+
+    @NotEmpty
+    @Column(name="isOnline")
+    private boolean isOnline = false;
 
     @Column(name="status")
     private boolean status = true;

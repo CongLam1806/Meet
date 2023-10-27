@@ -30,6 +30,10 @@ public class SlotDTO {
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private LocalDate meetingDay;
     private int mode = 1;
+
+    @NotEmpty
+    private boolean isOnline = false;
+
     private boolean status = true;
     //    private boolean toggle = true;
 
@@ -41,6 +45,7 @@ public class SlotDTO {
     private String locationAddress;
     private String lecturerId;
     private String lecturerName;
+    private String linkMeet;
 
     private String studentName;
     private String studentEmail;

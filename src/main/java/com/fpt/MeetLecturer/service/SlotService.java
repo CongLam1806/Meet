@@ -186,7 +186,11 @@ public class SlotService {
         }
         slot.setPassword(slot1.getPassword());
         slot.setLecturer(slot1.getLecturer());
-        slot.setLocation(slot1.getLocation());
+        if(!slot1.isOnline()){
+            slot.setLocation(slot1.getLocation());
+            slot.setOnline(false);
+        }
+
         slot.setStartTime(slot1.getStartTime());
         slot.setEndTime(slot1.getEndTime());
         slot.setMeetingDay(slot1.getMeetingDay());
