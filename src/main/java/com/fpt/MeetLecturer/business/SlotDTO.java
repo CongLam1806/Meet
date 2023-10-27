@@ -32,7 +32,7 @@ public class SlotDTO {
     private int mode = 1;
 
     @NotEmpty
-    private boolean isOnline = false;
+    private boolean isOnline;
 
     private boolean status = true;
     //    private boolean toggle = true;

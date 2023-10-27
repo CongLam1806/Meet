@@ -50,10 +50,10 @@ public class SlotService {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private LecturerRepository lecturerRepository;
+    private LocationRepository locationRepository;
 
     @Autowired
-    private LocationRepository locationRepository;
+    private EmailSenderService emailSenderService;
 
     @Autowired(required = false)
     private SlotSubjectRepository slotSubjectRepository;
@@ -186,27 +186,28 @@ public class SlotService {
         }
         slot.setPassword(slot1.getPassword());
         slot.setLecturer(slot1.getLecturer());
-        if(!slot1.isOnline()){
-            slot.setLocation(slot1.getLocation());
-            slot.setOnline(false);
-        }
-
+        slot.setOnline(slot1.isOnline());
         slot.setStartTime(slot1.getStartTime());
         slot.setEndTime(slot1.getEndTime());
         slot.setMeetingDay(slot1.getMeetingDay());
         slot.setMode(slot1.getMode());
+        if(!slot1.isOnline()){
+            slot.setLocation(slot1.getLocation());
+        }
+        slot = slotRepository.save(slot);
 
 //        Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
 //        if(booking != null){
 //            slotDTO.setStudentName(booking.getStudent().getName());
 //        }
 
-        slot = slotRepository.save(slot);
+
         Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
         Booking booking;
         if(student != null){
             booking = new Booking(slot, student, 2);
             bookingRepository.save(booking);
+            emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
         }
 
 
