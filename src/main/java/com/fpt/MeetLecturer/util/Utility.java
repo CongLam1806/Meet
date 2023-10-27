@@ -87,6 +87,8 @@ public class Utility {
                     return false;
                 }
             }
+            if(newSlotDate.isBefore(temp))
+                return false;
         }
         return true;
     }

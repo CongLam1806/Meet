@@ -1,39 +1,24 @@
 package com.fpt.MeetLecturer.service;
 
-import com.fpt.MeetLecturer.business.*;
+import com.fpt.MeetLecturer.business.ExcelDataDTO;
+import com.fpt.MeetLecturer.business.ResponseDTO;
+import com.fpt.MeetLecturer.business.SlotDTO;
+import com.fpt.MeetLecturer.business.Slot_SubjectDTO;
 import com.fpt.MeetLecturer.entity.*;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.mapper.MapSubject;
 import com.fpt.MeetLecturer.repository.*;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import com.fpt.MeetLecturer.util.Utility;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SlotService {
@@ -62,8 +47,6 @@ public class SlotService {
     private MapSlot mapSlot;
     @Autowired(required = false)
     private Utility utility;
-
-
 
 
     @Autowired(required = false)
@@ -308,6 +291,7 @@ public class SlotService {
                 if (student != null) {
                     Booking booking = new Booking(slot, student, 2);
                     bookingRepository.save(booking);
+                    emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
                 }
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
                     Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
