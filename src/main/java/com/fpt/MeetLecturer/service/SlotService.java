@@ -1,9 +1,6 @@
 package com.fpt.MeetLecturer.service;
 
-import com.fpt.MeetLecturer.business.ResponseDTO;
-import com.fpt.MeetLecturer.business.SlotDTO;
-import com.fpt.MeetLecturer.business.Slot_SubjectDTO;
-import com.fpt.MeetLecturer.business.Subject_MajorDTO;
+import com.fpt.MeetLecturer.business.*;
 import com.fpt.MeetLecturer.entity.*;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.mapper.MapSubject;
@@ -241,37 +238,27 @@ public class SlotService {
         }
         return new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", "");
     }
-    public ResponseDTO importFromExcel(File file) {
-        try (FileInputStream fis = new FileInputStream(file);
-             Workbook workbook = new XSSFWorkbook(fis)) {
-            Sheet sheet = workbook.getSheetAt(0);
-            for (Row row : sheet) {
-                if (row.getRowNum() == 0) {
-                    continue;
-                }
-                // khởi tạo slotDTO để lấy gia trị từ file excel
+    public ResponseDTO importFromExcel(List<ExcelDataDTO> excelDataDTOS, String id) {
+            for (ExcelDataDTO excelDataDTO: excelDataDTOS) {
+                // khởi tạo slotDTO để lấy gia trị từ array object
                 SlotDTO slotdto = new SlotDTO();
                 //MeetingDay
-                Cell meetingDay = row.getCell(0);
-                slotdto.setMeetingDay(LocalDate.from(meetingDay.getLocalDateTimeCellValue()));
+                slotdto.setMeetingDay(excelDataDTO.getMeetingDay());
                 //StartTime
-                Cell startTime = row.getCell(1);
-                slotdto.setStartTime(Time.valueOf(LocalTime.parse(startTime.getStringCellValue())));
+                slotdto.setStartTime(excelDataDTO.getStartTime());
                 //EndTime
-                Cell endTime = row.getCell(2);
-                slotdto.setEndTime(Time.valueOf(LocalTime.parse(endTime.getStringCellValue())));
+                slotdto.setEndTime(excelDataDTO.getEndTime());
                 //LocationId
-                Cell locationId = row.getCell(3);
-                Location location = new Location();
-                int id = -1;
-                if (location.getId() == locationId.getNumericCellValue()) {
-                    id = location.getId();
+                Optional<Location> location = locationRepository.findById(excelDataDTO.getLocationId());
+                if (location.isPresent()) {
+                    Location location1 = location.get();
+                    slotdto.setLocationId(location1.getId());
+                    slotdto.setLocationName(location1.getName());
+                    slotdto.setLocationAddress(location1.getAddress());
                 }
-                slotdto.setLocationId(id);
                 //SubjectList
-                Cell subjects = row.getCell(4);
                 List<Slot_SubjectDTO> subjectList = new ArrayList<>();
-                String[] data = subjects.getStringCellValue().split(",");
+                String[] data = excelDataDTO.getSubjects().split(",");
                 for (String pt : data) {
                     Subject subject = subjectRepository.findByCode(pt.trim());
                     if (subject.getCode() != null) {
@@ -282,17 +269,23 @@ public class SlotService {
                 }
                 slotdto.setSlotSubjectDTOS(subjectList);
                 //SlotMode
-                Cell mode = row.getCell(5);
-                slotdto.setMode((int) mode.getNumericCellValue());
+                slotdto.setMode(excelDataDTO.getMode());
                 //StudentName
-                Cell studentEmail = row.getCell(6);
-                Student student = studentRepository.findByEmail(studentEmail.getStringCellValue());
+                Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
                 if (!student.getEmail().isBlank()) {
                     slotdto.setStudentEmail(student.getEmail());
+                    slotdto.setLecturerName(student.getName());
+                    slotdto.setStatus(false);
                 }
                 //SlotPassword
-                Cell password = row.getCell(7);
-                if (password != null) slotdto.setPassword(password.getStringCellValue());
+                if (excelDataDTO.getPassword() != null) slotdto.setPassword(excelDataDTO.getPassword());
+                //lecturerId
+                Optional<Lecturer> lecturer = lecturerRepository.findById(id);
+                if(lecturer.isPresent()){
+                    Lecturer lecturer1 = lecturer.get();
+                    slotdto.setLecturerId(lecturer1.getId());
+                    slotdto.setLecturerName(lecturer1.getName());
+                }
                 //Map DTO vào Entity, tiến hành lưu thông tin vào DB
                 Slot slot1 = modelMapper.map(slotdto, Slot.class);
                 Slot slot = new Slot();
@@ -314,11 +307,6 @@ public class SlotService {
                     slotSubjectRepository.save(slotSubject);
                 }
             }
-        } catch (IOException e) {
-            String errorMessage = e.getMessage();
-            return new ResponseDTO(HttpStatus.OK,
-                    "Error occurred during file processing", errorMessage);
-        }
         return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "");
     }
 }

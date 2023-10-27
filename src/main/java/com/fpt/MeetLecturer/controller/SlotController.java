@@ -1,5 +1,6 @@
 package com.fpt.MeetLecturer.controller;
 
+import com.fpt.MeetLecturer.business.ExcelDataDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.service.SlotService;
@@ -66,14 +67,8 @@ public class SlotController {
         return ResponseEntity.ok().body(slotService.deleteSlot(id)) ;
     }
     @PostMapping("/import")
-    public ResponseEntity<ResponseDTO> importSlotsFromExcel(@RequestParam("file") MultipartFile file) {
-        try {
-            File convertedFile = convertMultipartFileToFile(file);
-            return ResponseEntity.ok().body(slotService.importFromExcel(convertedFile));
-        } catch (IOException e) {
-            return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,
-                    "Error occurred during file processing", e.getMessage()));
-        }
+    public ResponseEntity<ResponseDTO> importSlotsFromExcel(@RequestBody List<ExcelDataDTO> excelDataDTOS, @RequestParam(name="id") String id) {
+            return ResponseEntity.ok().body(slotService.importFromExcel(excelDataDTOS, id));
     }
     private File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
         File convertedFile = File.createTempFile("temp", null);
