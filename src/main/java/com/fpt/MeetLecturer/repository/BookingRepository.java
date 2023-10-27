@@ -1,11 +1,12 @@
 package com.fpt.MeetLecturer.repository;
 
 import com.fpt.MeetLecturer.entity.Booking;
-import org.hibernate.sql.model.internal.OptionalTableUpdate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,16 +26,16 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByToggleAndStatusAndSlotLecturerId(boolean toggle, int status, String id);
 
-    List<Booking> findBySlotStatusAndToggleAndStudentId(boolean slotStatus, boolean status, String id);
+    List<Booking> findBySlotMeetingDayGreaterThanEqualAndSlotStartTimeGreaterThanAndToggleAndStudentId(
+            LocalDate meetingDay, Time startTime, boolean toggle, String studentId);
+    List<Booking> findBySlotMeetingDayLessThanEqualAndSlotStartTimeLessThanAndToggleAndStudentId(
+
+            LocalDate today, Time endTime, boolean status, String id);
 
     List<Booking> findAllByStudentIdAndToggle(String studentId, boolean toggle);
 
     Long countByStatusAndSlotLecturerId(int status,String lecturerId);
     Long countByToggleAndStatus(boolean toggle, int status);
-
-
-//    List<Booking> findByToggleAndStudentId(boolean status, boolean toggle, String id);
-
 
     Long countByStatusAndStudentId(int status, String id);
     Long countByStudentIdAndToggle(String id,boolean toggle);

@@ -36,15 +36,15 @@ public class BookingController {
         return bookingService.getAvailableBooking(id);
     }
 
-//    @GetMapping("/upmeeting")
-//    public List<BookingDTO> getUpCommingMeeting(@RequestParam String id) {
-//        return bookingService.getUpCommingMeeting(id);
-//    }
-//
-//    @GetMapping("/pastmeeting")
-//    public List<BookingDTO> getPastMeeting(@RequestParam String id) {
-//        return bookingService.getPastMeeting(id);
-//    }
+    @GetMapping("/upmeeting")
+    public List<BookingDTO> getUpCommingMeeting(@RequestParam String id) {
+        return bookingService.getUpcomingMeeting(id);
+    }
+
+    @GetMapping("/pastmeeting")
+    public List<BookingDTO> getPastMeeting(@RequestParam String id) {
+        return bookingService.getPastMeeting(id);
+    }
 
     @GetMapping("/count/{id}")
     public Map<String, Long> countByLecturerId(@PathVariable String id) {
