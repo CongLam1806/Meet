@@ -37,7 +37,7 @@ public class BookingController {
     }
 
     @GetMapping("/upmeeting")
-    public List<BookingDTO> getUpCommingMeeting(@RequestParam String id) {
+    public List<BookingDTO> getUpComingMeeting(@RequestParam String id) {
         return bookingService.getUpcomingMeeting(id);
     }
 
