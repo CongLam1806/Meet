@@ -159,7 +159,6 @@ public class SlotService {
                     "New slot start time must after existing slot end time at least 15 minutes", "error");
         }
 
-
         Slot slot1 = modelMapper.map(newSlot, Slot.class);
         Slot slot = new Slot();
         if(slot1.getMode() == 0 || slot1.getMode() == 1){
@@ -170,7 +169,6 @@ public class SlotService {
         slot.setPassword(slot1.getPassword());
         slot.setLecturer(slot1.getLecturer());
         slot.setOnline(slot1.isOnline());
-        slot.setStartTime(slot1.getStartTime());
         slot.setEndTime(slot1.getEndTime());
         slot.setMeetingDay(slot1.getMeetingDay());
         slot.setMode(slot1.getMode());
@@ -192,8 +190,6 @@ public class SlotService {
             bookingRepository.save(booking);
             emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
         }
-
-
 
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
             Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
