@@ -23,7 +23,7 @@ public class EmailSenderService {
     private static final String EMAIL_DECLINE_TEMPLATE = "sendEmailDecline.html";
     private static final String EMAIL_ASSIGN_TEMPLATE = "sendEmailAssignStudent.html";
     private static final String SUBJECT = "[MML] BOOKING CONFIRMATION MAIL";
-    private static final String fromEmail = "Meeting My Lecturer <MeetLecturer@gmail.com>";
+    private static final String fromEmail = "Meeting My Lecturer <Meet Lecturer@gmail.com>";
 
 
 
