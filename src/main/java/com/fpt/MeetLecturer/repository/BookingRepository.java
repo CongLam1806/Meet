@@ -37,14 +37,26 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     Long countByStudentIdAndToggle(String id, boolean toggle);
 
+    @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
+            "WHERE YEAR(b.meetingDay) = ?1 AND MONTH(b.meetingDay) = ?2 AND a.studentId = ?3 AND a.toggle = ?4", nativeQuery = true)
+    Long countByStudentIdAndToggleMonth(int year, int month, String id, boolean toggle);
+
     @Query(value = "SELECT TOP 1 c.code as mostDiscuss FROM (Booking a FULL JOIN Slot b ON a.slotId = b.Id)" +
             "full join  (Subject c full join SlotSubject d on c.Id = d.subjectId) on b.Id = d.slotId\n" +
             "WHERE a.studentId = ?1 AND a.status = 2", nativeQuery = true)
     String mostDiscussSubject(String id);
 
+    @Query(value = "SELECT TOP 1 c.code as mostDiscuss FROM (Booking a FULL JOIN Slot b ON a.slotId = b.Id)" +
+            "full join  (Subject c full join SlotSubject d on c.Id = d.subjectId) on b.Id = d.slotId\n" +
+            "WHERE a.studentId = ?1 AND a.status = 2 AND YEAR(b.meetingDay) = ?2 AND MONTH(b.meetingDay) = ?3", nativeQuery = true)
+    String mostDiscussSubjectMonth(String id, int year, int month);
+
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
             "WHERE YEAR(b.meetingDay) = ?1 AND MONTH(b.meetingDay) = ?2 AND a.studentId = ?3 AND a.status = 2", nativeQuery = true)
     Long countMeetingByDate(int year, int month, String id);
+    @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
+            "WHERE b.meetingDay between ?1 and ?2 AND a.studentId = ?3 AND a.status = 2", nativeQuery = true)
+    Long countMeetingByWeek(LocalDate start, LocalDate end, String id);
 
 
     @Query(value = "select b1_0.*\n" +

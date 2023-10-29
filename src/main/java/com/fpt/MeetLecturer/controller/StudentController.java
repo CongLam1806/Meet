@@ -10,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 @RestController
 @RequestMapping("/api/v1/student")
@@ -61,6 +64,21 @@ public class StudentController {
         dashBoardIndicatorDTO.setMostDiscussSubject(mostDiscussSubject);
         return ResponseEntity.ok().body(dashBoardIndicatorDTO);
     }
+    @GetMapping("/indicator/month/{id}")
+    public ResponseEntity<DashBoardIndicatorDTO> dashboardIndicatorDisplay2(@PathVariable("id") String id){
+        DashBoardIndicatorDTO dashBoardIndicatorDTO = new DashBoardIndicatorDTO();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        YearMonth currentMonth = YearMonth.from(today);
+        long totalMeeting = bookingRepository.countMeetingByDate(currentMonth.getYear(), currentMonth.getMonthValue(), id);
+        dashBoardIndicatorDTO.setTotalMeeting(totalMeeting);
+        Time totalHours = slotRepository.totalMeetingTimeStudentMonth(id, currentMonth.getYear(), currentMonth.getMonthValue());
+        dashBoardIndicatorDTO.setTotalHours(totalHours);
+        long totalBooking = bookingRepository.countByStudentIdAndToggleMonth(currentMonth.getYear(), currentMonth.getMonthValue(), id, true);
+        dashBoardIndicatorDTO.setTotalBooking(totalBooking);
+        String mostDiscussSubject = bookingRepository.mostDiscussSubjectMonth(id, currentMonth.getYear(), currentMonth.getMonthValue());
+        dashBoardIndicatorDTO.setMostDiscussSubject(mostDiscussSubject);
+        return ResponseEntity.ok().body(dashBoardIndicatorDTO);
+    }
     @GetMapping("/graph/{id}")
     public DashBoardChartDTO[] dashboardGraphDisplay2(@PathVariable("id") String id){
         DashBoardChartDTO[] response = new DashBoardChartDTO[6];
@@ -78,6 +96,23 @@ public class StudentController {
             } else {
                 currentMonth = currentMonth.minusMonths(1);
             }
+        }
+        return response;
+    }
+    @GetMapping("/graph/week/{id}")
+    public DashBoardChartDTO[] dashboardGraphDisplay(@PathVariable("id") String id){
+        DashBoardChartDTO[] response = new DashBoardChartDTO[4];
+        LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        for (int i = 0; i < 4; i++) {
+            LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+            LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+            long value =bookingRepository.countMeetingByWeek(weekStart,weekEnd, id);
+            String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
+            DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
+            dashBoardChartDTO.setMonth(key);
+            dashBoardChartDTO.setSlotCount(value);
+            response[i] = dashBoardChartDTO;
         }
         return response;
     }

@@ -61,8 +61,8 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     Long countByToggleAndMeetingDayForLecturer(int year, int month, String id);
 
     @Query(value = "SELECT COUNT(*) FROM [dbo].[Slot] " +
-    "WHERE meetingDay between ?1 and ?2 AND toggle = 1", nativeQuery = true)
-    Long countByWeekForLecturer(LocalDate start, LocalDate end);
+    "WHERE meetingDay between ?1 and ?2 AND toggle = 1 AND [lecturerId] = ?3", nativeQuery = true)
+    Long countByWeekForLecturer(LocalDate start, LocalDate end, String id);
 
 
     @Query(value = "SELECT TOP 1 d.code as mostDiscuss FROM Slot a left JOIN  (SlotSubject c full join Subject d on d.Id = c.subjectId) on a.Id = c.slotId\n" +
@@ -80,5 +80,10 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
             "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
             "WHERE [studentId] = ?1 AND b.status = 2", nativeQuery = true)
     Time totalMeetingTimeStudent(String id);
+    @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
+            "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
+            "WHERE [studentId] = ?1 AND b.status = 2 AND YEAR(meetingDay) = ?2 AND MONTH(meetingDay) = ?3", nativeQuery = true)
+    Time totalMeetingTimeStudentMonth(String id, int year, int month);
+
 
 }

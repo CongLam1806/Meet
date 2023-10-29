@@ -119,7 +119,7 @@ public class LecturerController {
         for (int i = 0; i < 4; i++) {
             LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
             LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-            long value = slotRepository.countByWeekForLecturer(weekStart,weekEnd);
+            long value = slotRepository.countByWeekForLecturer(weekStart,weekEnd, id);
             String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
             DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
             dashBoardChartDTO.setMonth(key);
