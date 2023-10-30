@@ -64,7 +64,8 @@ public class Slot {
     @OneToMany(mappedBy = "slot")
     private List<Booking> bookingList;
 
-    @ManyToOne(fetch= FetchType.EAGER)
+    @ManyToOne(
+            fetch= FetchType.EAGER)
     @JoinColumn(name = "locationId", referencedColumnName = "Id")
     private Location location;
 
