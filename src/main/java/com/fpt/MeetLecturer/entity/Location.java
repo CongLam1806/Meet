@@ -33,7 +33,7 @@ public class Location {
 
 
     //@OneToMany(mappedBy = "location") //cascade = {CascadeType.ALL},
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "location", cascade=CascadeType.ALL)
     private List<Slot> slotList;
 
 }
