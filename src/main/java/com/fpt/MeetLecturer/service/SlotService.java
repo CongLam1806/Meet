@@ -247,6 +247,7 @@ public class SlotService {
                 List<Slot_SubjectDTO> subjectList = new ArrayList<>();
                 String[] data = excelDataDTO.getSubjects().split(",");
                 for (String pt : data) {
+                    System.out.println("Subject: " + pt);
                     Subject subject = subjectRepository.findByCode(pt.trim());
                     if (subject.getCode() != null) {
                         Slot_SubjectDTO slotSubjectDTO = new Slot_SubjectDTO();
@@ -258,11 +259,11 @@ public class SlotService {
                 //SlotMode
                 slotdto.setMode(excelDataDTO.getMode());
                 //StudentName
-                Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
-                if (!student.getEmail().isBlank()) {
-                    slotdto.setStudentEmail(student.getEmail());
-                    slotdto.setLecturerName(student.getName());
-                    slotdto.setStatus(false);
+                if(excelDataDTO.getStudentEmail() != null) {
+                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
+                        slotdto.setStudentEmail(student.getEmail());
+                        slotdto.setLecturerName(student.getName());
+                        slotdto.setStatus(false);
                 }
                 //SlotPassword
                 if (excelDataDTO.getPassword() != null) slotdto.setPassword(excelDataDTO.getPassword());
@@ -273,6 +274,7 @@ public class SlotService {
                     slotdto.setLecturerId(lecturer1.getId());
                     slotdto.setLecturerName(lecturer1.getName());
                 }
+                System.out.println(slotdto);
                 //Map DTO vào Entity, tiến hành lưu thông tin vào DB
                 Slot slot1 = modelMapper.map(slotdto, Slot.class);
                 Slot slot = new Slot();
@@ -284,10 +286,11 @@ public class SlotService {
                 slot.setMeetingDay(slot1.getMeetingDay());
                 slot.setMode(slot1.getMode());
                 slot = slotRepository.save(slot);
-                if (student != null) {
-                    Booking booking = new Booking(slot, student, 2);
-                    bookingRepository.save(booking);
-                    emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
+                if(excelDataDTO.getStudentEmail() != null) {
+                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
+                        Booking booking = new Booking(slot, student, 2);
+                        bookingRepository.save(booking);
+                        emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
                 }
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
                     Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());

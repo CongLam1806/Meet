@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -37,10 +38,10 @@ public class Slot {
     private String password;
 
     @Column(name="startTime")
-    private Time startTime;
+    private LocalTime startTime;
 
     @Column(name="endTime")
-    private Time endTime;
+    private LocalTime endTime;
 
     @JsonFormat(pattern="dd/MM/yyyy", timezone="Asia/Ho_Chi_Minh")
     @Column(name="meetingDay")

@@ -47,8 +47,8 @@ public class ScheduledTask {
             //current date is after meeting date == true
             if(temp.isBefore(current))
                 ex.setStatus(false); //unavailable status
-            Time tmp = ex.getStartTime();
-            LocalTime convertedTime = tmp.toLocalTime();
+            LocalTime tmp = ex.getStartTime();
+            LocalTime convertedTime = tmp;//.toLocalTime();
             //current date equals meeting date AND meeting time is before current time
             if(temp.equals(current) && convertedTime.isBefore(currentTime))
                 ex.setStatus(false);//unavailable status

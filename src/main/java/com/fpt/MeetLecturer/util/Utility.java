@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -73,22 +74,25 @@ public class Utility {
 
     public boolean checkValidTime(SlotDTO newSlot){
         List<Slot> workingList = slotRepository.findByLecturerIdOrderByMeetingDayDesc(newSlot.getLecturerId());
-        for(Slot ex: workingList){
-            LocalDate temp = ex.getMeetingDay();//get existing slot date
-            LocalDate newSlotDate = newSlot.getMeetingDay();//new slot date
-            Time tmp = ex.getEndTime();//get existing slot end time
-            Time newSlotStartTime = newSlot.getStartTime();//get new slot start time
+        for (Slot ex : workingList) {
+            LocalDate temp = ex.getMeetingDay(); // get existing slot date
+            LocalDate newSlotDate = newSlot.getMeetingDay(); // new slot date
+            LocalTime tmp = ex.getEndTime(); // get existing slot end time
+            LocalTime newSlotStartTime = newSlot.getStartTime(); // get new slot start time
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(tmp);//convert to calendar
-            calendar.add(Calendar.MINUTE, 15);//existing slot end time + 15 minutes
-            Time newTmp = new Time(calendar.getTimeInMillis());//convert back to time.
-            if (newSlotDate.equals(temp) ){//date comparison
-                if(newSlotStartTime.before(newTmp) || newSlotStartTime.equals(newTmp)){//time comparison
+            calendar.set(Calendar.HOUR_OF_DAY, tmp.getHour());
+            calendar.set(Calendar.MINUTE, tmp.getMinute());
+            calendar.add(Calendar.MINUTE, 15); // existing slot end time + 15 minutes
+            Date newTmp = calendar.getTime(); // convert back to Date
+            if (newSlotDate.equals(temp)) { // date comparison
+                if (newSlotStartTime.isBefore(LocalTime.of(newTmp.getHours(), newTmp.getMinutes()))
+                        || newSlotStartTime.equals(LocalTime.of(newTmp.getHours(), newTmp.getMinutes()))) { // time comparison
                     return false;
                 }
             }
-            if(newSlotDate.isBefore(temp))
+            if (newSlotDate.isBefore(temp)) {
                 return false;
+            }
         }
         return true;
     }

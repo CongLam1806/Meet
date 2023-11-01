@@ -8,11 +8,14 @@ import lombok.*;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Data
 public class SlotDTO {
     @Id
@@ -21,10 +24,12 @@ public class SlotDTO {
     private String password;
 
     @NotEmpty(message = "Start Time must not be blank")
-    private Time startTime;
+    @JsonFormat(pattern = "HH:mm", timezone = "Asia/Ho_Chi_Minh")
+    private LocalTime startTime;
 
     @NotEmpty(message = "End Time must not be blank")
-    private Time endTime;
+    @JsonFormat(pattern = "HH:mm", timezone = "Asia/Ho_Chi_Minh")
+    private LocalTime endTime;
 
     @NotBlank(message = "Meeting Date must not be blank")
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
