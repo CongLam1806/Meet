@@ -109,9 +109,6 @@ public class SlotService {
     public List<SlotDTO> getAllSlotAvaiNow(){
 
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStatusOrderByMeetingDayDesc(true));
-        slotsDTO.forEach(slotDTO -> {
-            System.out.println(slotDTO.getId());
-        });
         return slotsDTO;
     }
 
@@ -175,7 +172,9 @@ public class SlotService {
         slot.setEndTime(slot1.getEndTime());
         slot.setMeetingDay(slot1.getMeetingDay());
         slot.setMode(slot1.getMode());
-
+        if(!slot1.isOnline()){
+            slot.setLocation(slot1.getLocation());
+        }
         slot = slotRepository.save(slot);
 
 //        Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
