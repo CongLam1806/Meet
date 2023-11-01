@@ -9,7 +9,6 @@ import com.fpt.MeetLecturer.entity.Student;
 import com.fpt.MeetLecturer.mapper.MapAccount;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
 import com.fpt.MeetLecturer.repository.StudentRepository;
-import com.fpt.MeetLecturer.security.CustomAccountDetails;
 import com.fpt.MeetLecturer.util.Utility;
 
 import com.fpt.MeetLecturer.repository.AccountRepository;
@@ -25,7 +24,7 @@ import java.util.Optional;
 
 
 @Service
-public class AccountService implements UserDetailsService {
+public class AccountService {
 
     @Autowired(required = false)
     private AccountRepository accountRepository;
@@ -115,20 +114,5 @@ public class AccountService implements UserDetailsService {
             student.getMajor().setId(utility.addMajorToStudent(code));
             studentRepository.save(student);
         }
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByName(username);
-        if(account == null){
-            throw new UsernameNotFoundException(username);
-        }
-        return new CustomAccountDetails(account);
-    }
-
-
-    public UserDetails loadAccountById(String accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow();
-        return new CustomAccountDetails(account);
     }
 }
