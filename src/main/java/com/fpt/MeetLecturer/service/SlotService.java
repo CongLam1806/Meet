@@ -184,11 +184,10 @@ public class SlotService {
 
 
         Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
-        Booking booking;
         if(student != null){
-            booking = new Booking(slot, student, 2);
-            bookingRepository.save(booking);
-            emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
+            Booking booking = new Booking(slot, student, 2);
+            Booking s = bookingRepository.save(booking);
+            emailSenderService.sendHtmlEmail(student.getEmail(), s, 3);
         }
 
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
