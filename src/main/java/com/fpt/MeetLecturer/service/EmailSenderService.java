@@ -23,7 +23,7 @@ public class EmailSenderService {
     private static final String EMAIL_DECLINE_TEMPLATE = "sendEmailDecline.html";
     private static final String EMAIL_ASSIGN_TEMPLATE = "sendEmailAssignStudent.html";
     private static final String SUBJECT = "[MML] BOOKING CONFIRMATION MAIL";
-    private static final String fromEmail = "Meeting My Lecturer <Meet Lecturer@gmail.com>";
+    private static final String fromEmail = "Meeting My Lecturer";
 
 
 
@@ -41,7 +41,7 @@ public class EmailSenderService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8_ENCODING);
             helper.setPriority(1);
             helper.setSubject(SUBJECT);
-            helper.setFrom(fromEmail);
+            helper.setFrom("truongthanhvu2337@gmail.com", fromEmail);
             helper.setTo(toEmail);
             if (Switch == 1){
                 String accept = templateEngine.process(EMAIL_ACCEPT_TEMPLATE, context);
