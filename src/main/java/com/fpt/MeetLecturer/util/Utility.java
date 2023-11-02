@@ -79,14 +79,9 @@ public class Utility {
             LocalDate newSlotDate = newSlot.getMeetingDay(); // new slot date
             LocalTime tmp = ex.getEndTime(); // get existing slot end time
             LocalTime newSlotStartTime = newSlot.getStartTime(); // get new slot start time
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, tmp.getHour());
-            calendar.set(Calendar.MINUTE, tmp.getMinute());
-            calendar.add(Calendar.MINUTE, 15); // existing slot end time + 15 minutes
-            Date newTmp = calendar.getTime(); // convert back to Date
+            LocalTime add = tmp.plusMinutes(14);
             if (newSlotDate.equals(temp)) { // date comparison
-                if (newSlotStartTime.isBefore(LocalTime.of(newTmp.getHours(), newTmp.getMinutes()))
-                        || newSlotStartTime.equals(LocalTime.of(newTmp.getHours(), newTmp.getMinutes()))) { // time comparison
+                if (newSlotStartTime.isBefore(add) || newSlotStartTime.equals(add)) { // time comparison
                     return false;
                 }
             }
