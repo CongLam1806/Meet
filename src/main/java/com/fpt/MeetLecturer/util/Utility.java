@@ -82,10 +82,13 @@ public class Utility {
             LocalTime add = tmp.plusMinutes(14);
             if (newSlotDate.equals(temp)) { // date comparison
                 if (newSlotStartTime.isBefore(add) || newSlotStartTime.equals(add)) { // time comparison
+                    System.out.println("not valid time!");
                     return false;
                 }
             }
-            if (newSlotDate.isBefore(temp)) {
+            if (newSlotDate.isBefore(LocalDate.now())) {
+                System.out.println(LocalDate.now());
+                System.out.println("not valid date! New slot date is before current date!!");
                 return false;
             }
         }
