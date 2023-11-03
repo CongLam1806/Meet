@@ -273,7 +273,10 @@ public class SlotService {
                     slotdto.setLecturerId(lecturer1.getId());
                     slotdto.setLecturerName(lecturer1.getName());
                 }
+                //check valid start time for new slot
                 System.out.println(slotdto);
+                boolean flag = utility.checkValidTime(slotdto);
+                if(!flag) continue;
                 //Map DTO vào Entity, tiến hành lưu thông tin vào DB
                 Slot slot1 = modelMapper.map(slotdto, Slot.class);
                 Slot slot = new Slot();
