@@ -242,6 +242,9 @@ public class SlotService {
                     slotdto.setLocationName(location1.getName());
                     slotdto.setLocationAddress(location1.getAddress());
                 }
+                if(location.isEmpty()){// || excelDataDTO.getLocationId() == "online"){
+                    slotdto.setOnline(true);
+                }
                 //SubjectList
                 List<Slot_SubjectDTO> subjectList = new ArrayList<>();
                 String[] data = excelDataDTO.getSubjects().split(",");
