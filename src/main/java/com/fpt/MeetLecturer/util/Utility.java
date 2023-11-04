@@ -74,11 +74,18 @@ public class Utility {
             LocalDate temp = ex.getMeetingDay(); // get existing slot date
             LocalDate newSlotDate = newSlot.getMeetingDay(); // new slot date
             LocalTime tmp = ex.getEndTime(); // get existing slot end time
+            LocalTime tmp2 = ex.getStartTime();// get existing slot start time
             LocalTime newSlotStartTime = newSlot.getStartTime(); // get new slot start time
+            LocalTime newSlotEndTime = newSlot.getEndTime();// get new slot end time
             LocalTime add = tmp.plusMinutes(14);
+            LocalTime add2 = tmp2.minusMinutes(14);
             if (newSlotDate.equals(temp)) { // date comparison
+                if (newSlotEndTime.isBefore(add2)) { // time comparison
+                    return true;
+                }
                 if (newSlotStartTime.isBefore(add) || newSlotStartTime.equals(add)) { // time comparison
-                    System.out.println("not valid time!");
+                    System.out.println(ex.getMeetingDay() +" - " + newSlotDate);
+                    System.out.println("not valid time (newSlotStartTime - add):" + newSlotStartTime + " - " + add);
                     return false;
                 }
             }
