@@ -102,7 +102,7 @@ public class BookingService {
         }
         else {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Can't Book this slot because you already booked a slot that have the same time range", "")
+                    new ResponseDTO(HttpStatus.OK, "Can't Book this slot because you already booked a slot that have the same time range", "sameTimeErr")
             );
         }
 
