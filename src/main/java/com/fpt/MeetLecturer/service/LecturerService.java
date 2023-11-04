@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,16 @@ public class LecturerService {
     //get all lecturer
     public List<LecturerDTO> getAllLecturer() {
         return mapLecturer.convertListToLecturerDTO(lecturerRepository.findAll());
+    }
+
+    public List<String> getActiveLecturerEmail(){
+        List<Lecturer> lecturerList = lecturerRepository.findByStatus(true);
+        List<String> lecturerFirstOfEmail = new ArrayList<>();
+        lecturerList.forEach(lecturer -> {
+            String[] parts = lecturer.getEmail().split("@fe\\.edu\\.vn");
+            lecturerFirstOfEmail.add(parts[0]);
+        });
+        return lecturerFirstOfEmail;
     }
 
     public LecturerDTO getLecturerById(String id) {
