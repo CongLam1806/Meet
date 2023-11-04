@@ -231,15 +231,16 @@ public class SlotService {
                 //EndTime
                 slotdto.setEndTime(excelDataDTO.getEndTime());
                 //LocationId
-                Optional<Location> location = locationRepository.findById(Integer.valueOf(excelDataDTO.getLocationId()));
-                if (location.isPresent()) {
-                    Location location1 = location.get();
-                    slotdto.setLocationId(location1.getId());
-                    slotdto.setLocationName(location1.getName());
-                    slotdto.setLocationAddress(location1.getAddress());
-                }
-                if(location.isEmpty() || excelDataDTO.getLocationId().equalsIgnoreCase("online")){
+                if(excelDataDTO.getLocationId().equalsIgnoreCase("online")){
                     slotdto.setOnline(true);
+                }else {
+                    Optional<Location> location = locationRepository.findById(Integer.valueOf(excelDataDTO.getLocationId()));
+                    if (location.isPresent()) {
+                        Location location1 = location.get();
+                        slotdto.setLocationId(location1.getId());
+                        slotdto.setLocationName(location1.getName());
+                        slotdto.setLocationAddress(location1.getAddress());
+                    }
                 }
                 //SubjectList
                 List<Slot_SubjectDTO> subjectList = new ArrayList<>();
@@ -257,14 +258,17 @@ public class SlotService {
                 //SlotMode
                 slotdto.setMode(excelDataDTO.getMode());
                 //StudentName
-                if(excelDataDTO.getStudentEmail() != null) {
-                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
-                        slotdto.setStudentEmail(student.getEmail());
-                        slotdto.setLecturerName(student.getName());
+                if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {
+                    Optional<Student> student = Optional.ofNullable(studentRepository.findByEmail(excelDataDTO.getStudentEmail()));
+                    if(student.isPresent()) {
+                        Student student1 = student.get();
+                        slotdto.setStudentEmail(student1.getEmail());
+                        slotdto.setLecturerName(student1.getName());
                         slotdto.setStatus(false);
+                    }
                 }
                 //SlotPassword
-                if (excelDataDTO.getPassword() != null) slotdto.setPassword(excelDataDTO.getPassword());
+                if (excelDataDTO.getPassword() != "") slotdto.setPassword(excelDataDTO.getPassword());
                 //lecturerId
                 Optional<Lecturer> lecturer = lecturerRepository.findById(id);
                 if(lecturer.isPresent()){
@@ -283,13 +287,13 @@ public class SlotService {
                 slot.setLecturer(slot1.getLecturer());
                 if(!slotdto.isOnline()){
                     slot.setLocation(slot1.getLocation());
-                }
+                }else slot.setOnline(true);
                 slot.setStartTime(slot1.getStartTime());
                 slot.setEndTime(slot1.getEndTime());
                 slot.setMeetingDay(slot1.getMeetingDay());
                 slot.setMode(slot1.getMode());
                 slot = slotRepository.save(slot);
-                if(excelDataDTO.getStudentEmail() != null) {
+                if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {
                     Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
                         Booking booking = new Booking(slot, student, 2);
                         bookingRepository.save(booking);
@@ -298,6 +302,9 @@ public class SlotService {
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
                     Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
                     Slot_Subject slotSubject = new Slot_Subject(slot, subject);
+                    System.out.println("==============================");
+                    System.out.println("slotSubject: " + slotSubject);
+                    System.out.println("==============================");
                     slotSubjectRepository.save(slotSubject);
                 }
             }
