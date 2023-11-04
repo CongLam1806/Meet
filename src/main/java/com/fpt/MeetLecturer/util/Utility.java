@@ -5,14 +5,10 @@ import com.fpt.MeetLecturer.entity.Slot;
 import com.fpt.MeetLecturer.mapper.MapSlot;
 import com.fpt.MeetLecturer.repository.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
