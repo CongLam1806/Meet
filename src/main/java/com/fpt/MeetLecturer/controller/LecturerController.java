@@ -37,6 +37,10 @@ public class LecturerController {
         return lecturerService.getAllLecturer();
     }
 
+    @GetMapping("lecturerCode")
+    public List<String> getActiveLecturerEmail(){
+        return lecturerService.getActiveLecturerEmail();
+    }
     @GetMapping("/status")
     public List<LecturerDTO> getAllLecturerByStatus(){
         return lecturerService.getAllLecturerByStatus();

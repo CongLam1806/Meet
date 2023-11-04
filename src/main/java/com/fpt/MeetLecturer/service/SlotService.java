@@ -67,6 +67,7 @@ public class SlotService {
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
+
 //
 //
 ////            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
@@ -90,8 +91,6 @@ public class SlotService {
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
-
-
 //            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
 //            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
 //            slotSubjectList.forEach(slotSubject -> {
@@ -128,22 +127,48 @@ public class SlotService {
         return mapSlot.convertListToSlotDTO(slots);
     }
 
+    public List<SlotDTO> getSlotByLecturerCodeAndSubjectCode(String code, String lecturerCode){
+        String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
+
+        List<Slot> slots = slotRepository.findByLecturerEmailAndSlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(lecturerEmail, code, true);
+        return mapSlot.convertListToSlotDTO(slots);
+    }
+
     public List<SlotDTO> getSlotByDate(Date startDate, Date endDate){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
         //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY DATE", slotsDTO);
         return slotsDTO;
     }
 
-    public ResponseDTO getSlotByStudent(String code, Date startDate, Date endDate){
+    public List<SlotDTO> getSlotByDateAndLecturerCode(Date startDate, Date endDate, String lecturerCode){
+        String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetweenAndLectureEmail(startDate, endDate, lecturerEmail));
+
+        return slotsDTO;
+    }
+    public List<SlotDTO> getSlotBySubjectCodeAndDateAndLecturerEmail(String code, Date startDate, Date endDate, String lecturerCode){
+        String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
+        List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findBySubjectCodeAndDateAndLecturerEmail(code, startDate, endDate, lecturerEmail));
+
+        return slotsDTO;
+    }
+
+    public ResponseDTO getSlotByStudent(String code, String lecturerCode, Date startDate, Date endDate){
         List<SlotDTO> slotsDTOList = new ArrayList<>();
-        if(code != null && startDate == null && endDate == null){
+        if(code != null && lecturerCode == null && startDate == null && endDate == null){
             slotsDTOList = getSlotBySubjectCode(code);
-        } else if (code == null && startDate != null && endDate != null) {
+        } else if (code != null && lecturerCode != null && startDate == null && endDate == null) {
+            slotsDTOList = getSlotByLecturerCodeAndSubjectCode(code, lecturerCode);
+        } else if (code == null && lecturerCode == null && startDate != null && endDate != null) {
             slotsDTOList = getSlotByDate(startDate, endDate);
-        } else if (code != null && startDate != null && endDate != null) {
+        } else if (code == null && lecturerCode != null && startDate != null && endDate != null) {
+            slotsDTOList = getSlotByDateAndLecturerCode(startDate, endDate, lecturerCode);
+        } else if (code != null && startDate != null && endDate != null && lecturerCode == null) {
             slotsDTOList = mapSlot.convertListToSlotDTO(slotRepository.findBySubjectCodeAndDate(code, startDate, endDate));
+        } else if (code != null && startDate != null && endDate != null && lecturerCode != null) {
+            slotsDTOList = getSlotBySubjectCodeAndDateAndLecturerEmail(code, startDate, endDate, lecturerCode);
 //        } else if (code != null && startDate != null and End)
-        } else if(code == null && startDate == null && endDate == null){
+        } else if(code == null && startDate == null && endDate == null && lecturerCode == null){
             slotsDTOList = getAllSlotAvaiNow();
         }
         return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOT", slotsDTOList);
@@ -169,6 +194,7 @@ public class SlotService {
         slot.setPassword(slot1.getPassword());
         slot.setLecturer(slot1.getLecturer());
         slot.setOnline(slot1.isOnline());
+        slot.setStartTime(slot1.getStartTime());
         slot.setEndTime(slot1.getEndTime());
         slot.setMeetingDay(slot1.getMeetingDay());
         slot.setMode(slot1.getMode());

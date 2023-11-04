@@ -33,9 +33,10 @@ public class SlotController {
 
     @GetMapping("/student")
     public ResponseEntity<ResponseDTO> getSlot(@RequestParam(name="subjectCode", required = false) String code,
+                                               @RequestParam(name="lecturerCode", required = false) String lecturerCode,
                                                @RequestParam(name="startDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
                                                @RequestParam(name="endDay", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
-        ResponseDTO responseDTO = slotService.getSlotByStudent(code, startDate, endDate);
+        ResponseDTO responseDTO = slotService.getSlotByStudent(code, lecturerCode, startDate, endDate);
 
         return ResponseEntity.ok().body(responseDTO);
     }
