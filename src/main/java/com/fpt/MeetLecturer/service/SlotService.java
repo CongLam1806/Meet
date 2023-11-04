@@ -15,10 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SlotService {
@@ -234,14 +231,14 @@ public class SlotService {
                 //EndTime
                 slotdto.setEndTime(excelDataDTO.getEndTime());
                 //LocationId
-                Optional<Location> location = locationRepository.findById(excelDataDTO.getLocationId());
+                Optional<Location> location = locationRepository.findById(Integer.valueOf(excelDataDTO.getLocationId()));
                 if (location.isPresent()) {
                     Location location1 = location.get();
                     slotdto.setLocationId(location1.getId());
                     slotdto.setLocationName(location1.getName());
                     slotdto.setLocationAddress(location1.getAddress());
                 }
-                if(location.isEmpty()){// || excelDataDTO.getLocationId() == "online"){
+                if(location.isEmpty() || excelDataDTO.getLocationId().equalsIgnoreCase("online")){
                     slotdto.setOnline(true);
                 }
                 //SubjectList
@@ -284,7 +281,9 @@ public class SlotService {
                 Slot slot = new Slot();
                 slot.setPassword(slot1.getPassword());
                 slot.setLecturer(slot1.getLecturer());
-                slot.setLocation(slot1.getLocation());
+                if(!slotdto.isOnline()){
+                    slot.setLocation(slot1.getLocation());
+                }
                 slot.setStartTime(slot1.getStartTime());
                 slot.setEndTime(slot1.getEndTime());
                 slot.setMeetingDay(slot1.getMeetingDay());

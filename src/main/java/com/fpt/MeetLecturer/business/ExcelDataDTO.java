@@ -18,7 +18,7 @@ public class ExcelDataDTO {
     private LocalDate meetingDay;
     private LocalTime startTime;
     private LocalTime endTime;
-    private int locationId;
+    private String locationId;
     private String subjects;
     private int mode;
     private String studentEmail;
