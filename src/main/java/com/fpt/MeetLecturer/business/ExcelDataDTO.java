@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -19,7 +18,7 @@ public class ExcelDataDTO {
     private LocalDate meetingDay;
     private LocalTime startTime;
     private LocalTime endTime;
-    private int locationId;
+    private String locationId;
     private String subjects;
     private int mode;
     private String studentEmail;

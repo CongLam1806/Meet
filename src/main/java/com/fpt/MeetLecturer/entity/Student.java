@@ -38,7 +38,7 @@ public class Student {
     @Column
     private int semester;
     @Column
-    private boolean status;
+    private boolean status = true;
 
 
     @OneToMany(mappedBy = "student")

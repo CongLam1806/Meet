@@ -15,10 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SlotService {
@@ -182,7 +179,7 @@ public class SlotService {
 
         SlotDTO slotResponseDTO = mapSlot.convertSlotToSlotDTO(slot);
 
-        Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
+            Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
         if(student != null){
             Booking booking = new Booking(slot, student, 2);
             Booking s = bookingRepository.save(booking);
@@ -193,13 +190,6 @@ public class SlotService {
             Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
             Slot_Subject slotSubject = new Slot_Subject(slot, subject);
             slotSubjectRepository.save(slotSubject);
-        }
-
-        if (newSlot.getMode() == 2){
-            Booking newCreatedBook = bookingRepository.findByStudentEmailAndSlotIdAndSlotMode(newSlot.getStudentEmail(), slot.getId(), 2);
-            if (newCreatedBook != null){
-                emailSenderService.sendHtmlEmail(newCreatedBook.getStudent().getEmail(), newCreatedBook, 3, newCreatedBook.getSlot().isOnline());
-            }
         }
 
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
@@ -241,12 +231,16 @@ public class SlotService {
                 //EndTime
                 slotdto.setEndTime(excelDataDTO.getEndTime());
                 //LocationId
-                Optional<Location> location = locationRepository.findById(excelDataDTO.getLocationId());
-                if (location.isPresent()) {
-                    Location location1 = location.get();
-                    slotdto.setLocationId(location1.getId());
-                    slotdto.setLocationName(location1.getName());
-                    slotdto.setLocationAddress(location1.getAddress());
+                if(excelDataDTO.getLocationId().equalsIgnoreCase("online")){
+                    slotdto.setOnline(true);
+                }else {
+                    Optional<Location> location = locationRepository.findById(Integer.valueOf(excelDataDTO.getLocationId()));
+                    if (location.isPresent()) {
+                        Location location1 = location.get();
+                        slotdto.setLocationId(location1.getId());
+                        slotdto.setLocationName(location1.getName());
+                        slotdto.setLocationAddress(location1.getAddress());
+                    }
                 }
                 //SubjectList
                 List<Slot_SubjectDTO> subjectList = new ArrayList<>();
@@ -264,14 +258,17 @@ public class SlotService {
                 //SlotMode
                 slotdto.setMode(excelDataDTO.getMode());
                 //StudentName
-                if(excelDataDTO.getStudentEmail() != null) {
-                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
-                        slotdto.setStudentEmail(student.getEmail());
-                        slotdto.setLecturerName(student.getName());
+                if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {
+                    Optional<Student> student = Optional.ofNullable(studentRepository.findByEmail(excelDataDTO.getStudentEmail()));
+                    if(student.isPresent()) {
+                        Student student1 = student.get();
+                        slotdto.setStudentEmail(student1.getEmail());
+                        slotdto.setLecturerName(student1.getName());
                         slotdto.setStatus(false);
+                    }
                 }
                 //SlotPassword
-                if (excelDataDTO.getPassword() != null) slotdto.setPassword(excelDataDTO.getPassword());
+                if (excelDataDTO.getPassword() != "") slotdto.setPassword(excelDataDTO.getPassword());
                 //lecturerId
                 Optional<Lecturer> lecturer = lecturerRepository.findById(id);
                 if(lecturer.isPresent()){
@@ -288,22 +285,29 @@ public class SlotService {
                 Slot slot = new Slot();
                 slot.setPassword(slot1.getPassword());
                 slot.setLecturer(slot1.getLecturer());
-                slot.setLocation(slot1.getLocation());
+                if(!slotdto.isOnline()){
+                    slot.setLocation(slot1.getLocation());
+                }else slot.setOnline(true);
                 slot.setStartTime(slot1.getStartTime());
                 slot.setEndTime(slot1.getEndTime());
                 slot.setMeetingDay(slot1.getMeetingDay());
                 slot.setMode(slot1.getMode());
                 slot = slotRepository.save(slot);
-                if(excelDataDTO.getStudentEmail() != null) {
-                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
-                        Booking booking = new Booking(slot, student, 2);
-                        bookingRepository.save(booking);
-//                        emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3,);
-                }
+                //Subject
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
                     Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
                     Slot_Subject slotSubject = new Slot_Subject(slot, subject);
+                    System.out.println("==============================");
+                    System.out.println("slotSubject: " + slotSubject);
+                    System.out.println("==============================");
                     slotSubjectRepository.save(slotSubject);
+                }
+                //Booking
+                if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {
+                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
+                    Booking booking = new Booking(slot, student, 2);
+                    bookingRepository.save(booking);
+                    emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
                 }
             }
         return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "");
