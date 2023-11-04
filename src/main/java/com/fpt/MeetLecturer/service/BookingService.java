@@ -154,7 +154,7 @@ public class BookingService {
     public boolean canBookSlotToday(String studentId, LocalTime startTime, LocalTime endTime, LocalDate date) {
 
         // Lấy danh sách các booking đã đặt trong ngày
-        List<Booking> bookingsToday = bookingRepository.findByStudentIdAndSlotMeetingDayAndStatusNot(studentId, date, 1);
+        List<Booking> bookingsToday = bookingRepository.findByStudentIdAndSlotMeetingDayAndStatusNot(studentId, date, 0);
 
         // Kiểm tra xem có bất kỳ booking nào trong khoảng thời gian đã định
         for (Booking booking : bookingsToday) {
