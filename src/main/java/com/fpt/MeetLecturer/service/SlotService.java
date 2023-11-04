@@ -293,12 +293,7 @@ public class SlotService {
                 slot.setMeetingDay(slot1.getMeetingDay());
                 slot.setMode(slot1.getMode());
                 slot = slotRepository.save(slot);
-                if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {
-                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
-                        Booking booking = new Booking(slot, student, 2);
-                        bookingRepository.save(booking);
-                        emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
-                }
+                //Subject
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
                     Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
                     Slot_Subject slotSubject = new Slot_Subject(slot, subject);
@@ -306,6 +301,13 @@ public class SlotService {
                     System.out.println("slotSubject: " + slotSubject);
                     System.out.println("==============================");
                     slotSubjectRepository.save(slotSubject);
+                }
+                //Booking
+                if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {
+                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
+                    Booking booking = new Booking(slot, student, 2);
+                    bookingRepository.save(booking);
+                    emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
                 }
             }
         return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "");
