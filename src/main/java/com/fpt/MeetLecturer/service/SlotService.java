@@ -182,7 +182,7 @@ public class SlotService {
 
         SlotDTO slotResponseDTO = mapSlot.convertSlotToSlotDTO(slot);
 
-            Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
+        Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
         if(student != null){
             Booking booking = new Booking(slot, student, 2);
             Booking s = bookingRepository.save(booking);
@@ -193,6 +193,13 @@ public class SlotService {
             Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
             Slot_Subject slotSubject = new Slot_Subject(slot, subject);
             slotSubjectRepository.save(slotSubject);
+        }
+
+        if (newSlot.getMode() == 2){
+            Booking newCreatedBook = bookingRepository.findByStudentEmailAndSlotIdAndSlotMode(newSlot.getStudentEmail(), slot.getId(), 2);
+            if (newCreatedBook != null){
+                emailSenderService.sendHtmlEmail(newCreatedBook.getStudent().getEmail(), newCreatedBook, 3, newCreatedBook.getSlot().isOnline());
+            }
         }
 
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
@@ -291,7 +298,7 @@ public class SlotService {
                     Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
                         Booking booking = new Booking(slot, student, 2);
                         bookingRepository.save(booking);
-                        emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
+//                        emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3,);
                 }
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
                     Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());

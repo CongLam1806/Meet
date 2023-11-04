@@ -27,16 +27,22 @@ public class EmailSenderService {
 
 
 
-    public void sendHtmlEmail(String toEmail, Booking body, int Switch){
+    public void sendHtmlEmail(String toEmail, Booking body, int Switch, boolean isOnline){
         try {
             Context context = new Context();
+            context.setVariable("isOnline", isOnline);
             context.setVariable("studentName", body.getStudent().getName());
-            context.setVariable("location", body.getSlot().getLocation().getName());
             context.setVariable("startTime", body.getSlot().getStartTime());
             context.setVariable("endTime", body.getSlot().getEndTime());
             context.setVariable("meetingDate", body.getSlot().getMeetingDay());
             context.setVariable("lecturerName", body.getSlot().getLecturer().getName());
-            context.setVariable("address", body.getSlot().getLocation().getAddress());
+
+            if (!isOnline){
+                context.setVariable("address", body.getSlot().getLocation().getAddress());
+                context.setVariable("location", body.getSlot().getLocation().getName());
+            }
+            context.setVariable("linkMeet", body.getSlot().getLecturer().getLinkMeet());
+
             MimeMessage message = getMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8_ENCODING);
             helper.setPriority(1);

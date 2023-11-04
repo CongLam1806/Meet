@@ -116,7 +116,7 @@ public class BookingService {
             if (booking.getStatus() == 2) {
                 existingBooking.setStatus(bookingEntity.getStatus());
                 bookingRepository.save(existingBooking);
-                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 1);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 1, existingBooking.getSlot().isOnline());
 
                 Optional<Slot> slot = slotRepository.findById(booking.getSlotInfo().getId());
                 if (slot.isPresent()) {
@@ -129,7 +129,7 @@ public class BookingService {
                 for (Booking eachOfBookingList : bookingList) {
                     eachOfBookingList.setStatus(0);
                     bookingRepository.save(eachOfBookingList);
-                    emailSenderService.sendHtmlEmail(eachOfBookingList.getStudent().getEmail(), eachOfBookingList, 2);
+                    emailSenderService.sendHtmlEmail(eachOfBookingList.getStudent().getEmail(), eachOfBookingList, 2, eachOfBookingList.getSlot().isOnline());
                 }
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Accept successfully", "")
@@ -138,7 +138,7 @@ public class BookingService {
             if (booking.getStatus() == 0) {
                 existingBooking.setStatus(0);
                 bookingRepository.save(existingBooking);
-                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 2);
+                emailSenderService.sendHtmlEmail(existingBooking.getStudent().getEmail(), existingBooking, 2, existingBooking.getSlot().isOnline());
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseDTO(HttpStatus.OK, "Decline successfully", "")
                 );
