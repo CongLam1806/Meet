@@ -41,5 +41,4 @@ public class MapBooking {
         slots.forEach(booking -> list.add(convertBookingToBookingDTO(booking)));
         return list;
     }
-
 }
