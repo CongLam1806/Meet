@@ -159,7 +159,7 @@ public class SlotService {
                     "New slot start time must after existing slot end time at least 15 minutes", "error");
         }
 
-        Slot slot1 = modelMapper.map(newSlot, Slot.class);
+        Slot slot1 = mapSlot.convertSlotDTOToSlot(newSlot);
         Slot slot = new Slot();
         if(slot1.getMode() == 0 || slot1.getMode() == 1){
             slot.setStatus(true);
@@ -169,25 +169,24 @@ public class SlotService {
         slot.setPassword(slot1.getPassword());
         slot.setLecturer(slot1.getLecturer());
         slot.setOnline(slot1.isOnline());
+        slot.setStartTime(slot1.getStartTime());
         slot.setEndTime(slot1.getEndTime());
         slot.setMeetingDay(slot1.getMeetingDay());
         slot.setMode(slot1.getMode());
-        if(!slot1.isOnline()){
+        if(slot1.isOnline()){
+            slot.setLocation(null);
+        } else {
             slot.setLocation(slot1.getLocation());
         }
         slot = slotRepository.save(slot);
 
-//        Booking booking = bookingRepository.findBySlotId(slotDTO.getId());
-//        if(booking != null){
-//            slotDTO.setStudentName(booking.getStudent().getName());
-//        }
+        SlotDTO slotResponseDTO = mapSlot.convertSlotToSlotDTO(slot);
 
-
-        Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
+            Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
         if(student != null){
             Booking booking = new Booking(slot, student, 2);
             Booking s = bookingRepository.save(booking);
-            emailSenderService.sendHtmlEmail(student.getEmail(), s, 3);
+//            emailSenderService.sendHtmlEmail(student.getEmail(), s, 3);
         }
 
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){

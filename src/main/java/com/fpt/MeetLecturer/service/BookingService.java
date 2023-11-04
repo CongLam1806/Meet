@@ -77,21 +77,35 @@ public class BookingService {
         booking.setNote(bookingEntity.getNote());
         booking.setSlot(bookingEntity.getSlot());
         booking.setStudent(bookingEntity.getStudent());
-        bookingRepository.save(booking);
-        Optional<Slot> slot = slotRepository.findById(bookingEntity.getSlot().getId());
-        if (slot.isPresent()) {
-            Slot existingSlot = slot.get();
-            if (existingSlot.getMode() == 1) {
-                booking.setStatus(2);
-                bookingRepository.save(booking);
-                existingSlot.setStatus(false);
-                slotRepository.save(existingSlot);
-            }
-        };
+        boolean canBook = canBookSlotToday(bookingDTO.getStudentInfo().getStudentId(),
+                bookingDTO.getSlotInfo().getStartTime(),
+                bookingDTO.getSlotInfo().getEndTime(),
+                bookingDTO.getSlotInfo().getMeetingDate());
+        if (canBook) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseDTO(HttpStatus.OK, "Booking successfully", "")
-        );
+            bookingRepository.save(booking);
+            Optional<Slot> slot = slotRepository.findById(bookingEntity.getSlot().getId());
+            if (slot.isPresent()) {
+                Slot existingSlot = slot.get();
+
+                if (existingSlot.getMode() == 1) {
+                    booking.setStatus(2);
+                    bookingRepository.save(booking);
+                    existingSlot.setStatus(false);
+                    slotRepository.save(existingSlot);
+                }
+            };
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Booking successfully", "")
+            );
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Can't Book this slot because you already booked a slot that have the same time range", "sameTimeErr")
+            );
+        }
+
     }
 
     public ResponseEntity<ResponseDTO> setStatusWhenBooking(BookingDTO booking, int id) {
@@ -135,6 +149,28 @@ public class BookingService {
         } else {
             throw new RuntimeException("Can't find this booking information");
         }
+    }
+
+    public boolean canBookSlotToday(String studentId, LocalTime startTime, LocalTime endTime, LocalDate date) {
+
+        // Lấy danh sách các booking đã đặt trong ngày
+        List<Booking> bookingsToday = bookingRepository.findByStudentIdAndSlotMeetingDayAndStatusNot(studentId, date, 0);
+
+        // Kiểm tra xem có bất kỳ booking nào trong khoảng thời gian đã định
+        for (Booking booking : bookingsToday) {
+            LocalTime bookingStartTime = booking.getSlot().getStartTime();
+            LocalTime bookingEndTime = booking.getSlot().getEndTime();
+
+            // Nếu bất kỳ booking nào nằm trong khoảng thời gian hoặc chứa khoảng thời gian đã định, không cho phép đặt lịch
+            if ((startTime.isBefore(bookingEndTime) && endTime.isAfter(bookingStartTime)) ||
+                    (bookingStartTime.isBefore(endTime) && bookingEndTime.isAfter(startTime))||
+                    (bookingStartTime.equals(startTime) && bookingEndTime.equals(endTime)))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
