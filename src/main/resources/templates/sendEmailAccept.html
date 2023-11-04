@@ -93,10 +93,14 @@
                                 from <strong th:text="${startTime}"></strong> to
                                 <strong th:text="${endTime}"></strong>.
                             </div>
-                            <div class="content-block">
+                            <div class="content-block" th:if="${!isOnline}">
                                 The meeting is set to take place at
                                 <strong th:text="${location}"></strong>, located at
                                 <strong th:text="${address}"></strong>.
+                            </div>
+                            <div class="content-block" th:if="${isOnline}">
+                                The meeting has been scheduled on Google Meet, and the link is provided as follows:
+                                <span th:text="${linkMeet}">Meeting Link</span>
                             </div>
                             <div class="content-block">
                                 Kindly take note that this email is generated automatically, we

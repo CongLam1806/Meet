@@ -307,7 +307,7 @@ public class SlotService {
                     Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
                     Booking booking = new Booking(slot, student, 2);
                     bookingRepository.save(booking);
-                    emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3);
+                    emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3, booking.getSlot().isOnline());
                 }
             }
         return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "");

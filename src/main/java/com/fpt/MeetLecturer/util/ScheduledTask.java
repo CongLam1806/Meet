@@ -60,7 +60,7 @@ public class ScheduledTask {
             if (!inProgress.getSlot().isStatus()) {
                 inProgress.setStatus(0);
                 bookingRepository.save(inProgress);
-                emailSenderService.sendHtmlEmail(inProgress.getStudent().getEmail(), inProgress, 2);
+                emailSenderService.sendHtmlEmail(inProgress.getStudent().getEmail(), inProgress, 2, inProgress.getSlot().isOnline());
             }
         }
 
