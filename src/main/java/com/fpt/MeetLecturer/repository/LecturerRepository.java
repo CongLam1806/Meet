@@ -4,6 +4,7 @@ package com.fpt.MeetLecturer.repository;
 
 
 
+import com.fpt.MeetLecturer.business.SlotDTO;
 import com.fpt.MeetLecturer.entity.Lecturer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,10 @@ public interface LecturerRepository extends JpaRepository<Lecturer, String> {
     Lecturer findByEmail(String email);
     List<Lecturer> findByStatus(boolean status);
 
+    Lecturer findByEmailContains(String lecturerCode);
+
     Optional<Lecturer> findById(String id);
+    //Lecturer findBySlotList(SlotDTO slotDTO);
 
     Long countByStatus(boolean status);
 //    boolean existsByUserEmail(String email);

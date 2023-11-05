@@ -34,4 +34,6 @@ public class Booking_SlotDTO {
     private String locationName;
 
     private String locationAddress;
+
+    private boolean isOnline;
 }

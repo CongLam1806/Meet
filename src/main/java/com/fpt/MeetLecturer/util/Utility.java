@@ -59,6 +59,10 @@ public class Utility {
         }
         return null;
     }
+
+//    public String lecturerFirstOfEmail(String lecturerEmail){
+//
+//    }
     public  String extractDefaultAddress(String studentName){
         Pattern regex = Pattern.compile(pattern3);
         Matcher matcher = regex.matcher(studentName);

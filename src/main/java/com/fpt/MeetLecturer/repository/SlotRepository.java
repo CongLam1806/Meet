@@ -23,10 +23,30 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
             "ORDER BY meetingDay DESC", nativeQuery = true)
     List<Slot> findBySubjectCodeAndDate(String code, Date startDate, Date endDate);
 
+    @Query (value = "Select A.*\n" +
+            "            from (Slot A left join SlotSubject B on A.Id=B.slotId) \n" +
+            "\t\t\tfull join Lecturer L on L.Id = A.lecturerId\n" +
+            "\t\t\tfull join Subject C on B.subjectId=C.Id\n" +
+            "            where C.code = ?1 and A.meetingDay between ?2 and ?3 and A.status = 1 and L.email=?4\n" +
+            "            ORDER BY meetingDay DESC", nativeQuery = true)
+    List<Slot> findBySubjectCodeAndDateAndLecturerEmail(String code, Date startDate, Date endDate, String lecturerEmail);
+
+
     @Query(value = "SELECT * from Slot WHERE status = 1 and meetingDay between ?1 and ?2 ORDER BY meetingDay DESC", nativeQuery = true)
     List<Slot> findByStartDateBetween(Date startDate, Date endDate);
 
+    @Query(value = "SELECT s.* \n" +
+            "FROM Slot s\n" +
+            "LEFT JOIN Lecturer l ON s.lecturerId = l.id \n" +
+            "WHERE s.status = 1\n" +
+            "  AND s.meetingDay BETWEEN ?1 AND ?2\n" +
+            "  AND l.email = ?3\n" +
+            "ORDER BY s.meetingDay DESC;\n", nativeQuery = true)
+    List<Slot> findByStartDateBetweenAndLectureEmail(Date startDate, Date endDate, String lecturerEmail);
+
     List<Slot> findByStatusOrderByMeetingDayDesc(boolean status);
+
+    List<Slot> findSlotByLecturerEmailAndStatusOrderByMeetingDayDesc(String email, boolean status);
 
 
     List<Slot> findByLecturerIdAndToggleOrderByMeetingDayDesc(String id, boolean toggle);
@@ -34,6 +54,7 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     List<Slot> findByLecturerIdOrderByMeetingDayDesc(String id);
 
     List<Slot> findBySlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(String code, boolean status);
+    List<Slot> findByLecturerEmailAndSlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(String lecturerEmail, String code, boolean status);
 
 
     List<Slot> findByLecturerIdAndStatusOrderByMeetingDayDesc(String id, boolean status);

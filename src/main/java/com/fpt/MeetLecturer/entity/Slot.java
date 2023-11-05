@@ -72,7 +72,7 @@ public class Slot {
     @OneToMany(mappedBy = "slot")
     private List<Slot_Subject> slotSubjects;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "lecturerId", referencedColumnName = "Id")
     private Lecturer lecturer;
 
