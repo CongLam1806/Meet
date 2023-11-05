@@ -27,7 +27,6 @@ public class SlotController {
     @GetMapping("")
     public ResponseEntity<ResponseDTO> getAllSlot(){
         ResponseDTO responseDTO = slotService.getAllSlot();
-
         return ResponseEntity.ok().body(responseDTO);
     }
 
@@ -47,10 +46,16 @@ public class SlotController {
 
         return ResponseEntity.ok().body(responseDTO);
     }
+//
+//    @GetMapping("/taotest")
+//    public void getAllSlot(@RequestParam String id, @RequestParam int slot){
+//        slotService.getNewCreatedBooking(id, slot);
+//    }
 
 
     @PostMapping("")
     public ResponseEntity<ResponseDTO> createNew(@RequestBody SlotDTO model){
+
 
         return ResponseEntity.ok().body(slotService.createSlot(model));
     }
