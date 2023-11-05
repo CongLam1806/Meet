@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -64,15 +66,6 @@ public class SlotService {
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
-
-//
-//
-////            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
-////            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
-////            slotSubjectList.forEach(slotSubject -> {
-////                slotSubjectDTOS.add(slotSubject.getSubject().getCode());
-////            });
-////            slotDTO.setSlotSubjectDTOS(subjectCode);
         });
 
         return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
@@ -109,17 +102,6 @@ public class SlotService {
     }
 
     public List<SlotDTO> getSlotBySubjectCode(String code){
-
-//        List<Slot> slots = new ArrayList<>();
-//
-//        List<Slot_Subject> slotSubjects = slotSubjectRepository.findBySubjectCodeAndSlotStatusOrderBySlotMeetingDayDesc(code, true);
-//
-//        slotSubjects.forEach(slotSubject -> {
-//            slots.add(slotSubject.getSlot());
-//        });
-
-        //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY SUBJECT CODE ", mapSlot.convertListToSlotDTO(slots));
-
         List<Slot> slots = slotRepository.findBySlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(code, true);
         return mapSlot.convertListToSlotDTO(slots);
     }
@@ -135,6 +117,11 @@ public class SlotService {
 
         List<Slot> slots = slotRepository.findByLecturerEmailAndSlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(lecturerEmail, code, true);
         return mapSlot.convertListToSlotDTO(slots);
+    }
+
+    public void getNewCreatedBooking(String studentId, LocalTime start, LocalTime end, LocalDate date){
+        Booking booking = bookingRepository.findByStudent_EmailAndSlot_StartTimeAndSlot_EndTimeAndSlot_MeetingDayAndSlot_Mode(studentId, start, end, date, 2);
+        emailSenderService.sendHtmlEmail(studentId, booking, 3, booking.getSlot().isOnline());
     }
 
     public List<SlotDTO> getSlotByDate(Date startDate, Date endDate){
@@ -225,7 +212,8 @@ public class SlotService {
             slotSubjectRepository.save(slotSubject);
         }
 
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
+
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", "");
         return responseDTO;
     }
 
