@@ -105,10 +105,7 @@ public class SlotService {
         return mapSlot.convertListToSlotDTO(slots);
     }
 
-    public void getNewCreatedBooking(String studentId, LocalTime start, LocalTime end, LocalDate date){
-        Booking booking = bookingRepository.findByStudent_EmailAndSlot_StartTimeAndSlot_EndTimeAndSlot_MeetingDayAndSlot_Mode(studentId, start, end, date, 2);
-        emailSenderService.sendHtmlEmail(studentId, booking, 3, booking.getSlot().isOnline());
-    }
+
 
     public List<SlotDTO> getSlotByDate(Date startDate, Date endDate){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
@@ -195,6 +192,12 @@ public class SlotService {
             slotSubjectRepository.save(slotSubject);
         }
 
+        if (newSlot.getMode() == 2){
+            Booking booking = bookingRepository.
+                    findByStudent_EmailAndSlot_StartTimeAndSlot_EndTimeAndSlot_MeetingDayAndSlot_Mode
+                            (newSlot.getStudentEmail(), slot1.getStartTime(), slot1.getEndTime(), slot1.getMeetingDay(), 2);
+            emailSenderService.sendHtmlEmail(newSlot.getStudentEmail(), booking, 3, booking.getSlot().isOnline());
+        }
 
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE SLOT SUCCESSFULLY", "");
         return responseDTO;
