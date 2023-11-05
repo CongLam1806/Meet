@@ -50,7 +50,7 @@ public class LecturerService {
         Lecturer lecturer = lecturerRepository.findByStatusAndId(true, id);
         String lecturerLinkMeet = lecturer.getLinkMeet();
 
-        return new ResponseDTO(HttpStatus.OK, "FOUND ALL LECTURER EMAILS", lecturerLinkMeet);
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL LECTURER LiNK MEET", lecturerLinkMeet);
     }
 
     public List<String> getActiveLecturerEmail(){
