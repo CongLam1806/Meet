@@ -29,6 +29,8 @@ public class LecturerDTO {
 
     private String note;
 
+    private String linkMeet;
+
 //    private String password;
 
 //    private List<Subject_LecturerDTO> SubjectName;

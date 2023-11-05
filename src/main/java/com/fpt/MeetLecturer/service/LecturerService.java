@@ -92,6 +92,7 @@ public class LecturerService {
                 subjectLecturerService.updateSubjectLecturer(id, a.getSubjectId());
             }
             Lecturer existingLecturer = optionalLecturer.get();
+            existingLecturer.setLinkMeet(LecturerEntity.getLinkMeet());
             existingLecturer.setNote(LecturerEntity.getNote());
             existingLecturer.setPhone(LecturerEntity.getPhone());
             lecturerRepository.save(existingLecturer);
