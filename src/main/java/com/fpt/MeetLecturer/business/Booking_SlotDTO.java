@@ -31,6 +31,8 @@ public class Booking_SlotDTO {
 
     private String lecturerName;
 
+    private String lecturerLinkMeet;
+
     private String locationName;
 
     private String locationAddress;
