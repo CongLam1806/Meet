@@ -41,7 +41,7 @@ public class Utility {
     }
 
     public int addMajorToStudent(String code){
-        int majorId = 1;
+        int majorId = 0;
         if(code.matches(patternIT)){
             majorId = 1;
         } else if (code.matches(patternBA)){
