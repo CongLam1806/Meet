@@ -36,7 +36,7 @@ public class LocationService {
          return new ResponseDTO(HttpStatus.OK, "Personal locations:", output);
     }
     public ResponseDTO getAllPrivateLocation(String id){
-        List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findByLecturerIdAndToggle(id, true));
+        List<LocationDTO> output = mapLocation.tolocationDTOList(locationRepository.findByLecturerIdAndToggleAndStatus(id, true, false));
         return new ResponseDTO(HttpStatus.OK, "Private locations:", output);
     }
     public ResponseDTO deleteLocation(int id){
@@ -85,7 +85,7 @@ public class LocationService {
          return  new ResponseDTO(HttpStatus.OK, "Created!","");
     }
     public ResponseDTO lecLocationRecovery(String id){
-         List<LocationDTO> deletedLocation = mapLocation.tolocationDTOList(locationRepository.findByLecturerIdAndToggle(id, false));
+         List<LocationDTO> deletedLocation = mapLocation.tolocationDTOList(locationRepository.findByLecturerIdAndToggleAndStatus(id, false, false));
          return new ResponseDTO(HttpStatus.OK, "recovered", deletedLocation);
     }
 }
