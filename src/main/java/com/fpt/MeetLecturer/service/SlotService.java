@@ -67,10 +67,7 @@ public class SlotService {
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
         });
-
         return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS", slotList);
-        //return slotList;
-
     }
 
     public ResponseDTO getSlotByLecturerId(String lecturerId){
@@ -81,18 +78,8 @@ public class SlotService {
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
             }
-//            List<Slot_Subject> slotSubjectList = slotSubjectRepository.findBySlotId(slotDTO.getId());
-//            List<Slot_SubjectDTO> slotSubjectDTOS = new ArrayList<>();
-//            slotSubjectList.forEach(slotSubject -> {
-//                slotSubjectDTOS.add(slotSubject.getSubject().getCode());
-//            });
-//            slotDTO.setSlotSubjectDTOS(subjectCode);
-
         });
-
         return  new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS FOR LECTURER",slotsDTO);
-        //return mapSlot.convertListToSlotDTO(slotResponse);
-
     }
 
     public List<SlotDTO> getAllSlotAvaiNow(){
@@ -114,7 +101,6 @@ public class SlotService {
 
     public List<SlotDTO> getSlotByLecturerCodeAndSubjectCode(String code, String lecturerCode){
         String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
-
         List<Slot> slots = slotRepository.findByLecturerEmailAndSlotSubjectsSubjectCodeAndStatusOrderByMeetingDayDesc(lecturerEmail, code, true);
         return mapSlot.convertListToSlotDTO(slots);
     }
@@ -126,20 +112,17 @@ public class SlotService {
 
     public List<SlotDTO> getSlotByDate(Date startDate, Date endDate){
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetween(startDate, endDate));
-        //return new ResponseDTO(HttpStatus.OK, "FOUND ALL SLOTS BY DATE", slotsDTO);
         return slotsDTO;
     }
 
     public List<SlotDTO> getSlotByDateAndLecturerCode(Date startDate, Date endDate, String lecturerCode){
         String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findByStartDateBetweenAndLectureEmail(startDate, endDate, lecturerEmail));
-
         return slotsDTO;
     }
     public List<SlotDTO> getSlotBySubjectCodeAndDateAndLecturerEmail(String code, Date startDate, Date endDate, String lecturerCode){
         String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
         List<SlotDTO> slotsDTO = mapSlot.convertListToSlotDTO(slotRepository.findBySubjectCodeAndDateAndLecturerEmail(code, startDate, endDate, lecturerEmail));
-
         return slotsDTO;
     }
 
