@@ -325,6 +325,7 @@ public class SlotService {
                 slot.setEndTime(slot1.getEndTime());
                 slot.setMeetingDay(slot1.getMeetingDay());
                 slot.setMode(slot1.getMode());
+                if(slot1.getMode() == 2) slot.setStatus(false);
                 slot = slotRepository.save(slot);
                 //Subject
                 for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
