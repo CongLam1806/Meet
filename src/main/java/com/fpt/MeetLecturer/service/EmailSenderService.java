@@ -1,7 +1,10 @@
 package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.BookingDTO;
+import com.fpt.MeetLecturer.business.LecturerDTO;
 import com.fpt.MeetLecturer.entity.Booking;
+import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.repository.LecturerRepository;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,6 +17,8 @@ import java.time.ZoneId;
 
 @Service
 public class EmailSenderService {
+    @Autowired
+    private LecturerService lecturerService;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
@@ -28,6 +33,13 @@ public class EmailSenderService {
 
 
     public void sendHtmlEmail(String toEmail, Booking body, int Switch, boolean isOnline){
+        LecturerDTO lecturer = lecturerService.getLecturerById(body.getSlot().getLecturer().getId());
+        System.out.println("============================");
+        System.out.println("lecturer information: ");
+        System.out.println("lecturer name: " + lecturer.getName());
+        System.out.println("lecturer meeting link: " + lecturer.getLinkMeet());
+        System.out.println("lecturer Id: " + lecturer.getId());
+        System.out.println("============================");
         try {
             Context context = new Context();
             context.setVariable("isOnline", isOnline);
@@ -35,13 +47,13 @@ public class EmailSenderService {
             context.setVariable("startTime", body.getSlot().getStartTime());
             context.setVariable("endTime", body.getSlot().getEndTime());
             context.setVariable("meetingDate", body.getSlot().getMeetingDay());
-            context.setVariable("lecturerName", body.getSlot().getLecturer().getName());
+            context.setVariable("lecturerName", lecturer.getName());
 
             if (!isOnline){
                 context.setVariable("address", body.getSlot().getLocation().getAddress());
                 context.setVariable("location", body.getSlot().getLocation().getName());
             }
-            context.setVariable("linkMeet", body.getSlot().getLecturer().getLinkMeet());
+            context.setVariable("linkMeet", lecturer.getLinkMeet());
 
             MimeMessage message = getMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8_ENCODING);

@@ -284,7 +284,7 @@ public class SlotService {
                     if(student.isPresent()) {
                         Student student1 = student.get();
                         slotdto.setStudentEmail(student1.getEmail());
-                        slotdto.setLecturerName(student1.getName());
+                        slotdto.setStudentName(student1.getName());
                         slotdto.setStatus(false);
                     }
                 }
