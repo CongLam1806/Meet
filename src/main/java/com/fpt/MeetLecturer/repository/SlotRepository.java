@@ -46,6 +46,8 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     List<Slot> findByStatusOrderByMeetingDayDesc(boolean status);
 
+    List<Slot> findSlotByLecturerEmailAndStatusOrderByMeetingDayDesc(String email, boolean status);
+
 
     List<Slot> findByLecturerIdAndToggleOrderByMeetingDayDesc(String id, boolean toggle);
 

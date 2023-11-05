@@ -124,6 +124,12 @@ public class SlotService {
         return mapSlot.convertListToSlotDTO(slots);
     }
 
+    public List<SlotDTO> getSlotByLecturerCode(String lecturerCode){
+        String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
+        List<Slot> slots = slotRepository.findSlotByLecturerEmailAndStatusOrderByMeetingDayDesc(lecturerEmail, true);
+        return mapSlot.convertListToSlotDTO(slots);
+    }
+
     public List<SlotDTO> getSlotByLecturerCodeAndSubjectCode(String code, String lecturerCode){
         String lecturerEmail = lecturerRepository.findByEmailContains(lecturerCode).getEmail();
 
@@ -165,6 +171,8 @@ public class SlotService {
         } else if (code != null && startDate != null && endDate != null && lecturerCode != null) {
             slotsDTOList = getSlotBySubjectCodeAndDateAndLecturerEmail(code, startDate, endDate, lecturerCode);
 //        } else if (code != null && startDate != null and End)
+        } else if (code == null && startDate == null && endDate == null && lecturerCode != null) {
+            slotsDTOList = getSlotByLecturerCode(lecturerCode);
         } else if(code == null && startDate == null && endDate == null && lecturerCode == null){
             slotsDTOList = getAllSlotAvaiNow();
         }
