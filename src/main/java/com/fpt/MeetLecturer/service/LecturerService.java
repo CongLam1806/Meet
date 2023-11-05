@@ -46,13 +46,11 @@ public class LecturerService {
         return mapLecturer.convertListToLecturerDTO(lecturerRepository.findAll());
     }
 
-    public ResponseDTO getLecturerLinkMeet(){
-        List<Lecturer> lecturerList = lecturerRepository.findByStatus(true);
-        List<String> lecturerLinksMeet = new ArrayList<>();
-        lecturerList.forEach(lecturer -> {
-            lecturerLinksMeet.add(lecturer.getLinkMeet());
-        });
-        return new ResponseDTO(HttpStatus.OK, "FOUND ALL LECTURER EMAILS", lecturerLinksMeet);
+    public ResponseDTO getLecturerLinkMeet(String id){
+        Lecturer lecturer = lecturerRepository.findByStatusAndId(true, id);
+        String lecturerLinkMeet = lecturer.getLinkMeet();
+
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL LECTURER EMAILS", lecturerLinkMeet);
     }
 
     public List<String> getActiveLecturerEmail(){

@@ -43,8 +43,8 @@ public class LecturerController {
     }
 
     @GetMapping("/linkMeet")
-    public ResponseEntity<ResponseDTO> getLecturerLinkMeet(){
-        ResponseDTO responseDTO = lecturerService.getLecturerLinkMeet();
+    public ResponseEntity<ResponseDTO> getLecturerLinkMeet(@RequestParam(name="id", required = false) String id){
+        ResponseDTO responseDTO = lecturerService.getLecturerLinkMeet(id);
         return ResponseEntity.ok().body(responseDTO);
     }
     @GetMapping("/status")
