@@ -46,9 +46,9 @@ public class StudentController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO> updateStudent(@RequestBody @Valid StudentDTO model, @PathVariable("id") String id){
-        ResponseDTO responseDTO = studentService.updateStudent(model, id);
+    @PutMapping("")
+    public ResponseEntity<ResponseDTO> updateStudent(@RequestBody @Valid StudentDTO model){
+        ResponseDTO responseDTO = studentService.updateStudent(model);
         return ResponseEntity.ok().body(responseDTO);
     }
     @GetMapping("/indicator/{id}")
