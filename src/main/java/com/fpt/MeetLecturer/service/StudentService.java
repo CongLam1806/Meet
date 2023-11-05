@@ -39,7 +39,7 @@ public class StudentService {
             studentEmails.add(student.getEmail());
         });
 
-        return new ResponseDTO(HttpStatus.OK, "FOUND ALL STUDENTS", studentEmails);
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL STUDENT EMAILS", studentEmails);
     }
 
     public ResponseDTO getStudentById(String id){

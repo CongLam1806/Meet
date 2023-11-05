@@ -37,9 +37,15 @@ public class LecturerController {
         return lecturerService.getAllLecturer();
     }
 
-    @GetMapping("lecturerCode")
+    @GetMapping("/lecturerCode")
     public List<String> getActiveLecturerEmail(){
         return lecturerService.getActiveLecturerEmail();
+    }
+
+    @GetMapping("/linkMeet")
+    public ResponseEntity<ResponseDTO> getLecturerLinkMeet(){
+        ResponseDTO responseDTO = lecturerService.getLecturerLinkMeet();
+        return ResponseEntity.ok().body(responseDTO);
     }
     @GetMapping("/status")
     public List<LecturerDTO> getAllLecturerByStatus(){
