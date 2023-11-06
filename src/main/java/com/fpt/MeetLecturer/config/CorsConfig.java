@@ -27,7 +27,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*","https://meetinglecturers.giakhang3005.com")
+                .allowedOrigins("*","https://meetinglecturers.giakhang3005.com", "https://meeting-my-lecturers.vercel.app")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Methods", "Access-Control-Allow-Headers")
