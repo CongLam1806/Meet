@@ -252,6 +252,9 @@ public class SlotService {
                         slotdto.setLocationId(location1.getId());
                         slotdto.setLocationName(location1.getName());
                         slotdto.setLocationAddress(location1.getAddress());
+                    }else {
+                        failed++;
+                        continue;
                     }
                 }
                 //SubjectList
@@ -287,6 +290,10 @@ public class SlotService {
                     Lecturer lecturer1 = lecturer.get();
                     slotdto.setLecturerId(lecturer1.getId());
                     slotdto.setLecturerName(lecturer1.getName());
+                }
+                else {
+                    failed++;
+                    continue;
                 }
                 //check valid start time for new slot
                 System.out.println(slotdto);
@@ -326,6 +333,6 @@ public class SlotService {
                     emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3, booking.getSlot().isOnline());
                 }
             }
-        return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "Success: "+ success + "\n failed: " + failed);
+        return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "Success: "+ success + ", failed: " + failed);
     }
 }
