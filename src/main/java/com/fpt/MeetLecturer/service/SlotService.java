@@ -231,6 +231,8 @@ public class SlotService {
         return new ResponseDTO(HttpStatus.OK, "DELETE SLOT SUCCESSFULLY", "");
     }
     public ResponseDTO importFromExcel(List<ExcelDataDTO> excelDataDTOS, String id) {
+        int success = 0;
+        int failed = 0;
             for (ExcelDataDTO excelDataDTO: excelDataDTOS) {
                 // khởi tạo slotDTO để lấy gia trị từ array object
                 SlotDTO slotdto = new SlotDTO();
@@ -289,7 +291,10 @@ public class SlotService {
                 //check valid start time for new slot
                 System.out.println(slotdto);
                 boolean flag = utility.checkValidTime(slotdto);
-                if(!flag) continue;
+                if(!flag){
+                    failed++;
+                    continue;
+                }else success++;
                 //Map DTO vào Entity, tiến hành lưu thông tin vào DB
                 Slot slot1 = modelMapper.map(slotdto, Slot.class);
                 Slot slot = new Slot();
@@ -321,6 +326,6 @@ public class SlotService {
                     emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3, booking.getSlot().isOnline());
                 }
             }
-        return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "");
+        return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "Success: "+ success + "\n failed: " + failed);
     }
 }
