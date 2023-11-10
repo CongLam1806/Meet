@@ -237,8 +237,19 @@ public class SlotService {
                 // khởi tạo slotDTO để lấy gia trị từ array object
                 SlotDTO slotdto = new SlotDTO();
                 //MeetingDay
-                slotdto.setMeetingDay(excelDataDTO.getMeetingDay());
+                if(excelDataDTO.getMeetingDay().isBefore(LocalDate.now())){
+                    failed++;
+                    continue;
+                }else {
+                    slotdto.setMeetingDay(excelDataDTO.getMeetingDay());
+                }
+
                 //StartTime
+                LocalTime temp = excelDataDTO.getStartTime();
+                if(temp.isAfter(excelDataDTO.getEndTime())){
+                    excelDataDTO.setStartTime(excelDataDTO.getEndTime());
+                    excelDataDTO.setEndTime(temp);
+                }
                 slotdto.setStartTime(excelDataDTO.getStartTime());
                 //EndTime
                 slotdto.setEndTime(excelDataDTO.getEndTime());

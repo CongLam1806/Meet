@@ -84,12 +84,16 @@ public class Utility {
             LocalTime add = tmp.plusMinutes(14);
             LocalTime add2 = tmp2.minusMinutes(14);
             if (newSlotDate.equals(temp)) { // date comparison
+                if(newSlotStartTime.isBefore(LocalTime.now().plusHours(6))){
+                    System.out.println("Slot start time must after current time + 6 hours!!!");
+                    return false;
+                }
                 if (newSlotEndTime.isBefore(add2)) { // time comparison
                     return true;
                 }
                 if (newSlotStartTime.isBefore(add) || newSlotStartTime.equals(add)) { // time comparison
                     System.out.println(ex.getMeetingDay() +" - " + newSlotDate);
-                    System.out.println("not valid time (newSlotStartTime - add):" + newSlotStartTime + " - " + add);
+                    System.out.println("not valid time (newSlotStartTime - ExistedSlotStartTime):" + newSlotStartTime + " - " + add);
                     return false;
                 }
             }
