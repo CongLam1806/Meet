@@ -25,6 +25,8 @@ public class BookingDTO {
 
     private boolean toggle;
 
+    private String subject;
+
     private Booking_StudentDTO studentInfo;
 
     private List<Slot_SubjectDTO> subjectSlot;

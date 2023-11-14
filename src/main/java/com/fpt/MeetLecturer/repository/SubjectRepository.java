@@ -17,5 +17,4 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
 
     Boolean existsByCode(String code);
 
-
 }

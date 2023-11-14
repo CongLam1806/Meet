@@ -4,10 +4,15 @@ import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Slot;
+import com.fpt.MeetLecturer.entity.Slot_Subject;
+import com.fpt.MeetLecturer.entity.Subject;
 import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.mapper.MapBooking;
 import com.fpt.MeetLecturer.repository.BookingRepository;
 import com.fpt.MeetLecturer.repository.SlotRepository;
+import com.fpt.MeetLecturer.repository.SlotSubjectRepository;
+import com.fpt.MeetLecturer.repository.SubjectRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +29,9 @@ public class BookingService {
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private SlotSubjectRepository subjectRepository;
 
     @Autowired
     private GenericMap genericMap;
@@ -77,6 +85,21 @@ public class BookingService {
         booking.setNote(bookingEntity.getNote());
         booking.setSlot(bookingEntity.getSlot());
         booking.setStudent(bookingEntity.getStudent());
+
+        List<Slot_Subject> subjectList = subjectRepository.findBySlotId(bookingDTO.getSlotInfo().getId());
+        boolean foundSubject = false;
+        for (Slot_Subject subject : subjectList) {
+            if (bookingDTO.getSubject().equalsIgnoreCase(subject.getSubject().getCode())) {
+                booking.setSubject(subject.getSubject());
+                foundSubject = true;
+                break;
+            }
+        }
+
+        if (!foundSubject) {
+            throw new EntityNotFoundException("Can't find this subject");
+        }
+
         boolean canBook = canBookSlotToday(bookingDTO.getStudentInfo().getStudentId(),
                 bookingDTO.getSlotInfo().getStartTime(),
                 bookingDTO.getSlotInfo().getEndTime(),
