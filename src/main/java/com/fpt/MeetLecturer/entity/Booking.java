@@ -36,7 +36,7 @@ public class Booking {
     @JoinColumn(name = "studentId")
     private Student student;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "subjectId", referencedColumnName = "Id")
     private Subject subject;
 
