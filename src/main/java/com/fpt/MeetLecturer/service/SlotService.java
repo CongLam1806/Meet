@@ -77,6 +77,8 @@ public class SlotService {
             Booking booking = bookingRepository.findBySlotIdAndStatus(slotDTO.getId(), 2);
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
+                slotDTO.setStudentEmail(booking.getStudent().getEmail());
+                slotDTO.setStudentPhone(booking.getStudent().getPhone());
             }
 
 
