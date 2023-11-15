@@ -31,6 +31,8 @@ public class BookingDTO {
 
     private List<Slot_SubjectDTO> subjectSlot;
 
+    private Booking_LecturerDTO contactInfo;
+
 
 
 }

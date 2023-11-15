@@ -48,8 +48,10 @@ public class SlotDTO {
     private int locationId;
     private String locationName;
     private String locationAddress;
+
     private String lecturerId;
     private String lecturerName;
+
     private String linkMeet;
 
     private String studentName;
