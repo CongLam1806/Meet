@@ -337,7 +337,8 @@ public class SlotService {
                     slotSubjectRepository.save(slotSubject);
                 }
                 //Booking
-                if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {
+                if(!excelDataDTO.getStudentEmail().isEmpty() && excelDataDTO.getMode() == 2
+                        || !excelDataDTO.getStudentEmail().isBlank() && excelDataDTO.getMode() == 2) {
                     Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
                     Booking booking = new Booking(slot, student, 2);
                     bookingRepository.save(booking);
