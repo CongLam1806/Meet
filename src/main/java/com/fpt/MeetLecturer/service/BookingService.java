@@ -116,6 +116,7 @@ public class BookingService {
                     bookingRepository.save(booking);
                     existingSlot.setStatus(false);
                     slotRepository.save(existingSlot);
+                    emailSenderService.sendHtmlEmail(booking.getStudent().getEmail(), booking, 1, booking.getSlot().isOnline());
                 }
             };
 
