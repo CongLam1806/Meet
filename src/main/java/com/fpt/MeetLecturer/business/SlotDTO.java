@@ -57,7 +57,7 @@ public class SlotDTO {
     private String studentName;
     private String studentEmail;
     private String studentPhone;
-    private String subjectBooked;
+    private String subject;
 
 
     private List<Slot_SubjectDTO> slotSubjectDTOS;

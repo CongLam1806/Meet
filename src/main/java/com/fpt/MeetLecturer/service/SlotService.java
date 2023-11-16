@@ -82,7 +82,7 @@ public class SlotService {
                 slotDTO.setStudentPhone(booking.getStudent().getPhone());
                 Subject subjectBooked = booking.getSubject();
                 if(subjectBooked != null){
-                    slotDTO.setSubjectBooked(subjectBooked.getCode());
+                    slotDTO.setSubject(subjectBooked.getCode());
                 }
 
 
