@@ -53,6 +53,9 @@ public class AccountService {
 
     public ResponseDTO getAccountById(String id) {
         Account account = accountRepository.findByIdIgnoreCase(id);
+        if(account == null){
+            return new ResponseDTO(HttpStatus.NOT_FOUND,"ACCOUNT NOT EXIST!","" );
+        }
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ACCOUNT", mapAccount.convertAccountToAccountDTO(account));
         return responseDTO;
     }

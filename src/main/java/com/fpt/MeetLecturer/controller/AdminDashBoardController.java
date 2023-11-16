@@ -52,10 +52,11 @@ public class AdminDashBoardController {
     //http://localhost:8080/swagger-ui/index.html#/admin-dash-board-controller/dashboardIndicatorDisplay
     @GetMapping("/graph")
     public DashBoardChartDTO[] dashboardGraphDisplay2() {
-        DashBoardChartDTO[] response = new DashBoardChartDTO[6];
+        int monthCount = 6;
+        DashBoardChartDTO[] response = new DashBoardChartDTO[monthCount];
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         YearMonth currentMonth = YearMonth.from(today);
-        for (int i = 6; i > 0; i--) {
+        for (int i = monthCount; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
             long value = slotRepository.countByToggleAndMeetingDay(currentMonth.getYear(), currentMonth.getMonthValue());
             long meetingCount = bookingRepository.countMeetingByDateAdmin(currentMonth.getYear(), currentMonth.getMonthValue());
@@ -65,7 +66,7 @@ public class AdminDashBoardController {
             dashBoardChartDTO.setSlotCount(value);
             dashBoardChartDTO.setMeetingCount(meetingCount);
             dashBoardChartDTO.setTotalMeetingTime(totalMeetingTime);
-            response[6-i] = dashBoardChartDTO;
+            response[monthCount-i] = dashBoardChartDTO;
             if (currentMonth.getMonthValue() == 1) {
                 currentMonth = currentMonth.minusYears(1).plusMonths(11);
             } else {
