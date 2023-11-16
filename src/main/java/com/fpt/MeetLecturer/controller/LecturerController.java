@@ -126,7 +126,7 @@ public class LecturerController {
         DashBoardChartDTO[] response = new DashBoardChartDTO[10];
         LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
             LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
             long value = slotRepository.countByWeekForLecturer(weekStart,weekEnd, id);
