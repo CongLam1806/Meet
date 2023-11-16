@@ -59,8 +59,14 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE YEAR(b.meetingDay) = ?1 AND MONTH(b.meetingDay) = ?2 AND a.studentId = ?3 AND a.status = 2", nativeQuery = true)
     Long countMeetingByDate(int year, int month, String id);
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
+            "WHERE YEAR(b.meetingDay) = ?1 AND MONTH(b.meetingDay) = ?2 AND a.status = 2", nativeQuery = true)
+    Long countMeetingByDateAdmin(int year, int month);
+    @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
             "WHERE b.meetingDay between ?1 and ?2 AND a.studentId = ?3 AND a.status = 2", nativeQuery = true)
     Long countMeetingByWeek(LocalDate start, LocalDate end, String id);
+    @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Booking] a left join [dbo].[Slot] b on a.slotId = b.Id " +
+            "WHERE b.meetingDay between ?1 and ?2 AND a.status = 2", nativeQuery = true)
+    Long countMeetingByWeekAdmin(LocalDate start, LocalDate end);
 
 
     @Query(value = "select b1_0.*\n" +

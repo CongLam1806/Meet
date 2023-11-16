@@ -295,6 +295,9 @@ public class SlotService {
                 }
                 slotdto.setSlotSubjectDTOS(subjectList);
                 //SlotMode
+                if(excelDataDTO.getMode() > 2){
+                    excelDataDTO.setMode(1);
+                }
                 slotdto.setMode(excelDataDTO.getMode());
                 //StudentName
                 if(!excelDataDTO.getStudentEmail().isEmpty() || !excelDataDTO.getStudentEmail().isBlank()) {

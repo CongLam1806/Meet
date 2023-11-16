@@ -2,12 +2,14 @@ package com.fpt.MeetLecturer.controller;
 
 import com.fpt.MeetLecturer.business.DashBoardChartDTO;
 import com.fpt.MeetLecturer.repository.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -56,9 +58,13 @@ public class AdminDashBoardController {
         for (int i = 6; i > 0; i--) {
             String key = currentMonth.getMonthValue() + "/" + currentMonth.getYear();
             long value = slotRepository.countByToggleAndMeetingDay(currentMonth.getYear(), currentMonth.getMonthValue());
+            long meetingCount = bookingRepository.countMeetingByDateAdmin(currentMonth.getYear(), currentMonth.getMonthValue());
+            Time totalMeetingTime = slotRepository.totalMeetingTimeAdminMonth(currentMonth.getYear(), currentMonth.getMonthValue());
             DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
             dashBoardChartDTO.setMonth(key);
             dashBoardChartDTO.setSlotCount(value);
+            dashBoardChartDTO.setMeetingCount(meetingCount);
+            dashBoardChartDTO.setTotalMeetingTime(totalMeetingTime);
             response[6-i] = dashBoardChartDTO;
             if (currentMonth.getMonthValue() == 1) {
                 currentMonth = currentMonth.minusYears(1).plusMonths(11);
@@ -68,7 +74,7 @@ public class AdminDashBoardController {
         }
         return response;
     }
-    @GetMapping("/graph/slot/week")
+    @GetMapping("/graph/week")
     public DashBoardChartDTO[] dashboardGraphDisplay(/*@PathVariable("week") int week*/) {
         int length = 15;
         DashBoardChartDTO[] response = new DashBoardChartDTO[length];
@@ -78,10 +84,14 @@ public class AdminDashBoardController {
             LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
             LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
             long value = slotRepository.countByWeekForAdmin(weekStart,weekEnd);
+            Time totalMeetingTime = slotRepository.totalMeetingTimeAdmin(weekStart,weekEnd);
+            long meetingCount = bookingRepository.countMeetingByWeekAdmin(weekStart, weekEnd);
             String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
             DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
             dashBoardChartDTO.setMonth(key);
             dashBoardChartDTO.setSlotCount(value);
+            dashBoardChartDTO.setMeetingCount(meetingCount);
+            dashBoardChartDTO.setTotalMeetingTime(totalMeetingTime);
             response[i] = dashBoardChartDTO;
 
         }
