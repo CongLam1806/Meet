@@ -75,10 +75,18 @@ public class SlotService {
         slotsDTO.forEach(slotDTO -> {
             System.out.println(slotDTO.getId());
             Booking booking = bookingRepository.findBySlotIdAndStatus(slotDTO.getId(), 2);
+
             if(booking != null){
                 slotDTO.setStudentName(booking.getStudent().getName());
                 slotDTO.setStudentEmail(booking.getStudent().getEmail());
                 slotDTO.setStudentPhone(booking.getStudent().getPhone());
+                Subject subjectBooked = booking.getSubject();
+                if(subjectBooked != null){
+                    slotDTO.setSubjectBooked(subjectBooked.getCode());
+                }
+
+
+
             }
 
 
