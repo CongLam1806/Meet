@@ -42,9 +42,10 @@ public class Booking {
 
 
 
-    public Booking(Slot slot, Student student, int status) {
+    public Booking(Slot slot, Student student, Subject subject, int status) {
         this.slot = slot;
         this.student = student;
+        this.subject = subject;
         this.status = 2;
     }
 }

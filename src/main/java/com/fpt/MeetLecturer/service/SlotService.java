@@ -195,15 +195,16 @@ public class SlotService {
 
         SlotDTO slotResponseDTO = mapSlot.convertSlotToSlotDTO(slot);
 
-            Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
-        if(student != null){
-            Booking booking = new Booking(slot, student, 2);
-            Booking s = bookingRepository.save(booking);
-//            emailSenderService.sendHtmlEmail(student.getEmail(), s, 3);
-        }
+        Student student = studentRepository.findByEmail(newSlot.getStudentEmail());
+
 
         for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
             Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
+            if(student != null){
+                Booking booking = new Booking(slot, student, subject, 2);
+                Booking s = bookingRepository.save(booking);
+//            emailSenderService.sendHtmlEmail(student.getEmail(), s, 3);
+            }
             Slot_Subject slotSubject = new Slot_Subject(slot, subject);
             slotSubjectRepository.save(slotSubject);
         }
