@@ -98,15 +98,16 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     @Query(value = "SELECT TOP 1 d.code\n" +
             "FROM Slot a\n" +
+            "FULL JOIN Booking b ON a.Id = b.slotId\n" +
             "LEFT JOIN SlotSubject c ON a.Id = c.slotId\n" +
             "FULL JOIN Subject d ON d.Id = c.subjectId\n" +
-            "WHERE a.lecturerId = ?1 AND a.status = 0\n" +
+            "WHERE a.lecturerId = ?1 AND a.status = 0 AND b.status = 2\n" +
             "GROUP BY d.code\n" +
             "ORDER BY COUNT(*) DESC", nativeQuery = true)
     String mostDiscussSubjectLecturer(String id);
 
-    @Query(value = "SELECT TOP 1 d.code as mostDiscuss FROM Slot a left JOIN  (SlotSubject c full join Subject d on d.Id = c.subjectId) on a.Id = c.slotId\n" +
-            "WHERE a.lecturerId = ?1 AND a.status = 0 AND YEAR(meetingDay) = ?2 AND MONTH(meetingDay) = ?3", nativeQuery = true)
+    @Query(value = "SELECT TOP 1 d.code as mostDiscuss FROM (Slot a FULL JOIN Booking b ON a.Id = b.slotId) left JOIN  (SlotSubject c full join Subject d on d.Id = c.subjectId) on a.Id = c.slotId\n" +
+            "WHERE a.lecturerId = ?1 AND a.status = 0 AND b.status = 2 AND YEAR(meetingDay) = ?2 AND MONTH(meetingDay) = ?3 GROUP BY d.code ORDER BY COUNT(*) DESC", nativeQuery = true)
     String mostDiscussSubjectLecturerMonth(String id, int year, int month);
 
 
