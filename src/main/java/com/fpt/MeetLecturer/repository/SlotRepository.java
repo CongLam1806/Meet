@@ -60,12 +60,12 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     List<Slot> findByLecturerIdAndStatusOrderByMeetingDayDesc(String id, boolean status);
     //Admin:
     @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
-            "FROM [dbo].[Slot] " +
-            "WHERE status = 0 AND YEAR(meetingDay) = ?1 AND MONTH(meetingDay) = ?2 ", nativeQuery = true)
+            "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
+            "WHERE a.status = 0 AND YEAR(meetingDay) = ?1 AND MONTH(meetingDay) = ?2 AND b.status = 2 ", nativeQuery = true)
     Time totalMeetingTimeAdminMonth(int year, int month);
     @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
-            "FROM [dbo].[Slot] " +
-            "WHERE status = 0 AND meetingDay between ?1 and ?2", nativeQuery = true)
+            "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
+            "WHERE a.status = 0 AND meetingDay between ?1 and ?2 AND b.status = 2 ", nativeQuery = true)
     Time totalMeetingTimeAdmin(LocalDate start, LocalDate end);
     @Query(value = "SELECT COUNT(*) FROM [dbo].[Slot] " +
             "WHERE meetingDay between ?1 and ?2 AND toggle = 1", nativeQuery = true)
@@ -77,14 +77,14 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     //Lecturer:
     Long countByLecturerIdAndToggle(String id, boolean toggle);
 
-    @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
-            "FROM [dbo].[Slot] " +
-            "WHERE [lecturerId] = ?1 AND status = 0", nativeQuery = true)
+    @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, a.startTime, a.endTime)), 0)) AS TotalMeetingTime " +
+            "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
+            "WHERE a.lecturerId = ?1 AND a.status = 0 AND b.status = 2", nativeQuery = true)//AND a.status = 0 AND b.status = 2 AND YEAR(a.meetingDay) between 2020 and 2030
     Time totalMeetingTime(String id);
 
     @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
-            "FROM [dbo].[Slot] " +
-            "WHERE [lecturerId] = ?1 AND status = 0 AND YEAR(meetingDay) = ?2 AND MONTH(meetingDay) = ?3", nativeQuery = true)
+            "FROM [dbo].[Slot] a left join Booking b on a.Id = b.slotId " +
+            "WHERE a.lecturerId = ?1 AND a.status = 0 AND YEAR(a.meetingDay) = ?2 AND MONTH(a.meetingDay) = ?3 AND b.status = 2", nativeQuery = true)
     Time totalMeetingTimeMonth(String id, int year, int month);
 
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Slot] " +
@@ -96,8 +96,13 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
     Long countByWeekForLecturer(LocalDate start, LocalDate end, String id);
 
 
-    @Query(value = "SELECT TOP 1 d.code as mostDiscuss FROM Slot a left JOIN  (SlotSubject c full join Subject d on d.Id = c.subjectId) on a.Id = c.slotId\n" +
-            "WHERE a.lecturerId = ?1 AND a.status = 0", nativeQuery = true)
+    @Query(value = "SELECT TOP 1 d.code\n" +
+            "FROM Slot a\n" +
+            "LEFT JOIN SlotSubject c ON a.Id = c.slotId\n" +
+            "FULL JOIN Subject d ON d.Id = c.subjectId\n" +
+            "WHERE a.lecturerId = ?1 AND a.status = 0\n" +
+            "GROUP BY d.code\n" +
+            "ORDER BY COUNT(*) DESC", nativeQuery = true)
     String mostDiscussSubjectLecturer(String id);
 
     @Query(value = "SELECT TOP 1 d.code as mostDiscuss FROM Slot a left JOIN  (SlotSubject c full join Subject d on d.Id = c.subjectId) on a.Id = c.slotId\n" +
