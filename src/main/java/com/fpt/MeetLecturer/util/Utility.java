@@ -84,10 +84,6 @@ public class Utility {
             LocalTime add = tmp.plusMinutes(14);
             LocalTime add2 = tmp2.minusMinutes(14);
             if (newSlotDate.equals(temp)) { // date comparison
-                if(newSlotStartTime.isBefore(LocalTime.now().plusHours(6))){
-                    System.out.println("Slot start time must after current time + 6 hours!!!");
-                    return false;
-                }
                 if (newSlotEndTime.isBefore(add2)) { // time comparison
                     return true;
                 }
@@ -101,6 +97,12 @@ public class Utility {
                 System.out.println(LocalDate.now());
                 System.out.println("not valid date! New slot date is before current date!!");
                 return false;
+            }
+            if(newSlotDate.equals(LocalDate.now())){
+                if(newSlotStartTime.isBefore(LocalTime.now().plusHours(6))){
+                    System.out.println("Slot start time must after current time + 6 hours!!!");
+                    return false;
+                }
             }
         }
         return true;
