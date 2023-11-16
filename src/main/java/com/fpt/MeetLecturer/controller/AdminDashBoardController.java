@@ -4,10 +4,8 @@ import com.fpt.MeetLecturer.business.DashBoardChartDTO;
 import com.fpt.MeetLecturer.repository.*;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
@@ -76,25 +74,67 @@ public class AdminDashBoardController {
         return response;
     }
     @GetMapping("/graph/week")
-    public DashBoardChartDTO[] dashboardGraphDisplay(/*@PathVariable("week") int week*/) {
-        int length = 15;
-        DashBoardChartDTO[] response = new DashBoardChartDTO[length];
-        LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusWeeks(5);
+    public ArrayList<DashBoardChartDTO> dashboardGraphDisplay(@RequestParam(name="startDay", required = false) String start,
+                                                     @RequestParam(name="endDay", required = false) String end){
+        int length = 10;
+        ArrayList<DashBoardChartDTO> response = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        for (int i = 0; i < length; i++) {
-            LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-            LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-            long value = slotRepository.countByWeekForAdmin(weekStart,weekEnd);
-            Time totalMeetingTime = slotRepository.totalMeetingTimeAdmin(weekStart,weekEnd);
-            long meetingCount = bookingRepository.countMeetingByWeekAdmin(weekStart, weekEnd);
-            String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
-            DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
-            dashBoardChartDTO.setMonth(key);
-            dashBoardChartDTO.setSlotCount(value);
-            dashBoardChartDTO.setMeetingCount(meetingCount);
-            dashBoardChartDTO.setTotalMeetingTime(totalMeetingTime);
-            response[i] = dashBoardChartDTO;
+        LocalDate startDate = null;
+        LocalDate endDate = null;
+        if(start != null && end != null) {
+            startDate = LocalDate.parse(start, formatter);
+            endDate = LocalDate.parse(end, formatter);
+            int i = 0;
+            while (true) {
+                LocalDate weekStart;
+                LocalDate weekEnd;
 
+                weekStart = endDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                if (weekStart.isBefore(startDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))) {
+                    break;
+                }
+                weekEnd = endDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+                long value = slotRepository.countByWeekForAdmin(weekStart, weekEnd);
+                Time totalMeetingTime = slotRepository.totalMeetingTimeAdmin(weekStart, weekEnd);
+                long meetingCount = bookingRepository.countMeetingByWeekAdmin(weekStart, weekEnd);
+                String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
+
+                DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
+                dashBoardChartDTO.setMonth(key);
+                dashBoardChartDTO.setSlotCount(value);
+                dashBoardChartDTO.setMeetingCount(meetingCount);
+                dashBoardChartDTO.setTotalMeetingTime(totalMeetingTime);
+
+                response.add(dashBoardChartDTO);
+                i++;
+            }
+        }else {
+            for (int i = 0; i < length; i++) {
+                LocalDate weekStart;
+                LocalDate weekEnd;
+                if (endDate != null && startDate != null) {
+                    weekStart = endDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                    if (weekStart.isBefore(startDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))) {
+                        break;
+                    }
+                    weekEnd = endDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+                } else {
+                    weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                    weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+                }
+                long value = slotRepository.countByWeekForAdmin(weekStart, weekEnd);
+                Time totalMeetingTime = slotRepository.totalMeetingTimeAdmin(weekStart, weekEnd);
+                long meetingCount = bookingRepository.countMeetingByWeekAdmin(weekStart, weekEnd);
+                String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
+                DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
+                dashBoardChartDTO.setMonth(key);
+                dashBoardChartDTO.setSlotCount(value);
+                dashBoardChartDTO.setMeetingCount(meetingCount);
+                dashBoardChartDTO.setTotalMeetingTime(totalMeetingTime);
+                response.add(dashBoardChartDTO);
+            }
         }
         return response;
     }
@@ -159,6 +199,30 @@ public class AdminDashBoardController {
 //                dashBoardChartDTO.setSlotCount(value);
 //                response[i] = dashBoardChartDTO;
 //            }
+//        }
+//        return response;
+//    }
+
+//    @GetMapping("/graph/week")
+//    public DashBoardChartDTO[] dashboardGraphDisplay(/*@PathVariable("week") int week*/) {
+//        int length = 15;
+//        DashBoardChartDTO[] response = new DashBoardChartDTO[length];
+//        LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusWeeks(5);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        for (int i = 0; i < length; i++) {
+//            LocalDate weekStart = currentDate.minusWeeks(i).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+//            LocalDate weekEnd = currentDate.minusWeeks(i).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+//            long value = slotRepository.countByWeekForAdmin(weekStart,weekEnd);
+//            Time totalMeetingTime = slotRepository.totalMeetingTimeAdmin(weekStart,weekEnd);
+//            long meetingCount = bookingRepository.countMeetingByWeekAdmin(weekStart, weekEnd);
+//            String key = weekStart.format(formatter) + " - " + weekEnd.format(formatter);
+//            DashBoardChartDTO dashBoardChartDTO = new DashBoardChartDTO();
+//            dashBoardChartDTO.setMonth(key);
+//            dashBoardChartDTO.setSlotCount(value);
+//            dashBoardChartDTO.setMeetingCount(meetingCount);
+//            dashBoardChartDTO.setTotalMeetingTime(totalMeetingTime);
+//            response[i] = dashBoardChartDTO;
+//
 //        }
 //        return response;
 //    }
