@@ -307,6 +307,9 @@ public class SlotService {
                         slotdto.setStudentEmail(student1.getEmail());
                         slotdto.setStudentName(student1.getName());
                         slotdto.setStatus(false);
+                    }else {
+                        failed++;
+                        continue;
                     }
                 }
                 //SlotPassword
