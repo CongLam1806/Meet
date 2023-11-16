@@ -76,7 +76,7 @@ public class AdminDashBoardController {
     @GetMapping("/graph/week")
     public ArrayList<DashBoardChartDTO> dashboardGraphDisplay(@RequestParam(name="startDay", required = false) String start,
                                                      @RequestParam(name="endDay", required = false) String end){
-        int length = 10;
+        int length = 8;
         ArrayList<DashBoardChartDTO> response = new ArrayList<>();
         LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
