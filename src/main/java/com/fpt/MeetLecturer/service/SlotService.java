@@ -359,10 +359,15 @@ public class SlotService {
                 //Booking
                 if(!excelDataDTO.getStudentEmail().isEmpty() && excelDataDTO.getMode() == 2
                         || !excelDataDTO.getStudentEmail().isBlank() && excelDataDTO.getMode() == 2) {
-                    Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
-                    Booking booking = new Booking(slot, student, 2);
-                    bookingRepository.save(booking);
-                    emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3, booking.getSlot().isOnline());
+                    for (Slot_SubjectDTO slotSubjectDTO : slotdto.getSlotSubjectDTOS()) {
+                        Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
+                        Student student = studentRepository.findByEmail(excelDataDTO.getStudentEmail());
+                        Booking booking = new Booking(slot, student, subject,2);
+                        bookingRepository.save(booking);
+                        emailSenderService.sendHtmlEmail(student.getEmail(), booking, 3, booking.getSlot().isOnline());
+                    }
+
+
                 }
             }
         return new ResponseDTO(HttpStatus.OK, "Slots added successfully!", "Success: "+ success + ", failed: " + failed);
