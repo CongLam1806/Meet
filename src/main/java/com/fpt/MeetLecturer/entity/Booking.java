@@ -48,4 +48,11 @@ public class Booking {
         this.subject = subject;
         this.status = 2;
     }
+
+    public Booking(Slot slot, Student student, int status) {
+        this.slot = slot;
+        this.student = student;
+        this.subject = subject;
+        this.status = 2;
+    }
 }
