@@ -52,7 +52,6 @@ public class Booking {
     public Booking(Slot slot, Student student, int status) {
         this.slot = slot;
         this.student = student;
-        this.subject = subject;
         this.status = 2;
     }
 }
