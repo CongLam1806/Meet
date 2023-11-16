@@ -52,7 +52,7 @@ public class AccountService {
 //    }
 
     public ResponseDTO getAccountById(String id) {
-        Account account = accountRepository.findById(id).orElseThrow();
+        Account account = accountRepository.findByIdIgnoreCase(id);
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ACCOUNT", mapAccount.convertAccountToAccountDTO(account));
         return responseDTO;
     }
