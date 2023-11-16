@@ -17,6 +17,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.time.ZoneId;
+import java.util.Optional;
 
 @Service
 public class EmailSenderService {
@@ -37,10 +38,9 @@ public class EmailSenderService {
     private static final String fromEmail = "Meeting My Lecturer";
 
 
-
-    public void sendHtmlEmail(String toEmail, Booking body, int Switch, boolean isOnline){
+    public void sendHtmlEmail(String toEmail, Booking body, int Switch, boolean isOnline) {
         LecturerDTO lecturer = lecturerService.getLecturerById(body.getSlot().getLecturer().getId());
-        Location location = locationRepository.findById(body.getSlot().getLocation().getId()).orElseThrow();
+
         try {
             Context context = new Context();
             context.setVariable("isOnline", isOnline);
@@ -50,9 +50,14 @@ public class EmailSenderService {
             context.setVariable("meetingDate", body.getSlot().getMeetingDay());
             context.setVariable("lecturerName", lecturer.getName());
 
-            if (!isOnline){
-                context.setVariable("address", location.getAddress());
-                context.setVariable("location", location.getName());
+
+            if (!isOnline) {
+                Optional<Location> location = locationRepository.findById(body.getSlot().getLocation().getId());
+                if (location.isPresent()) {
+                    Location a = location.get();
+                    context.setVariable("address", a.getAddress());
+                    context.setVariable("location", a.getName());
+                }
             }
             context.setVariable("linkMeet", lecturer.getLinkMeet());
 
@@ -62,15 +67,13 @@ public class EmailSenderService {
             helper.setSubject(SUBJECT);
             helper.setFrom("truongthanhvu2337@gmail.com", fromEmail);
             helper.setTo(toEmail);
-            if (Switch == 1){
+            if (Switch == 1) {
                 String accept = templateEngine.process(EMAIL_ACCEPT_TEMPLATE, context);
                 helper.setText(accept, true);
-            }
-            else if (Switch == 2){
+            } else if (Switch == 2) {
                 String decline = templateEngine.process(EMAIL_DECLINE_TEMPLATE, context);
                 helper.setText(decline, true);
-            }
-            else {
+            } else {
                 String assign = templateEngine.process(EMAIL_ASSIGN_TEMPLATE, context);
                 helper.setText(assign, true);
             }
@@ -82,6 +85,6 @@ public class EmailSenderService {
 
 
     private MimeMessage getMimeMessage() {
-        return  mailSender.createMimeMessage();
+        return mailSender.createMimeMessage();
     }
 }
