@@ -2,9 +2,12 @@ package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.LecturerDTO;
+import com.fpt.MeetLecturer.business.LocationDTO;
 import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Location;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
+import com.fpt.MeetLecturer.repository.LocationRepository;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +22,9 @@ import java.time.ZoneId;
 public class EmailSenderService {
     @Autowired
     private LecturerService lecturerService;
+
+    @Autowired
+    private LocationRepository locationRepository;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
@@ -34,12 +40,7 @@ public class EmailSenderService {
 
     public void sendHtmlEmail(String toEmail, Booking body, int Switch, boolean isOnline){
         LecturerDTO lecturer = lecturerService.getLecturerById(body.getSlot().getLecturer().getId());
-        System.out.println("============================");
-        System.out.println("lecturer information: ");
-        System.out.println("lecturer name: " + lecturer.getName());
-        System.out.println("lecturer meeting link: " + lecturer.getLinkMeet());
-        System.out.println("lecturer Id: " + lecturer.getId());
-        System.out.println("============================");
+        Location location = locationRepository.findById(body.getSlot().getLocation().getId()).orElseThrow();
         try {
             Context context = new Context();
             context.setVariable("isOnline", isOnline);
@@ -50,8 +51,8 @@ public class EmailSenderService {
             context.setVariable("lecturerName", lecturer.getName());
 
             if (!isOnline){
-                context.setVariable("address", body.getSlot().getLocation().getAddress());
-                context.setVariable("location", body.getSlot().getLocation().getName());
+                context.setVariable("address", location.getAddress());
+                context.setVariable("location", location.getName());
             }
             context.setVariable("linkMeet", lecturer.getLinkMeet());
 
