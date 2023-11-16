@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account,String> {
     Account findByIdIgnoreCase(String id);
+    long countByRoleAndStatus(int role, boolean status);
 }

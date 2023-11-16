@@ -59,7 +59,13 @@ public interface SlotRepository extends JpaRepository<Slot,Integer> {
 
     List<Slot> findByLecturerIdAndStatusOrderByMeetingDayDesc(String id, boolean status);
     //Admin:
-
+    @Query(value = "SELECT CONVERT(TIME, DATEADD(SECOND, SUM(DATEDIFF(SECOND, startTime, endTime)), 0)) AS TotalMeetingTime " +
+            "FROM [dbo].[Slot] " +
+            "WHERE status = 0", nativeQuery = true)
+    Time totalMeetingTimeAdmin();
+    @Query(value = "SELECT COUNT(*) FROM [dbo].[Slot] " +
+            "WHERE meetingDay between ?1 and ?2 AND toggle = 1", nativeQuery = true)
+    Long countByWeekForAdmin(LocalDate start, LocalDate end);
     Long countByToggle(boolean toggle);
     @Query(value = "SELECT COUNT(*) as count  FROM [dbo].[Slot]\n" +
             "WHERE YEAR(meetingDay) = ?1 AND MONTH(meetingDay) = ?2 AND [toggle] = 1", nativeQuery = true)
