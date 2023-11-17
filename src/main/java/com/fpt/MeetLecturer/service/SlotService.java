@@ -271,7 +271,7 @@ public class SlotService {
                 slotdto.setStartTime(excelDataDTO.getStartTime());
                 //EndTime
                 slotdto.setEndTime(excelDataDTO.getEndTime());
-                if(slotdto.getStartTime().plusMinutes(135).isAfter(slotdto.getEndTime())){
+                if(slotdto.getStartTime().plusMinutes(135).isBefore(slotdto.getEndTime())){
                     failed++;
                     continue;
                 }
