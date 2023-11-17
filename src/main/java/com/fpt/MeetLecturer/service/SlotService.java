@@ -33,6 +33,7 @@ public class SlotService {
     @Autowired
     private LecturerRepository lecturerRepository;
 
+
     @Autowired
     private BookingRepository bookingRepository;
 
@@ -222,14 +223,30 @@ public class SlotService {
 
 
     public ResponseDTO updateSlot(SlotDTO newSlot, int id){
-        boolean flag = utility.checkValidTime(newSlot);
+//        boolean flag = utility.checkValidTime(newSlot);
 //        if(!flag) {
 //            return new ResponseDTO(HttpStatus.OK,
 //                    "Slot start time must after existing slot end time at least 15 minutes", "error");
 //        }
         Slot slot;
         slot = slotRepository.findById(id).orElseThrow();
-        modelMapper.map(newSlot, slot);
+        System.out.println(slot.getId());
+        if(!slot.isOnline()){
+            Location location = locationRepository.findById(newSlot.getLocationId()).orElseThrow();
+            slot.setLocation(location);
+        } else {
+            slot.setLocation(null);
+        }
+        slotSubjectRepository.deleteBySlotId(newSlot.getId());
+
+        for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
+            Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
+
+            Slot_Subject slotSubject = new Slot_Subject(slot, subject);
+            slotSubjectRepository.save(slotSubject);
+        }
+        slot.setPassword(newSlot.getPassword());
+
         slotRepository.save(slot);
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "UPDATE SLOT SUCCESSFULLY", mapSlot.convertSlotToSlotDTO(slot));
         return responseDTO;
