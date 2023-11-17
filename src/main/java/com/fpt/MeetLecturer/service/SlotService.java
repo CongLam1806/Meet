@@ -237,6 +237,10 @@ public class SlotService {
 
     public ResponseDTO deleteSlot(int id) {
         Slot slot = slotRepository.findById(id).orElseThrow();
+        List<Booking> booking = bookingRepository.findBySlotIdAndToggleAndStatus(id, true,1);
+        if(!booking.isEmpty()){
+            return new ResponseDTO(HttpStatus.OK, "DELETE SLOT FAILED", "BookingExist");
+        }
         if(slot.isToggle()){
             slot.setToggle(false);
             slot.setStatus(false);
