@@ -248,6 +248,10 @@ public class SlotService {
         int success = 0;
         int failed = 0;
             for (ExcelDataDTO excelDataDTO: excelDataDTOS) {
+                if(excelDataDTO == null){
+                    failed++;
+                    continue;
+                }
                 // khởi tạo slotDTO để lấy gia trị từ array object
                 SlotDTO slotdto = new SlotDTO();
                 //MeetingDay
