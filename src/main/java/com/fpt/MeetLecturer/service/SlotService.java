@@ -231,6 +231,7 @@ public class SlotService {
         Slot slot;
         slot = slotRepository.findById(id).orElseThrow();
         System.out.println(slot.getId());
+        slot.setOnline(newSlot.isOnline());
         if(!slot.isOnline()){
             Location location = locationRepository.findById(newSlot.getLocationId()).orElseThrow();
             slot.setLocation(location);
