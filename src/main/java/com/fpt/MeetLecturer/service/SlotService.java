@@ -237,14 +237,14 @@ public class SlotService {
         } else {
             slot.setLocation(null);
         }
-        slotSubjectRepository.deleteBySlotId(newSlot.getId());
-
-        for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
-            Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
-
-            Slot_Subject slotSubject = new Slot_Subject(slot, subject);
-            slotSubjectRepository.save(slotSubject);
-        }
+//        slotSubjectRepository.deleteBySlotId(newSlot.getId());
+//
+//        for (Slot_SubjectDTO slotSubjectDTO : newSlot.getSlotSubjectDTOS()){
+//            Subject subject = subjectRepository.findByCode(slotSubjectDTO.getSubjectCode());
+//
+//            Slot_Subject slotSubject = new Slot_Subject(slot, subject);
+//            slotSubjectRepository.save(slotSubject);
+//        }
         slot.setPassword(newSlot.getPassword());
 
         slotRepository.save(slot);
