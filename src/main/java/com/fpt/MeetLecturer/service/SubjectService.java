@@ -51,13 +51,13 @@ public class SubjectService {
             Subject existingBooking = subject.get();
             return genericMap.ToDTO(existingBooking, SubjectDTO.class);
         } else {
-            throw new RuntimeException("can't find this subject slot by id");
+            throw new RuntimeException("can't find this subject with id" + id);
         }
 
     }
 
     public SubjectDTO getSubjectByCode(String code) {
-        Subject subject = subjectRepository.findByCode(code.toUpperCase());
+        Subject subject = subjectRepository.findByCode(code);
         if (subject != null) {
             return genericMap.ToDTO(subject, SubjectDTO.class);
         } else {
@@ -91,12 +91,19 @@ public class SubjectService {
             }
 
             Subject subject1 = subject.get();
-            subject1.setCode(subjectDTO.getCode());
+            String newCode = subjectDTO.getCode().trim();
+            if (!newCode.equalsIgnoreCase(subject1.getCode().trim())) {
+                // If the new code is different, check if it already exists
+                if (subjectRepository.existsByCode(newCode)) {
+                    throw new IllegalStateException("This Subject code already exists");
+                }
+            }
+            subject1.setCode(newCode);
             subject1.setName(subjectDTO.getName());
             subject1.setSemester(subjectDTO.getSemester());
             subjectRepository.save(subject1);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseDTO(HttpStatus.OK, "Create successfully", "")
+                    new ResponseDTO(HttpStatus.OK, "Update subject successfully", "")
             );
         } else {
             throw new RuntimeException("Can't find this subject with id: " + id);
@@ -109,10 +116,10 @@ public class SubjectService {
         try {
             Subject existSubject = subjectRepository.findByCode(subjectDTO.getCode());
             if (existSubject != null) {
-                throw new IllegalStateException("This Subject code already exists");
+                throw new IllegalStateException("This Subject code has already existed");
             }
         } catch (Exception ex) {
-            throw new IllegalStateException("An error occurred while checking for existing Subject");
+            throw new IllegalStateException("This Subject code has already existed");
         }
 
         subject.setCode(subjectDTO.getCode());
@@ -142,13 +149,15 @@ public class SubjectService {
     }
 
 
-
-    public void deleteSubject(int id) {
+    public ResponseEntity<ResponseDTO> deleteSubject(int id) {
         Optional<Subject> SubjectOptional = subjectRepository.findById(id);
         if (SubjectOptional.isPresent()) {
             Subject existSubject = SubjectOptional.get();
             existSubject.setStatus(false);
             subjectRepository.save(existSubject);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Delete successfully", "")
+            );
         } else {
             throw new IllegalStateException("student with id " + id + " does not exists");
         }

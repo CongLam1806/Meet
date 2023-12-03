@@ -14,12 +14,14 @@ import java.util.List;
 @Entity
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "locationId", sequenceName = "LocationId", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locationId")
     @Column(name="Id")
     private int id;
     private String name;
     private String address;
-    private boolean status;
+    private boolean status;//private == false, public == true
+    private boolean toggle = true;//delete == false, available == true
 
 
     //@JsonBackReference
@@ -30,7 +32,8 @@ public class Location {
     private Lecturer lecturer;
 
 
-    @OneToMany(mappedBy = "location") //cascade = {CascadeType.ALL},
+    //@OneToMany(mappedBy = "location") //cascade = {CascadeType.ALL},
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<Slot> slotList;
 
 }

@@ -25,13 +25,14 @@ public class Lecturer {
     private String note;
 
     private String email;
+    @Column(name="linkMeet")
+    private String linkMeet;
 
-    private String password;
+//    private String password;
 
     private boolean status = true;
 
     //để map entity sang dto thì tên biến của entity và dto trùng nhau
-
     @OneToMany(mappedBy = "lecturer")
     private List<Location> locationList;
 

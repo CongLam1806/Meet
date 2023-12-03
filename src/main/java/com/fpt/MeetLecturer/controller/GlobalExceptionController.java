@@ -45,8 +45,20 @@ public class GlobalExceptionController {
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             errorMap.put(error.getField(), error.getDefaultMessage());
         });
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.BAD_REQUEST, "Invalid some fields", errorMap);
-        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
+        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "Invalid some fields", errorMap);
+        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseError> exceptionHandler(RuntimeException exception){
+        ResponseError rep = new ResponseError(HttpStatus.OK, exception.getMessage(), exception.toString());
+        return new ResponseEntity<ResponseError>(rep, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ResponseError> exceptionHandler(IllegalStateException exception){
+        ResponseError rep = new ResponseError(HttpStatus.OK, exception.getMessage(), exception.toString());
+        return new ResponseEntity<ResponseError>(rep, HttpStatus.OK);
     }
 
     @ExceptionHandler({NoSuchElementException.class})
@@ -56,5 +68,6 @@ public class GlobalExceptionController {
 
         return new ResponseEntity<ResponseError>(rep, HttpStatus.NOT_FOUND);
     }
+
 
 }

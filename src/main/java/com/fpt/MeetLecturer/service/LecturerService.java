@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,26 +46,40 @@ public class LecturerService {
         return mapLecturer.convertListToLecturerDTO(lecturerRepository.findAll());
     }
 
-    public ResponseEntity<ResponseDTO> getLecturerByEmail(String email) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseDTO(HttpStatus.OK,
-                        "Create successfully",
-                        genericMap.ToDTO(lecturerRepository.findByEmail(email), LecturerDTO.class))
-        );
+    public ResponseDTO getLecturerLinkMeet(String id){
+        Lecturer lecturer = lecturerRepository.findByStatusAndId(true, id);
+        String lecturerLinkMeet = lecturer.getLinkMeet();
+
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL LECTURER LiNK MEET", lecturerLinkMeet);
+    }
+
+    public List<String> getActiveLecturerEmail(){
+        List<Lecturer> lecturerList = lecturerRepository.findByStatus(true);
+        List<String> lecturerFirstOfEmail = new ArrayList<>();
+        lecturerList.forEach(lecturer -> {
+            String[] parts = lecturer.getEmail().split("@fe\\.edu\\.vn");
+            lecturerFirstOfEmail.add(parts[0]);
+        });
+        return lecturerFirstOfEmail;
+    }
+
+    public LecturerDTO getLecturerById(String id) {
+
+        return mapLecturer.ToLecturerDTO(lecturerRepository.findById(id).orElseThrow());
     }
 
     public List<LecturerDTO> getAllLecturerByStatus() {
         return genericMap.ToDTOList(lecturerRepository.findByStatus(true), LecturerDTO.class);
     }
 
-    public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
-        Lecturer lecturer = genericMap.ToEntity(LecturerDTO, Lecturer.class);
-        lecturerRepository.save(lecturer);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseDTO(HttpStatus.OK, "Create successfully", "")
-        );
-
-    }
+//    public ResponseEntity<ResponseDTO> createLecturer(LecturerDTO LecturerDTO) {
+//        Lecturer lecturer = genericMap.ToEntity(LecturerDTO, Lecturer.class);
+//        lecturerRepository.save(lecturer);
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseDTO(HttpStatus.OK, "Create successfully", "")
+//        );
+//
+//    }
 
     @Transactional
     public ResponseEntity<ResponseDTO> updateLecturer(LecturerDTO newLecturer, String id) {
@@ -77,7 +92,7 @@ public class LecturerService {
                 subjectLecturerService.updateSubjectLecturer(id, a.getSubjectId());
             }
             Lecturer existingLecturer = optionalLecturer.get();
-            existingLecturer.setName(LecturerEntity.getName());
+            existingLecturer.setLinkMeet(LecturerEntity.getLinkMeet());
             existingLecturer.setNote(LecturerEntity.getNote());
             existingLecturer.setPhone(LecturerEntity.getPhone());
             lecturerRepository.save(existingLecturer);

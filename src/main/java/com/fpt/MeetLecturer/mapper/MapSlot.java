@@ -1,6 +1,9 @@
 package com.fpt.MeetLecturer.mapper;
 
+import com.fpt.MeetLecturer.business.BookingDTO;
 import com.fpt.MeetLecturer.business.SlotDTO;
+import com.fpt.MeetLecturer.business.Slot_StudentDTO;
+import com.fpt.MeetLecturer.entity.Booking;
 import com.fpt.MeetLecturer.entity.Slot;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -17,13 +20,23 @@ public class MapSlot {
     static {
         //Define the mapping configuration for Slot to SlotDTO
         TypeMap<Slot, SlotDTO> slotToDTOTypeMap = modelMapper.createTypeMap(Slot.class, SlotDTO.class)
-                .addMapping(src -> src.getLocation().getId(), SlotDTO::setLocationId)
-                .addMapping(src -> src.getLecturer().getName(), SlotDTO::setLecturerName);
+
+                .addMapping(src -> src.getSlotSubjects(), SlotDTO::setSlotSubjectDTOS)
+                .addMapping(src -> src.getLecturer().getName(), SlotDTO::setLecturerName)
+//                .addMapping(Slot::getBookingList, SlotDTO::setContactInfo)
+                .addMapping(src -> src.getLocation().getName(), SlotDTO::setLocationName)
+                .addMapping(src -> src.getLecturer().getLinkMeet(), SlotDTO::setLinkMeet)
+                .addMapping(src -> src.getLocation().getAddress(), SlotDTO::setLocationAddress);
+
+//                .addMapping(src -> src.getBookingList(), SlotDTO::setStudentName);
+
+// Inside your MapSlot class
 
 
-                //.addMapping(src -> src.getUser().getName(), SlotDTO::setLecturerName);
 
     }
+
+
 
     public SlotDTO convertSlotToSlotDTO(Slot slot){
         return  modelMapper.map(slot, SlotDTO.class);

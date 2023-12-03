@@ -1,49 +1,68 @@
 package com.fpt.MeetLecturer.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Data
 public class SlotDTO {
-    private int id;
+    @Id
+    private int Id;
 
-    @NotBlank(message = "Password must not be blank")
     private String password;
 
-    @NotBlank(message = "Start Time must not be blank")
-    private Time startTime;
+    @NotEmpty(message = "Start Time must not be blank")
+    @JsonFormat(pattern = "HH:mm", timezone = "Asia/Ho_Chi_Minh")
+    private LocalTime startTime;
 
-    @NotBlank(message = "End Time must not be blank")
-    private Time endTime;
+    @NotEmpty(message = "End Time must not be blank")
+    @JsonFormat(pattern = "HH:mm", timezone = "Asia/Ho_Chi_Minh")
+    private LocalTime endTime;
 
     @NotBlank(message = "Meeting Date must not be blank")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
+    private LocalDate meetingDay;
+    private int mode = 1;
 
-    @JsonFormat(pattern="dd-MM-yyyy", timezone="Asia/Ho_Chi_Minh")
-    private Date meetingDay;
+    @NotEmpty
+    private boolean isOnline;
 
-    @Value("1")
-    private int mode;
+    private boolean status = true;
+    //    private boolean toggle = true;
 
-    @Value("1")
-    private boolean status;
-
+    @NotEmpty(message = "Toggle must not be blank")
+    private boolean toggle = true;
 
     private int locationId;
+    private String locationName;
+    private String locationAddress;
+
+    private String lecturerId;
     private String lecturerName;
+
+    private String linkMeet;
+
+    private String studentName;
     private String studentEmail;
-    private List<String> subjectCode;
-    //private SubjectResponseDTO subjectResponseDTOS;
-    //private Subject subjects;
+    private String studentPhone;
+    private String subject;
+
+
+    private List<Slot_SubjectDTO> slotSubjectDTOS;
+
+
 
 
 

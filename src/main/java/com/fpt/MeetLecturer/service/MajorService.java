@@ -1,11 +1,17 @@
 package com.fpt.MeetLecturer.service;
 
 import com.fpt.MeetLecturer.business.MajorDTO;
+import com.fpt.MeetLecturer.business.ResponseDTO;
+import com.fpt.MeetLecturer.business.SubjectDTO;
+import com.fpt.MeetLecturer.entity.Location;
 import com.fpt.MeetLecturer.entity.Major;
+import com.fpt.MeetLecturer.entity.Subject;
 import com.fpt.MeetLecturer.mapper.GenericMap;
 import com.fpt.MeetLecturer.repository.MajorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,38 +30,53 @@ public class MajorService {
         return genericMap.ToDTOList(majorRepository.findAll(),MajorDTO.class);
     }
 
-
-    public MajorDTO getMajorById(int id){
-        Optional<Major> major = majorRepository.findById(id);
-        if (major.isPresent()){
-            Major existingBooking = major.get();
-            return genericMap.ToDTO(existingBooking, MajorDTO.class);
-        } else {
-            throw new RuntimeException("can't find this major slot by id");
-        }
-
+    public List<MajorDTO> getAllAvalableMajor(){
+        return genericMap.ToDTOList(majorRepository.findByStatus(true), MajorDTO.class);
     }
 
-    public void createMajor(MajorDTO subjectDTO){
+    public ResponseEntity<ResponseDTO> createMajor(MajorDTO subjectDTO){
         Optional<Major> major = majorRepository.findById(subjectDTO.getId());
         if (major.isPresent()){
             throw new IllegalStateException("this subject has already booked");
         } else {
             Major major1 = new ModelMapper().map(subjectDTO, Major.class);
             majorRepository.save(major1);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Create major status successfully", "")
+            );
         }
     }
 
-
-    public void deleteMajor(int id) {
-        Optional<Major> SubjectOptional = majorRepository.findById(id);
-        if (SubjectOptional.isPresent()){
-            Major existMajor = SubjectOptional.get();
-            existMajor.setStatus(false);
+    public ResponseEntity<ResponseDTO> updateMajor(MajorDTO majorDTO, int id) {
+        Optional<Major> major = majorRepository.findById(id);
+        if (major.isPresent()) {
+            Major existMajor = major.get();
+            existMajor.setName(majorDTO.getName());
             majorRepository.save(existMajor);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Update major status successfully", "")
+            );
         } else {
-            throw new IllegalStateException("student with id " + id + " does not exists");
+            throw new RuntimeException("Can't find this major with id: " + id);
         }
-
     }
+
+    public ResponseEntity<ResponseDTO> deleteMajor(int id, boolean status){
+        Optional<Major> major = majorRepository.findById(id);
+        if(major.isPresent()){
+            Major existMajor = major.get();
+            existMajor.setStatus(status);
+            majorRepository.save(existMajor);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(HttpStatus.OK, "Delete successfully", "")
+            );
+        }
+        else {
+            throw new IllegalStateException("Major with id " + id + " does not exists");
+        }
+    }
+
+
+
+
 }

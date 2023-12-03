@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,23 +27,34 @@ public class StudentService {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public ResponseDTO get(){
+    public ResponseDTO getAllStudent(){
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL STUDENTS", mapStudent.convertListToStudentDTO(studentRepository.findAll()));
         return responseDTO;
     }
 
-    public void createStudent(StudentDTO newStudent){
+    public ResponseDTO getActiveStudentEmail(){
+        List<Student> students = studentRepository.findByStatus(true);
+        List<String> studentEmails = new ArrayList<>();
+        students.forEach(student -> {
+            studentEmails.add(student.getEmail());
+        });
 
-        Student student = new Student();
-        modelMapper.map(newStudent, student);
-        studentRepository.save(student);
+        return new ResponseDTO(HttpStatus.OK, "FOUND ALL STUDENT EMAILS", studentEmails);
     }
 
-    public void updateStudent(StudentDTO newStudent){
-        Student student;
-//        student = studentRepository.findById(newStudent.getId()).orElseThrow();
-//        modelMapper.map(newStudent, student);
-//        studentRepository.save(student);
+    public ResponseDTO getStudentById(String id){
+        return new ResponseDTO(HttpStatus.OK, "FOUND STUDENT", mapStudent.convertStudentToStudentDTO(studentRepository.findById(id).orElseThrow()));
+    }
+
+
+
+    public ResponseDTO updateStudent(StudentDTO studentDTO){
+        Student student =  studentRepository.findById(studentDTO.getId()).orElseThrow();
+        student.setDob(studentDTO.getDob());
+        student.setPhone(studentDTO.getPhone());
+        student.setAddress(studentDTO.getAddress());
+        studentRepository.save(student);
+        return new ResponseDTO(HttpStatus.OK, "UPDATE STUDENT SUCCESSFULLY", mapStudent.convertStudentToStudentDTO(student));
     }
 
 }

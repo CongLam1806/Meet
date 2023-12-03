@@ -5,9 +5,11 @@ import com.fpt.MeetLecturer.business.ResponseDTO;
 import com.fpt.MeetLecturer.business.AccountDTO;
 import com.fpt.MeetLecturer.entity.Account;
 import com.fpt.MeetLecturer.entity.Lecturer;
+import com.fpt.MeetLecturer.entity.Major;
 import com.fpt.MeetLecturer.entity.Student;
 import com.fpt.MeetLecturer.mapper.MapAccount;
 import com.fpt.MeetLecturer.repository.LecturerRepository;
+import com.fpt.MeetLecturer.repository.MajorRepository;
 import com.fpt.MeetLecturer.repository.StudentRepository;
 import com.fpt.MeetLecturer.util.Utility;
 
@@ -15,6 +17,7 @@ import com.fpt.MeetLecturer.repository.AccountRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,6 +25,7 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
+
     @Autowired(required = false)
     private AccountRepository accountRepository;
 
@@ -30,14 +34,16 @@ public class AccountService {
     @Autowired(required = false)
     private LecturerRepository lecturerRepository;
 
+    @Autowired
+    private MajorRepository majorRepository;
+
     @Autowired(required = false)
     private MapAccount mapAccount;
     @Autowired
     private Utility utility;
     private ModelMapper modelMapper = new ModelMapper();
 
-    public ResponseDTO getAccount()
-    {
+    public ResponseDTO getAccount() {
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ALL ACCOUNTS", mapAccount.convertListToAccountDTO(accountRepository.findAll()));
         return responseDTO;
     }
@@ -45,20 +51,15 @@ public class AccountService {
 //        return mapUser.toUserDTO(userRepository.findById(id));
 //    }
 
-    public ResponseDTO getAccountById(String id)
-    {
-        Account account = accountRepository.findById(id).orElseThrow();
+    public ResponseDTO getAccountById(String id) {
+        Account account = accountRepository.findByIdIgnoreCase(id);
+        if(account == null){
+            return new ResponseDTO(HttpStatus.NOT_FOUND,"ACCOUNT NOT EXIST!","" );
+        }
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND ACCOUNT", mapAccount.convertAccountToAccountDTO(account));
         return responseDTO;
     }
 
-//    public ResponseDTO createUser(UserDTO newUser){
-//        User user = new User();
-//        modelMapper.map(newUser, user);
-//        userRepository.save(user);
-//        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapUser.convertUserToUserDTO(user));
-//        return responseDTO;
-//    }
     public ResponseDTO updateAccount(AccountDTO newAccount) {
         Account account;
         account = accountRepository.findById(newAccount.getId()).orElseThrow();
@@ -68,30 +69,32 @@ public class AccountService {
         return responseDTO;
     }
 
-//    delete user
+    //    delete user
     public ResponseDTO deleteAccount(String id) {
         Optional<Account> user1 = accountRepository.findById(id);
         if (user1.isEmpty()) {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Id not exist", "");
         } else {
             if (!user1.get().isStatus()) {
-                return new  ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", "");
+                return new ResponseDTO(HttpStatus.NOT_FOUND, "User already removed!!", "");
             }
             user1.get().setStatus(false);
             accountRepository.save(user1.get());
             return new ResponseDTO(HttpStatus.OK, "Delete successfully!", "");
         }
     }
-    private boolean  checkUserRole(String email){
+
+    private boolean checkUserRole(String email) {
         return utility.isStudent(email);
     }
-    public ResponseDTO createUser2(AccountDTO newAccount){
+
+    public ResponseDTO createUser2(AccountDTO newAccount) {
         Account user = new Account();
         boolean checkRole = checkUserRole(newAccount.getEmail());
-        if(newAccount.getRole() == -1){
-            if(checkRole){
+        if (newAccount.getRole() == -1) {
+            if (checkRole) {
                 newAccount.setRole(2);
-            }else {
+            } else {
                 newAccount.setRole(1);
             }
         }
@@ -100,20 +103,25 @@ public class AccountService {
         accountRepository.save(user);
         return new ResponseDTO(HttpStatus.OK, "CREATE USER SUCCESSFULLY", mapAccount.convertAccountToAccountDTO(user));
     }
-    private void recordUser(AccountDTO accountDTO){
+
+    private void recordUser(AccountDTO accountDTO) {
         Lecturer lecturer = new Lecturer();
         Student student = new Student();
-        if(accountDTO.getRole() == 1){
+        if (accountDTO.getRole() == 1) {
             modelMapper.map(accountDTO, lecturer);
             lecturerRepository.save(lecturer);
-        } else if(accountDTO.getRole() == 2){
+        } else if (accountDTO.getRole() == 2) {
             modelMapper.map(accountDTO, student);
             String code = utility.extractStudentId(student.getEmail());
-            String curiculum = utility.extractCuriculum(student.getName());
-            String defaultAddress = utility.extractDefaultAddress((student.getAddress()));
             student.setCode(code);
+            String curiculum = utility.extractCuriculum(student.getName());
             student.setCurriculum(curiculum);
+            String defaultAddress = utility.extractDefaultAddress((student.getName()));
             student.setAddress(defaultAddress);
+            Optional<Major> majorOptinal = majorRepository.findById(utility.addMajorToStudent(code));
+            if (majorOptinal.isPresent())
+                student.setMajor(majorOptinal.get());
+
             studentRepository.save(student);
         }
     }

@@ -14,6 +14,18 @@ import java.util.List;
 public class MapStudent {
     private static final ModelMapper modelMapper = new ModelMapper();
 
+    static {
+        //Define the mapping configuration for Slot to SlotDTO
+        TypeMap<Student, StudentDTO> studentToDTOTypeMap = modelMapper.createTypeMap(Student.class, StudentDTO.class)
+                .addMapping(src -> src.getMajor().getName(), StudentDTO::setMajorName);
+
+
+
+
+
+        //.addMapping(src -> src.getUser().getName(), SlotDTO::setLecturerName);
+
+    }
 
 
     public StudentDTO convertStudentToStudentDTO(Student student){

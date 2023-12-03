@@ -21,10 +21,11 @@ public class LocationDTO {
 
     @NotBlank(message = "Address cannot be blank!")
     @Size(min=5, message = "Address should be at least 5 characters")
-    @Size(max=100, message = "Address should not be greater than 100 characters")
+    @Size(max=200, message = "Address should not be greater than 200 characters")
     private String address;
 
     private boolean status;
+    private boolean toggle = true;
     private String lecturerId;
 
 }

@@ -15,7 +15,16 @@ import java.util.List;
 @Entity
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "subject_sequence",
+            sequenceName = "subject_sequence",
+            allocationSize = 1
+    )
+
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "subject_sequence"
+    )
     @Column(name="Id")
     private int Id;
 
@@ -35,8 +44,8 @@ public class Subject {
     @OneToMany(mappedBy = "subject")
     private List<Slot_Subject> slotSubjects;
 
-    //    @OneToMany(mappedBy = "subject")
-//    private List<Booking> bookingList;
+    @OneToMany(mappedBy = "subject")
+    private List<Booking> bookingList;
 
     @OneToMany(mappedBy = "subject")
     private List<Subject_Lecturer> LecturerList;

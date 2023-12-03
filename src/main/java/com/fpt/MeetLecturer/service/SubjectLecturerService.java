@@ -30,8 +30,13 @@ public class SubjectLecturerService {
             SubjectLecturerKey subjectLecturerKey = new SubjectLecturerKey(lecturer.getId(), subject.getId());
 
             // Create a new Subject_Lecturer entity
+            Long maxTeachId = subjectLecturerRepo.findTopTeachId();
+            if (maxTeachId == null) {
+                maxTeachId = 0L;
+            }
+
             Subject_Lecturer subjectLecturer = new Subject_Lecturer();
-            subjectLecturer.setTeachId(subjectLecturerRepo.count() + 1);
+            subjectLecturer.setTeachId(maxTeachId + 1);
             subjectLecturer.setSubjectLecturerKey(subjectLecturerKey);
             subjectLecturer.setLecturer(lecturer);
             subjectLecturer.setSubject(subject);

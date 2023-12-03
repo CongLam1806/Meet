@@ -13,9 +13,8 @@ import java.util.Optional;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     List<Subject> findByStatus(boolean status);
-
-
     Subject findByCode(String code);
 
+    Boolean existsByCode(String code);
 
 }

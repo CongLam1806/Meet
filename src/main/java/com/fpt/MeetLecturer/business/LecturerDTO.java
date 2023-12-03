@@ -20,7 +20,7 @@ public class LecturerDTO {
     private String name;
 
     @NotBlank(message = "phone should not blank")
-    @Pattern(regexp = "^\\d{10,12}$", message = "Invalid number !!!!")
+    @Pattern(regexp = "^\\d{9,11}$", message = "Invalid number !!!!")
     private String phone;
 
     @NotBlank(message = "email should not blank")
@@ -29,7 +29,9 @@ public class LecturerDTO {
 
     private String note;
 
-    private String password;
+    private String linkMeet;
+
+//    private String password;
 
 //    private List<Subject_LecturerDTO> SubjectName;
 
